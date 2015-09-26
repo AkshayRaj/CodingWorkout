@@ -1,0 +1,10 @@
+For a perfect breakfast, a fellow decides to boil an egg exactly 15 minutes.
+He has two hourglasses - one for 7 minutes, another for 11.
+How should he go about preparing his breakfast? How many times will he have to turn hourglasses?
+What would be the minimal required number of glass turns?
+=================================================================================================
+Solution :-
+1. Start 7-H, 11-H
+2. When 7-H finished, 4 mins are left in the 11-H; Start boiling eggs
+3. When 11-H finishes, flip it and boil eggs till 11-H finishes
+4. 1 turn of 11-H

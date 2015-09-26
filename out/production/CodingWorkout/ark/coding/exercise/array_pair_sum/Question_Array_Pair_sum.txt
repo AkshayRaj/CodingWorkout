@@ -1,0 +1,39 @@
+If you have a set of numbers A, and a number X.
+Find the first pair of numbers A[i] and A[j] such that A[i] + A[j] == X in O(n) time
+---
+1. That is, a single pass over the set of numbers A.
+2. Given a set of (x, y) points A , find the straight line that is closest to all the points in A.
+===========================================================================================================================
+
+Solution :-
+Quicksort the array
+Best, Average :- nlogn
+Worst :- n^2
+
+checkForSum(int[] array, int sumToCheck){
+    int index_left = 0;
+    int index_right = array.size;
+    while(index_left < index_right){
+        sum = array[index_left] + array[index_right];
+        if(sum > X){
+            index_right--;
+            break;
+        }
+        if(sum < X){
+            index_left++;
+            break;
+        }
+        if(sum == X){
+            return true;
+        }
+    }
+    return false;
+}
+
+[1,2,5,7,12,15]
+1+15 = 16 > 4
+1+12 = 13 > 4
+1+7 = 8 > 4
+1+5 < 6 < 4
+1+2 < 3  4
+
