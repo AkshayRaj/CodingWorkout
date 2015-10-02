@@ -1,0 +1,33 @@
+Q: We have series of timestamped events of when users log in to their accounts. We want to know which users have logged into their account 5 or more times in any given 30 day period.
+
+2015-06-12T02:15:30Z j = 0
+2015-06-13T12:15:12Z
+2015-06-13T13:05:45Z j = 2
+2015-06-15T21:18:30Z
+2015-06-19T03:23:14Z i = 4
+2015-06-19T05:17:32Z
+2015-10-19T05:17:32Z i = 6
+
+private static boolean hasFiveOrMoreIn30Days(ArrayList<String> sortedTimestamps) {
+int n = sortedTimestamps.size() ;
+    for(i=4 ; i <= sortedTimestamps.size() - 1; i++){
+         j=0;
+         if((sortedTimestamps.get(i) - sortedTimestamps.get(j)) <= 30){
+           return true;
+         }
+        j++;
+    }
+    return false;
+}
+
+Tests :-
+1. check if it returns boolean
+2. check if list.size >= 5
+3. Pass in hardcoded list, where do not have 5 times login
+4. Pass in hardcoded list, where there is 5 times login
+5. isNotNull(list)
+
+
+
+
+

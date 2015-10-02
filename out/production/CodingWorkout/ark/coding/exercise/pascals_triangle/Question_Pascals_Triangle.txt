@@ -80,10 +80,16 @@ public class PascalTriangle {
    }
 }
 
-#### Pascal's triangle as binomial coefficients
-The Pascal's triangle can also be visualised as the binomial coefficients in the expansion of (x+y)n where n is the row of the Pascal's triangle, with the rows labelled starting from n=0. Using this observation, one can calculate the values in the Pascal's triangle by the direct application of the nCk formulae. Now, the rows would be labelled from n=0 and the elements within a row would be labelled from k=0. Using this numbering scheme, the element in row n and at position k can be calculated as
+#### Pascal's triangle as binomial coefficients (0 based)
+The Pascal's triangle can also be visualised as the binomial coefficients in the expansion of (x+y)n where n is the row of the Pascal's triangle,
+with the rows labelled starting from n=0.
+Using this observation, one can calculate the values in the Pascal's triangle by the direct application of the nCk formulae.
+Now, the rows would be labelled from n=0 and the elements within a row would be labelled from k=0.
+Using this numbering scheme, the element in row n and at position k can be calculated as
 
 nCk = n!/(k! * (n-k)! )
+https://en.wikipedia.org/wiki/Binomial_coefficient
+https://en.wikipedia.org/wiki/Binomial_theorem
 
 Given below is the program which uses this method to print the Pascal's triangle.
 
@@ -123,8 +129,11 @@ public class PascalTriangle {
    }
 }
 
-Generating Pascal's triangle using recursion
-Since calculating the value of a particular position in the triangle uses previously calculated values, this problem can also be solved using recursion. The number at position row i and column j would be represented as pascal(i,j) with I and j starting from 0. There would be two base conditionswhich are related to the first and last elements, which are always one. These two conditions can be expressed as
+#### Generating Pascal's triangle using recursion
+Since calculating the value of a particular position in the triangle uses previously calculated values, this problem can also be solved using recursion.
+The number at position row i and column j would be represented as pascal(i,j) with I and j starting from 0.
+There would be two base conditions which are related to the first and last elements, which are always one.
+These two conditions can be expressed as -
 
 pascal ( i, 0 ) = 1
 pascal ( i, i ) = 1
