@@ -175,3 +175,13 @@ public class PascalTriangle {
        print(row);
    }
 }
+
+private static void printRow(int rows, int currentRow){
+        int row_no = currentRow;
+        int element = 1;
+        System.out.format("%" + (rows-row_no+1)*2 + "s","");
+        for(int element_no = 1; element_no <= row_no; element_no++) {
+            System.out.format("%4d",element);
+            element = element * (row_no - element_no) / (element_no);
+        }
+    }

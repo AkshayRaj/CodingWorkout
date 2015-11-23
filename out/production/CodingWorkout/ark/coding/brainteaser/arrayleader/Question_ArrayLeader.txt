@@ -1,0 +1,39 @@
+A non-empty zero-indexed array A consisting of N integers is given.
+The leader of this array is the value that occurs in more than half of the elements of A.
+
+For example, given array A consisting of ten elements such that:
+
+  A[0] = 4
+  A[1] = 2
+  A[2] = 2
+  A[3] = 3
+  A[4] = 2
+  A[5] = 4
+  A[6] = 2
+  A[7] = 2
+  A[8] = 6
+  A[9] = 4
+the function should return −1, because the value that occurs most frequently in the array, 2,
+occurs five times, and 5 is not more than half of 10.
+
+Given array A consisting of five elements such that:
+
+  A[0] = 1
+  A[1] = 1
+  A[2] = 1
+  A[3] = 50
+  A[4] = 1
+the function should return 1.
+
+======================================================================================================
+Answer Strategy:-
+## ArrayLeader solution can be explained as follows -
+## -if one exists, then it is surely present in the MIDDLE OF A SORTED LIST
+## -so the strategy is to sort the list and then check the count of the element which is in the middle of the list
+## For eg, let us consider 3 lists -
+## Case 1: Leader is the smallest integer in the list
+##         {1, 1, 1, 1, 4, 5, 6} // (array.size() + 1) / 2 = 4; array[4] = 1 //leader
+## Case 2: Leader is in the middle of the List
+##         {1, 4, 5, 5, 5, 5, 6} // (array.size() + 1) / 2 = 4; array[4] = 5 //leader
+## Case 3: Leader is in the end of the List
+##         {1,4,5,6,6,6,6} // (array.size() + 1) / 2 = 4; array[4] = 6 //leader

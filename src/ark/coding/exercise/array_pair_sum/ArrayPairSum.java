@@ -1,11 +1,18 @@
 package ark.coding.exercise.array_pair_sum;
 
+import ark.coding.Solution;
+
 import java.util.Arrays;
 
 /**
  * Created by Akshayraj on 9/24/15.
  */
-public class ArrayPairSum {
+public class ArrayPairSum implements Solution<Boolean>{
+
+    @Override
+    public Boolean solution(Object... args) {
+        return checkForSum((int[])args[0], (int)args[1]);
+    }
 
     private enum Check{
         LESSER,

@@ -1,0 +1,12 @@
+Reverse a linked list using Recursion;
+
+private class Node{
+int i;
+Node next;
+}
+
+Write a function which will reverse a linked list when a head is passed to it.
+
+public Node reverseLinkedList(Node head){
+
+}
