@@ -1,10 +1,6 @@
-package ark.coding.brainteaser.EarliestTime;
+package ark.coding.brainteaser.frogcrossingalgorithm;
 
 import ark.coding.Solution;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by Akshayraj on 11/14/15.
