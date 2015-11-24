@@ -5,9 +5,8 @@ import ark.coding.Solution;
 public class FrogLeap implements Solution<Integer>{
     private static final int CANNOT_REACH_POSITION_X = -1;
     private static int[] mLeafPositions = {
-           5,
-           1,
-           2
+           2,
+           5
     };
     private static int mDestination = 8;
     private static int mJumpCapacity = 3;
@@ -33,13 +32,14 @@ public class FrogLeap implements Solution<Integer>{
             int currentPosition = 0;
             int possibleJumpPosition = currentPosition+1;
             while(possibleJumpPosition <= currentPosition + D && possibleJumpPosition <= X){
-                if(possibleJumpPosition <= X) {
-                    if (leafBitMap[possibleJumpPosition] == 1) {
-                        currentPosition = possibleJumpPosition;//frog hops, if possible, from currentPosition
-                    }
-                    possibleJumpPosition++;
+                if (leafBitMap[possibleJumpPosition] == 1) {
+                    //frog hops, if possible, from currentPosition
+                    currentPosition = possibleJumpPosition;
                 }
+                possibleJumpPosition++;
             }
+            possibleJumpPosition--;//when possibleJumpPosition = X, while loops again, so we correct the value
+            //check if frog is able to jump to 'X'
             if(possibleJumpPosition >= X){
                 return time;
             }
