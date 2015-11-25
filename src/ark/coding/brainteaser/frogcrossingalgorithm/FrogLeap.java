@@ -6,10 +6,10 @@ public class FrogLeap implements Solution<Integer>{
     private static final int CANNOT_REACH_POSITION_X = -1;
     private static int[] mLeafPositions = {
            2,
-           5
+           4
     };
-    private static int mDestination = 8;
-    private static int mJumpCapacity = 3;
+    private static int mDestination = 7;
+    private static int mJumpCapacity = 2;
 
     @Override
     public Integer solution(Object... args) {
@@ -26,7 +26,7 @@ public class FrogLeap implements Solution<Integer>{
             leafBitMap[positionLeafFell] = 1;
             System.out.println("positionLeafFell: " + positionLeafFell);
             //check if frog can travel from position '0' to position 'X', after a new leaf has fallen
-            // We require two "pointers" :
+            // We require TWO "POINTERS" :
             // -one tracks currentPosition
             // -the other checks jumps possible from currentPosition
             int currentPosition = 0;
