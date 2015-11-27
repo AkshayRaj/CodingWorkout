@@ -22,44 +22,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Question_CompressString.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ark/coding/datastructure/primitive_datastructures/arraysandstrings/compress/string/Question_CompressString.txt">
+      <file leaf-file-name="Question_Rotate_NxN_Matrix" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/ark/coding/datastructure/primitive_datastructures/arraysandstrings/rotate_nxn_matrix/Question_Rotate_NxN_Matrix">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="4" column="100" selection-start-line="4" selection-start-column="100" selection-end-line="4" selection-end-column="100" />
+              <caret line="2" column="24" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="24" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CompressString.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/ark/coding/datastructure/primitive_datastructures/arraysandstrings/compress/string/CompressString.java">
+      <file leaf-file-name="MatrixRotation.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/ark/coding/datastructure/primitive_datastructures/arraysandstrings/rotate_nxn_matrix/MatrixRotation.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7761194">
-              <caret line="40" column="69" selection-start-line="40" selection-start-column="69" selection-end-line="40" selection-end-column="69" />
-              <folding>
-                <element signature="e#283#284#0" expanded="true" />
-                <element signature="e#343#344#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="String.java" pinned="false" current-in-tab="false">
-        <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_31.jdk/Contents/Home/src.zip!/java/lang/String.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="672" column="15" selection-start-line="672" selection-start-column="15" selection-end-line="672" selection-end-column="15" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Character.java" pinned="false" current-in-tab="false">
-        <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_31.jdk/Contents/Home/src.zip!/java/lang/Character.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="5246" column="15" selection-start-line="5246" selection-start-column="15" selection-end-line="5246" selection-end-column="15" />
+            <state vertical-scroll-proportion="0.54435486">
+              <caret line="26" column="9" selection-start-line="26" selection-start-column="9" selection-end-line="26" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -127,6 +104,8 @@
         <option value="$PROJECT_DIR$/src/ark/coding/datastructure/primitive_datastructures/arraysandstrings/stringanagram/Anagram.java" />
         <option value="$PROJECT_DIR$/src/ark/coding/datastructure/primitive_datastructures/arraysandstrings/compress/string/Question_CompressString.txt" />
         <option value="$PROJECT_DIR$/src/ark/coding/datastructure/primitive_datastructures/arraysandstrings/compress/string/CompressString.java" />
+        <option value="$PROJECT_DIR$/src/ark/coding/datastructure/primitive_datastructures/arraysandstrings/rotate_nxn_matrix/Question_Rotate_NxN_Matrix" />
+        <option value="$PROJECT_DIR$/src/ark/coding/datastructure/primitive_datastructures/arraysandstrings/rotate_nxn_matrix/MatrixRotation.java" />
       </list>
     </option>
   </component>
@@ -168,6 +147,7 @@
     </navigator>
     <panes>
       <pane id="Scratches" />
+      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -223,28 +203,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="exercise" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CodingWorkout" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CodingWorkout" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="coding" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="datastructure" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -335,42 +293,19 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="string" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CodingWorkout" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CodingWorkout" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="coding" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="algorithm" />
+              <option name="myItemId" value="rotate_nxn_matrix" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="FullScreen" value="true" />
     <property name="recentsLimit" value="5" />
     <property name="dynamic.classpath" value="false" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.appearance" />
+    <property name="settings.editor.selected.configurable" value="File.Encoding" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="OverrideImplement.combined" value="true" />
     <property name="OverrideImplement.overriding.sorted" value="false" />
@@ -387,27 +322,7 @@
       <recent name="$PROJECT_DIR$/src/ark/coding/brainteaser/brainteaser_hourglass_7_11/hourglass_7_11" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.CompressString">
-    <configuration default="false" name="FrogLeap" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="ark.coding.brainteaser.frogcrossingalgorithm.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="MAIN_CLASS_NAME" value="ark.coding.brainteaser.frogcrossingalgorithm.FrogLeap" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="CodingWorkout" />
-      <envs />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="Application.MatrixRotation">
     <configuration default="false" name="UniqueChar" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
@@ -476,6 +391,26 @@
         </pattern>
       </extension>
       <option name="MAIN_CLASS_NAME" value="ark.coding.datastructure.primitive_datastructures.arraysandstrings.compress.string.CompressString" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="CodingWorkout" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="MatrixRotation" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="ark.coding.datastructure.primitive_datastructures.arraysandstrings.rotate_nxn_matrix.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="MAIN_CLASS_NAME" value="ark.coding.datastructure.primitive_datastructures.arraysandstrings.rotate_nxn_matrix.MatrixRotation" />
       <option name="VM_PARAMETERS" />
       <option name="PROGRAM_PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
@@ -636,19 +571,19 @@
       <method />
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Application.FrogLeap" />
-      <item index="1" class="java.lang.String" itemvalue="Application.UniqueChar" />
-      <item index="2" class="java.lang.String" itemvalue="Application.Anagram" />
-      <item index="3" class="java.lang.String" itemvalue="Application.CharArray" />
-      <item index="4" class="java.lang.String" itemvalue="Application.CompressString" />
+      <item index="0" class="java.lang.String" itemvalue="Application.UniqueChar" />
+      <item index="1" class="java.lang.String" itemvalue="Application.Anagram" />
+      <item index="2" class="java.lang.String" itemvalue="Application.CharArray" />
+      <item index="3" class="java.lang.String" itemvalue="Application.CompressString" />
+      <item index="4" class="java.lang.String" itemvalue="Application.MatrixRotation" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Application.CompressString" />
-        <item index="1" class="java.lang.String" itemvalue="Application.CharArray" />
-        <item index="2" class="java.lang.String" itemvalue="Application.Anagram" />
-        <item index="3" class="java.lang.String" itemvalue="Application.UniqueChar" />
-        <item index="4" class="java.lang.String" itemvalue="Application.FrogLeap" />
+        <item index="0" class="java.lang.String" itemvalue="Application.MatrixRotation" />
+        <item index="1" class="java.lang.String" itemvalue="Application.CompressString" />
+        <item index="2" class="java.lang.String" itemvalue="Application.CharArray" />
+        <item index="3" class="java.lang.String" itemvalue="Application.Anagram" />
+        <item index="4" class="java.lang.String" itemvalue="Application.UniqueChar" />
       </list>
     </recent_temporary>
   </component>
@@ -685,13 +620,13 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1874106" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23975904" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3686747" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32942554" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -714,20 +649,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/ark/coding/algorithm/algorithm.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ark/coding/algorithm/dynamic_programming/dynamic_programming.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ark/coding/algorithm/dynamic_programming/longest_common_subsequence/Question_Longest_Common_Subsequence.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.05514706">
@@ -949,7 +870,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -957,7 +877,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="1" column="50" selection-start-line="1" selection-start-column="50" selection-end-line="1" selection-end-column="50" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -965,10 +884,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="11" column="12" selection-start-line="11" selection-start-column="12" selection-end-line="11" selection-end-column="12" />
-          <folding>
-            <element signature="method#getEarliestTime#0;class#FrogLeap#0" expanded="false" />
-            <element signature="method#main#0;class#FrogLeap#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -976,7 +891,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="58" selection-start-line="0" selection-start-column="58" selection-end-line="0" selection-end-column="58" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -984,7 +898,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="25" column="17" selection-start-line="25" selection-start-column="17" selection-end-line="25" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -992,10 +905,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.72790295">
           <caret line="28" column="25" selection-start-line="28" selection-start-column="25" selection-end-line="28" selection-end-column="25" />
-          <folding>
-            <element signature="e#383#384#0" expanded="true" />
-            <element signature="e#450#451#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1003,7 +912,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.71403813">
           <caret line="33" column="56" selection-start-line="33" selection-start-column="56" selection-end-line="33" selection-end-column="56" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1011,7 +919,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.18197574">
           <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1019,7 +926,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.12998267">
           <caret line="5" column="22" selection-start-line="5" selection-start-column="22" selection-end-line="5" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1027,7 +933,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.18197574">
           <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1035,7 +940,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1043,7 +947,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.1559792">
           <caret line="6" column="29" selection-start-line="6" selection-start-column="29" selection-end-line="6" selection-end-column="29" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1051,10 +954,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="1.0779896">
           <caret line="51" column="30" selection-start-line="51" selection-start-column="30" selection-end-line="51" selection-end-column="30" />
-          <folding>
-            <element signature="e#538#539#0" expanded="true" />
-            <element signature="e#611#612#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1073,34 +972,43 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="4" column="100" selection-start-line="4" selection-start-column="100" selection-end-line="4" selection-end-column="100" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_31.jdk/Contents/Home/src.zip!/java/lang/Character.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="5246" column="15" selection-start-line="5246" selection-start-column="15" selection-end-line="5246" selection-end-column="15" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_31.jdk/Contents/Home/src.zip!/java/lang/String.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="672" column="15" selection-start-line="672" selection-start-column="15" selection-end-line="672" selection-end-column="15" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ark/coding/datastructure/primitive_datastructures/arraysandstrings/compress/string/CompressString.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7761194">
-          <caret line="40" column="69" selection-start-line="40" selection-start-column="69" selection-end-line="40" selection-end-column="69" />
-          <folding>
-            <element signature="e#283#284#0" expanded="true" />
-            <element signature="e#343#344#0" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.74003464">
+          <caret line="40" column="44" selection-start-line="40" selection-start-column="44" selection-end-line="40" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_31.jdk/Contents/Home/src.zip!/java/lang/String.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33275563">
+          <caret line="672" column="15" selection-start-line="672" selection-start-column="15" selection-end-line="672" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_31.jdk/Contents/Home/src.zip!/java/lang/Character.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33275563">
+          <caret line="5246" column="15" selection-start-line="5246" selection-start-column="15" selection-end-line="5246" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ark/coding/datastructure/primitive_datastructures/arraysandstrings/rotate_nxn_matrix/Question_Rotate_NxN_Matrix">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="2" column="24" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ark/coding/datastructure/primitive_datastructures/arraysandstrings/rotate_nxn_matrix/MatrixRotation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.54435486">
+          <caret line="26" column="9" selection-start-line="26" selection-start-column="9" selection-end-line="26" selection-end-column="9" />
+          <folding />
         </state>
       </provider>
     </entry>
