@@ -1,0 +1,7 @@
+Given a character Array, replace all spaces with '%20'
+Assume array length is large enough to accomodate for the extra characters.
+Extra spaces are given at the end of the array to account for the %20
+Assume true length is given
+Example:
+Input : ("Mr John Smith    ", 13)
+Output: ("Mr%20John%20Smith")
