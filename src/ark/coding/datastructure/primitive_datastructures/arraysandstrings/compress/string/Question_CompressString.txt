@@ -1,0 +1,5 @@
+eg.
+input : aabbbbcccaa
+output: a2b4c3a2
+
+If the compressed String is not shorted than the original substring, then return the original string

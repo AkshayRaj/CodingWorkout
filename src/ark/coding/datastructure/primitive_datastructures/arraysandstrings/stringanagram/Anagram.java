@@ -16,19 +16,19 @@ public class Anagram implements Solution<Boolean> {
     private boolean isAnagram(String stringOne, String stringTwo){
         int stringOneLength = stringOne.length();
         int stringTwoLength = stringTwo.length();
-        int asciiSumStringOne = 0;
-        int asciiSumStringTwo = 0;
+        int unicodeSumStringOne = 0;
+        int unicodeSumStringTwo = 0;
         if(stringOneLength == stringTwoLength) {
             for (int i = 0; i < stringOneLength; i++) {
-                asciiSumStringOne = asciiSumStringOne + stringOne.codePointAt(i);
+                unicodeSumStringOne = unicodeSumStringOne + stringOne.codePointAt(i);
             }
             for (int j = 0; j < stringTwoLength; j++) {
-                asciiSumStringTwo = asciiSumStringTwo + stringTwo.codePointAt(j);
+                unicodeSumStringTwo = unicodeSumStringTwo + stringTwo.codePointAt(j);
             }
         }else{
             return false;
         }
-        if(asciiSumStringOne == asciiSumStringTwo){
+        if(unicodeSumStringOne == unicodeSumStringTwo){
             return true;
         }
         return false;
