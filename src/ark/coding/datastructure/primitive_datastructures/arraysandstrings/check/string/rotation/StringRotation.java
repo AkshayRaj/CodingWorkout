@@ -17,7 +17,7 @@ public class StringRotation implements Solution<Boolean> {
 
     private Boolean isStringRotated(String string1, String string2) {
         if(string1.length() == string2.length()){
-            boolean rotated = (string1+string1).indexOf(string2) != -1;
+            boolean rotated = (string1+string1).indexOf(string2) != -1;//indexOf() is java equivalent of isSubString()
             return rotated;
         }
         return NOT_ROTATED;
