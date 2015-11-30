@@ -1,13 +1,14 @@
 package ark.coding.datastructure.primitive_datastructures.linkedlist;
 
-public class SinglyLinkedList {
+public class LinkedList {
     private Node mHead;
 
-    public SinglyLinkedList(Node node){
-        mHead = node;
+    public LinkedList(Node head){
+        mHead = head;
     }
 
-    public Node addNode(Node newNode){
+    public Node addNode(int data){
+        Node newNode = new Node(data);
         if(mHead == null){
             mHead = newNode;
         }else {
@@ -20,8 +21,8 @@ public class SinglyLinkedList {
         return mHead;
     }
 
-    public static void printLinkedList(SinglyLinkedList singlyLinkedList){
-        Node currentNode = singlyLinkedList.getHead();
+    public static void printLinkedList(LinkedList linkedList){
+        Node currentNode = linkedList.getHead();
         while(currentNode != null){
             System.out.print("\n" + currentNode.getData());
             currentNode = currentNode.getNextNode();
@@ -29,15 +30,11 @@ public class SinglyLinkedList {
     }
 
     public static void main(String[] args){
-        SinglyLinkedList singlyLinkedList = new SinglyLinkedList(null);
-        Node node1 = new Node(1, null);
-        Node node2 = new Node(2, null);
-        Node node3 = new Node(3, null);
-        Node node4 = new Node(2, null);
-        singlyLinkedList.addNode(node1);
-        singlyLinkedList.addNode(node2);
-        singlyLinkedList.addNode(node3);
-        singlyLinkedList.addNode(node4);
+        LinkedList singlyLinkedList = new LinkedList(null);
+        singlyLinkedList.addNode(1);
+        singlyLinkedList.addNode(2);
+        singlyLinkedList.addNode(3);
+        singlyLinkedList.addNode(1);
         singlyLinkedList.printLinkedList(singlyLinkedList);
     }
 
@@ -51,13 +48,12 @@ public class SinglyLinkedList {
     }
 
 /*********************************Node******************************************/
-    private static class Node{
+    protected static class Node{
         private int mData;
-        private Node mNextNode;
+        private Node mNextNode = null;
 
-        public Node(int value, Node next){
+        protected Node(int value){
             mData = value;
-            mNextNode = next;
         }
 
         public int getData() {
@@ -67,6 +63,7 @@ public class SinglyLinkedList {
         public void setData(int data) {
             mData = data;
         }
+
         public Node getNextNode() {
             return mNextNode;
         }
