@@ -18,12 +18,12 @@ public class FrogLeap implements Solution<Integer>{
 
     private Integer getEarliestTime(int[] A, int X, int D) {
         int lastLeafTime = A.length - 1;//time last leaf fell is length of array - 1, as array-index is 0-based.
-        int leafBitMap[] = new int[X+1];
+        int leafPositions[] = new int[X+1];
         int positionLeafFell = 0;
-        leafBitMap[0] = 1;//at position 0, we assume "leaf is present"\
+        leafPositions[0] = 1;//at position 0, we assume "leaf is present"\
         for(int time = 0; time <= lastLeafTime; time++){
             positionLeafFell = A[time];
-            leafBitMap[positionLeafFell] = 1;
+            leafPositions[positionLeafFell] = 1;
             System.out.println("positionLeafFell: " + positionLeafFell);
             //check if frog can travel from position '0' to position 'X', after a new leaf has fallen
             // We require TWO "POINTERS" :
@@ -32,7 +32,7 @@ public class FrogLeap implements Solution<Integer>{
             int currentPosition = 0;
             int possibleJumpPosition = currentPosition+1;
             while(possibleJumpPosition <= currentPosition + D && possibleJumpPosition <= X){
-                if (leafBitMap[possibleJumpPosition] == 1) {
+                if (leafPositions[possibleJumpPosition] == 1) {
                     //frog hops, if possible, from currentPosition
                     currentPosition = possibleJumpPosition;
                 }
@@ -50,5 +50,6 @@ public class FrogLeap implements Solution<Integer>{
     public static void main(String[] args){
         int timeFrogJumps = new FrogLeap().solution(mLeafPositions, mDestination, mJumpCapacity);
         System.out.println("EarliestTimeFrogJumps: " + timeFrogJumps);
+        System.out.println("Division: " + (float)143/150);
     }
 }

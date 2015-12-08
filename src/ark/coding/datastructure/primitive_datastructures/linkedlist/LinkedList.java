@@ -21,6 +21,14 @@ public class LinkedList {
         return mHead;
     }
 
+    public Node deleteNode(int data){
+        Node currentNode = mHead;
+        if(currentNode.getData() == data){
+
+        }
+        return mHead;
+    }
+
     public static void printLinkedList(LinkedList linkedList){
         Node currentNode = linkedList.getHead();
         while(currentNode != null){
