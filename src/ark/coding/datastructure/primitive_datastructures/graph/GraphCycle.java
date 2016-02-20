@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Graph {
+public class GraphCycle {
     HashMap<Integer, List<Integer>> mGraph = new HashMap<Integer, List<Integer>>();
     List<Integer> node0List = new ArrayList<Integer>();
     List<Integer> node1List = new ArrayList<Integer>();
@@ -19,7 +19,7 @@ public class Graph {
     List<Integer> node4List = new ArrayList<Integer>();
     List<Integer> node5List = new ArrayList<Integer>();
 
-    public Graph() {
+    public GraphCycle() {
         node0List.add(1);
         node1List.add(2);
         node2List.add(3);
@@ -39,7 +39,7 @@ public class Graph {
     }
 
     /**
-     * checks if the Graph has a cycle ; O(N) + O(V)
+     * checks if the GraphCycle has a cycle ; O(N) + O(V)
      * @param graph - directed, graph
      * @return - true, if the graph contains a cycle
      */
@@ -86,7 +86,7 @@ public class Graph {
     }
 
     public static void main(String[] args) {
-        Graph graph = new Graph();
+        GraphCycle graph = new GraphCycle();
         System.out.println("hasCycle: " + graph.hasCycle());
     }
 }

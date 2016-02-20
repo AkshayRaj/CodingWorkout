@@ -6,6 +6,11 @@ package ark.coding.datastructure.java_datastructures.whilebreak;
 public class TestBreakBehavior {
 
     public static void main(String[] args){
+        String[] storeNames = new String[10];
+        storeNames[0] = "Cold Stone";
+
+        final int s = 0;
+
         int i = 0;
         while(true) {
             if (true || false) {
