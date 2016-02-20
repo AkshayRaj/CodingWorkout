@@ -2,20 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="91b813ca-73cd-4a0d-a1ec-30888a4f95c8" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/ark/coding/datastructure/java_datastructures/enumbehavior/EnumBehavior.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/ark/coding/exercise/number_in_intervals/Intervals.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/ark/coding/datastructure/primitive_datastructures/graph/PostOrderTraversal.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/ark/coding/datastructure/java_datastructures/threadbehavior/ThreadBehavior.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/commons_collections4_41.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/CodingWorkout/ark/coding/datastructure/primitive_datastructures/graph/Graph.class" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/ark/coding/datastructure/primitive_datastructures/graph/Graph.java" afterPath="$PROJECT_DIR$/src/ark/coding/datastructure/primitive_datastructures/graph/GraphCycle.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CodingWorkout/ark/coding/datastructure/java_datastructures/abstractclass/AbstractTest.class" afterPath="$PROJECT_DIR$/out/production/CodingWorkout/ark/coding/datastructure/java_datastructures/abstractclass/AbstractTest.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CodingWorkout/ark/coding/datastructure/java_datastructures/whilebreak/TestBreakBehavior.class" afterPath="$PROJECT_DIR$/out/production/CodingWorkout/ark/coding/datastructure/java_datastructures/whilebreak/TestBreakBehavior.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ark/coding/datastructure/java_datastructures/abstractclass/AbstractTest.java" afterPath="$PROJECT_DIR$/src/ark/coding/datastructure/java_datastructures/abstractclass/AbstractTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CodingWorkout.iml" afterPath="$PROJECT_DIR$/CodingWorkout.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ark/coding/datastructure/java_datastructures/whilebreak/TestBreakBehavior.java" afterPath="$PROJECT_DIR$/src/ark/coding/datastructure/java_datastructures/whilebreak/TestBreakBehavior.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/commons_collections4_4.xml" afterPath="$PROJECT_DIR$/.idea/libraries/commons_collections4_4.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ark/coding/exercise/number_in_intervals/Intervals.java" afterPath="$PROJECT_DIR$/src/ark/coding/exercise/number_in_intervals/Intervals.java" />
     </list>
     <ignored path="CodingWorkout.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -128,11 +115,21 @@
       <file leaf-file-name="Intervals.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/ark/coding/exercise/number_in_intervals/Intervals.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4527163">
-              <caret line="33" column="19" selection-start-line="33" selection-start-column="19" selection-end-line="33" selection-end-column="19" />
+            <state vertical-scroll-proportion="0.33199194">
+              <caret line="18" column="36" selection-start-line="18" selection-start-column="36" selection-end-line="18" selection-end-column="36" />
               <folding>
                 <element signature="e#200#210#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Math.java" pinned="false" current-in-tab="false">
+        <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_31.jdk/Contents/Home/src.zip!/java/lang/Math.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="1050" column="22" selection-start-line="1050" selection-start-column="22" selection-end-line="1050" selection-end-column="22" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -694,13 +691,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/ark/coding/algorithm/recursion/NestedArrays/NestedArraySum.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="9" column="25" selection-start-line="9" selection-start-column="25" selection-end-line="9" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ark/coding/libraries/libraries.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1081,10 +1071,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_31.jdk/Contents/Home/src.zip!/java/lang/Math.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="1050" column="22" selection-start-line="1050" selection-start-column="22" selection-end-line="1050" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/ark/coding/exercise/number_in_intervals/Intervals.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4527163">
-          <caret line="33" column="19" selection-start-line="33" selection-start-column="19" selection-end-line="33" selection-end-column="19" />
+        <state vertical-scroll-proportion="0.33199194">
+          <caret line="18" column="36" selection-start-line="18" selection-start-column="36" selection-end-line="18" selection-end-column="36" />
           <folding>
             <element signature="e#200#210#0" expanded="true" />
           </folding>

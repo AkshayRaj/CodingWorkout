@@ -11,15 +11,17 @@ public class Intervals {
         // Preprocessing ; intervalList stored in sorted order
         Interval interval1 = new Interval(10, 20);
         Interval interval2 = new Interval(35, 36);
+        Interval interval4 = new Interval(40,45);
         Interval interval3 = new Interval(50, 70);
         intervalList.add(interval1);
         intervalList.add(interval2);
+        intervalList.add(interval4);
         intervalList.add(interval3);
     }
 
     public static void main(String[] args){
         Intervals intervals = new Intervals();
-        System.out.println("is 60 in interval: " + intervals.isNumberInInterval(60));
+        System.out.println("is 60 in interval: " + intervals.isNumberInInterval(45));
         System.out.print("is 38 in interval: " + intervals.isNumberInInterval(38));
     }
 
@@ -29,9 +31,9 @@ public class Intervals {
         int j = i;
         do{
             if(number < intervalList.get(j).mLowerBound){
-                j--;
+                j = (int) (j - Math.ceil(j/2.0));
             } else if(number > intervalList.get(j).mUpperBound){
-                j++;
+                j = (int) (j + Math.ceil(j/2.0));
             } else if(number >= intervalList.get(j).mLowerBound || number <= intervalList.get(j).mUpperBound){
                 return true;
             }
