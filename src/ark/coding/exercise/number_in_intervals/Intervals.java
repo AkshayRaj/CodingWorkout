@@ -22,7 +22,7 @@ public class Intervals {
     public static void main(String[] args){
         Intervals intervals = new Intervals();
         long numberInInterval = 45;//use this to test assertTrue
-        long numberNotInInterval = 38;//use this to test assertFalse
+        long numberNotInInterval = 100;//use this to test assertFalse
         System.out.println("is " + numberInInterval + " in interval: " + intervals.isNumberInInterval(numberInInterval));
         System.out.print("is " + numberNotInInterval + " in interval: " + intervals.isNumberInInterval(numberNotInInterval));
     }
