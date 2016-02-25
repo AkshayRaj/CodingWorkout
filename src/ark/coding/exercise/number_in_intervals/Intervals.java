@@ -42,7 +42,7 @@ public class Intervals {
             i++;
         }while(i < intervalList.size());
         return false;
-    }
+    }//
 
     private class Interval {
         public long mLowerBound;
