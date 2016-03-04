@@ -93,17 +93,21 @@ public class Solution {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        System.out.println("Enter width of bitmap: ");
+        int width = sc.nextInt();
+        System.out.println("Enter height of bitmap: ");
+        int height = sc.nextInt();
+
+        System.out.println("Enter x,y and color for the pixel ");
         int x = sc.nextInt();
         int y = sc.nextInt();
         int color = sc.nextInt();
         System.out.println("Filling color: " + color + " at " + x + "," + y);
-
-        int width = sc.nextInt();
-        int height = sc.nextInt();
         Bitmap input = new Bitmap(width, height);
 
         for (int j = 0; j < height; j++) {
             for (int i = 0; i < width; i++) {
+                System.out.println("Enter color for " + i + ", " + j + ":");
                 input.setPixel(i, j, sc.nextInt());
             }
         }

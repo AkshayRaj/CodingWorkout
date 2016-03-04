@@ -1,9 +1,6 @@
-A number consisting entirely of ones is called a repunit.
-We shall define R(k) to be a repunit of length k; for example, R(6)=111111
+A number consisting entirely of ones is called a repunit. We shall define R(k)R(k) to be a repunit of length kk; for example, R(6)=111111R(6)=111111.
 
-Given that n is a positive integer and gcd(n,10)=1,
-it can be shown that there always exists a value, kk,
-for which R(k) is divisible by n, and let A(n) be the least such value of k; for example, A(7)=6 and A(41)=5
+Given that nn is a positive integer and gcd(n,10)=1gcd(n,10)=1, it can be shown that there always exists a value, kk, for which R(k)R(k) is divisible by nn, and let A(n)A(n) be the least such value of kk; for example, A(7)=6A(7)=6 and A(41)=5A(41)=5.
 
 The least value of nn for which A(n)A(n) first exceeds ten is 1717.
 
