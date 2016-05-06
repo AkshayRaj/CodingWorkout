@@ -73,7 +73,9 @@ public class Parser {
         return file;
     }
 
+
     public static void filterProbableOffIntervals(String latLongFile){
+        File file = null;
         try {
             String currentLine;
             String previousLine;
@@ -89,17 +91,15 @@ public class Parser {
                 t1 = Long.parseLong(previousTokens[0]);
                 String[] tokens = currentLine.split(",");
                 t2 = Long.valueOf(tokens[0]);
-                if(t2 - t1 > 10 * 60 * 1000l){
+                if (t2 - t1 > 10 * 60 * 1000l) {
                     parseResult.append(previousTokens[1])
                             .append(",")
                             .append(tokens[1])
                             .append(",")
-                            .append("PROBABLE OFF")
-                            .append("\n");
+                            .append("PROBABLE OFF");
                 }
-                previousTokens = tokens;
             }
-            System.out.println(parseResult.toString());
+
         }catch (Exception exception){
 
         }
