@@ -10,28 +10,28 @@ public class Solution {
 
     public static MinMaxPair getMinMax(int array[], int minIndex, int maxIndex) {
         System.out.print("\n"+"arrayLow[" + minIndex + "]: " + array[minIndex] + ", arrayHigh[" + maxIndex + "]: " + array[maxIndex]);
-        MinMaxPair result = new MinMaxPair();
+        MinMaxPair resultMinMax = new MinMaxPair();
         MinMaxPair leftArrayMinMax = new MinMaxPair();
         MinMaxPair rightArrayMinMax = new MinMaxPair();
 
         // if there is only one element
         if (minIndex == maxIndex) {
-            result.max = array[minIndex];
-            result.min = array[minIndex];
-            return result;
+            resultMinMax.max = array[minIndex];
+            resultMinMax.min = array[minIndex];
+            return resultMinMax;
         }
 
         // if there are two elements
         if (maxIndex == minIndex + 1) {
             if (array[minIndex] > array[maxIndex]) {
-                result.max = array[minIndex];
-                result.min = array[maxIndex];
+                resultMinMax.max = array[minIndex];
+                resultMinMax.min = array[maxIndex];
                 noOfComparisons++;
             } else {
-                result.max = array[maxIndex];
-                result.min = array[minIndex];
+                resultMinMax.max = array[maxIndex];
+                resultMinMax.min = array[minIndex];
             }
-            return result;
+            return resultMinMax;
         }
 
         noOfComparisons++;
@@ -43,20 +43,20 @@ public class Solution {
 
         //------COMBINE---------------------
         if (leftArrayMinMax.min < rightArrayMinMax.min) {
-            result.min = leftArrayMinMax.min;
+            resultMinMax.min = leftArrayMinMax.min;
             noOfComparisons++;
         } else {
-            result.min = rightArrayMinMax.min;
+            resultMinMax.min = rightArrayMinMax.min;
         }
 
         if (leftArrayMinMax.max > rightArrayMinMax.max) {
-            result.max = leftArrayMinMax.max;
+            resultMinMax.max = leftArrayMinMax.max;
             noOfComparisons++;
         } else {
-            result.max = rightArrayMinMax.max;
+            resultMinMax.max = rightArrayMinMax.max;
         }
 
-        return result;
+        return resultMinMax;
     }
 
     public static void main(String[] args) {
