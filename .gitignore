@@ -1,0 +1,16 @@
+.idea/
+.gradle/
+build/
+gradle/
+gradlew
+gradlew.bat
+*.iml
+*.xml
+*.properties
+CodingWorkout.iml
+codingworkout.properties
+codingworkout.xml
+libs/
+module_codingworkout.xml
+src/main/java/ark/coding/libraries/jackson/ProcTimeStamp.java
+src/main/java/ark/coding/libraries/jackson/file.json

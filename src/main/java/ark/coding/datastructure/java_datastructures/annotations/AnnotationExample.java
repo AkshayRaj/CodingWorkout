@@ -7,7 +7,7 @@ public class AnnotationExample {
 
     @Suffix(value = "random")
     private void printWithSuffix(){
-        String randomString = ;
+        String randomString = "";
 
     }
 }
