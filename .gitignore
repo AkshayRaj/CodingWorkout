@@ -12,5 +12,5 @@ codingworkout.properties
 codingworkout.xml
 libs/
 module_codingworkout.xml
-src/main/java/ark/coding/libraries/jackson/ProcTimeStamp.java
-src/main/java/ark/coding/libraries/jackson/file.json
+out/production/CodingWorkout/ark/coding/Test$1.class
+out/production/CodingWorkout/ark/coding/Test.class
