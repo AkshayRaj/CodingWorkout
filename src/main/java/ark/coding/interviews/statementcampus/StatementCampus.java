@@ -5,7 +5,6 @@ package ark.coding.interviews.statementcampus;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.DeserializationConfig;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,6 +16,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class StatementCampus {
@@ -26,68 +26,17 @@ public class StatementCampus {
 
     public static void main(String[] args){
         try {
-            getMovieTitles("Spiderman");
+            String[] titles = getMovieTitles("Spiderman");
+//            Arrays.sort(titles);
+        for(int i = 0; i < titles.length ; i++){
+            System.out.println("TITLES-" + i + " :" + titles[i]);
+        }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-
-    static String[] getMovieTitles(String substr) throws IOException {
-        String url = "https://jsonmock.hackerrank.com/api/movies/search/?Title=" + substr;
-
-        URL obj = new URL(url);
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-
-        // optional default is GET
-        con.setRequestMethod("GET");
-
-        //add request header
-        con.setRequestProperty("User-Agent", USER_AGENT);
-
-        int responseCode = con.getResponseCode();
-        System.out.println("\nSending 'GET' request to URL : " + url);
-        System.out.println("Response Code : " + responseCode);
-
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(con.getInputStream()));
-        String inputLine;
-        StringBuffer response = new StringBuffer();
-
-        while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
-        }
-        in.close();
-
-        //print result
-        System.out.println(response.toString());
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode responseNode = objectMapper.readTree(response.toString());
-
-        int currentPage = responseNode.get("page").asInt();
-        int per_page = responseNode.get("per_page").asInt();
-        int total = responseNode.get("total").asInt();
-        int total_pages = responseNode.get("total_pages").asInt();
-        JsonNode dataNode = responseNode.get("data");
-        String[] titles = new String[total];
-        if (dataNode.isArray()) {
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            CollectionType collectionType = mapper.getTypeFactory().constructCollectionType(ArrayList.class, MyClass.class);
-            List<MyClass> myObjects = mapper.readValue(dataNode.toString(), collectionType);
-            int titleIndex = 0;
-            for (MyClass myClass : myObjects) {
-                titles[titleIndex] = myClass.getTitle();
-                System.out.println(titles[titleIndex]);
-                titleIndex++;
-            }
-        }
-
-        return titles;
-    }
-
-    static class MyClass{
+    static class Movie {
 
         public String getTitle() {
             return Title;
@@ -112,14 +61,118 @@ public class StatementCampus {
         @JsonIgnore
         String imdbID;
 
-        public MyClass(){
+        public Movie(){
             Title = new String("");
         }
 
-        public MyClass(String Poster, String Title, String Type, String Year, String imdbID ){
+        public Movie(String Poster, String Title, String Type, String Year, String imdbID){
             this.Title = Title;
         }
     }
+
+    static String[] getMovieTitles(String substr) throws IOException {
+        String url = "https://jsonmock.hackerrank.com/api/movies/search/?Title=" + substr;
+
+        URL obj = new URL(url);
+        HttpURLConnection httpURLConnection = (HttpURLConnection) obj.openConnection();
+
+        // optional default is GET
+        httpURLConnection.setRequestMethod("GET");
+
+        //add request header
+        httpURLConnection.setRequestProperty("User-Agent", USER_AGENT);
+
+        int responseCode = httpURLConnection.getResponseCode();
+        System.out.println("\nSending 'GET' request to URL : " + url);
+        System.out.println("Response Code : " + responseCode);
+
+        BufferedReader bufferedReader = new BufferedReader(
+                new InputStreamReader(httpURLConnection.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+
+        while ((inputLine = bufferedReader.readLine()) != null) {
+            response.append(inputLine);
+        }
+        bufferedReader.close();
+
+        //print result
+        System.out.println(response.toString());
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode responseNode = objectMapper.readTree(response.toString());
+
+        int currentPage = responseNode.get("page").asInt();
+        int per_page = responseNode.get("per_page").asInt();
+        int total = responseNode.get("total").asInt();
+        int total_pages = responseNode.get("total_pages").asInt();
+        JsonNode dataNode = responseNode.get("data");
+        String[] titles = new String[total];
+        if (dataNode.isArray()) {
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            CollectionType collectionType = mapper.getTypeFactory().constructCollectionType(ArrayList.class, Movie.class);
+            List<Movie> myObjects = mapper.readValue(dataNode.toString(), collectionType);
+            int titleIndex = 0;
+            for (Movie myClass : myObjects) {
+                titles[titleIndex] = myClass.getTitle();
+                System.out.println(titles[titleIndex]);
+                titleIndex++;
+            }
+        }
+
+        for(int page = 2; page <= total_pages; page++){
+            String pageUrl = "https://jsonmock.hackerrank.com/api/movies/search/?Title=" + substr + "&page=" + page;
+            obj = new URL(pageUrl);
+            httpURLConnection = (HttpURLConnection) obj.openConnection();
+
+            // optional default is GET
+            httpURLConnection.setRequestMethod("GET");
+
+            //add request header
+            httpURLConnection.setRequestProperty("User-Agent", USER_AGENT);
+
+            responseCode = httpURLConnection.getResponseCode();
+            System.out.println("\nSending 'GET' request to URL : " + url);
+            System.out.println("Response Code : " + responseCode);
+
+            bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
+            inputLine = "";
+            response = new StringBuffer();
+
+            while ((inputLine = bufferedReader.readLine()) != null) {
+                response.append(inputLine);
+            }
+            bufferedReader.close();
+
+            //print result
+            System.out.println(response.toString());
+
+
+            objectMapper = new ObjectMapper();
+            responseNode = objectMapper.readTree(response.toString());
+            currentPage = responseNode.get("page").asInt();
+            dataNode = responseNode.get("data");
+            if (dataNode.isArray()) {
+                ObjectMapper mapper = new ObjectMapper();
+                mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                CollectionType collectionType = mapper.getTypeFactory().constructCollectionType(ArrayList.class, Movie.class);
+                List<Movie> myObjects = mapper.readValue(dataNode.toString(), collectionType);
+                int titleIndex = ((page-1)*per_page);
+                for (Movie myClass : myObjects) {
+                    titles[titleIndex] = myClass.getTitle();
+                    System.out.println(titles[titleIndex]);
+                    titleIndex++;
+                }
+            }
+
+        }
+
+        Arrays.sort(titles);
+        return titles;
+    }
+
+
 
 
 
