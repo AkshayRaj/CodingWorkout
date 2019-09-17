@@ -1,0 +1,11 @@
+Distinct palindromic sub-strings of the given string using Dynamic Programming
+Given a string `str` of lowercase alphabets, the task is to find all distinct palindromic sub-strings of the given string.
+
+Examples:
+
+Input: str = “abaaa”
+Output: 5
+Palindromic sub-strings are “a”, “aa”, “aaa”, “aba” and “b”
+
+Input: str = “abcd”
+Output: 4
