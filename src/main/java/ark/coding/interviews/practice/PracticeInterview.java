@@ -17,7 +17,6 @@ public class PracticeInterview implements Solution {
     }
 
     public static boolean isPalindrome(String word) {
-        boolean isPalindrome = false;
         String lowercase = word.toLowerCase();
 
         int length = word.length();
@@ -31,7 +30,6 @@ public class PracticeInterview implements Solution {
                 return false;
             }
         }
-        isPalindrome = true;
-        return isPalindrome;
+        return true;
     }
 }
