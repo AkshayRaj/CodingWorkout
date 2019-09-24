@@ -47,8 +47,8 @@ public class RodCutter implements Solution<Integer> {
 
             // for each given length, calculate "which" splits lead to max cost.
             // since we are calculating splits, we start this loop with a split of 2 pieces,
-            // with lengths n-1 and 1 respectively.
-            for (int lengthOfPiece1 = length-1; lengthOfPiece1 >= 1; lengthOfPiece1--) {
+            // with lengths 1 and n-1 respectively.
+            for (int lengthOfPiece1 = 1; lengthOfPiece1 <= (length)/2; lengthOfPiece1++) {
                 int lengthOfPiece2 = length - lengthOfPiece1;
                 maxCostComputations[length] = Math.max(
                         maxCostComputations[length],
