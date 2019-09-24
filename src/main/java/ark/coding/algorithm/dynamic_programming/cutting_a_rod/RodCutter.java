@@ -9,6 +9,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public class RodCutter implements Solution<Integer> {
+    /**
+     * An array, which stores corresponding maxCost for a given rod length;
+     * where index (i.e. index+1) corresponds to length of the rod,
+     * and the value in array[index] denotes the maxCost possible for that length.
+     */
     private static int[] maxCostComputations;
     public static void main(String[] args) {
         RodCutter rodCutter = new RodCutter();
@@ -16,9 +21,47 @@ public class RodCutter implements Solution<Integer> {
         int length = prices.size();
         maxCostComputations = rodCutter.getMaxCostStore(length);
         System.out.println("Max cost that can be extracted is: " + rodCutter.solution(prices, length));
+        for (int index = 1; index < maxCostComputations.length; index++) {
+            System.out.println("Max cost for length [" + index + "] is: " + maxCostComputations[index]);
+        }
+    }
+
+    @Override
+    public Integer solution(Object... args) {
+        //return maxCostOfRod((List<Integer>) args[0], (Integer) args[1]);
+        return iterativeMaxProfitFromRod((List<Integer>) args[0], (Integer) args[1]);
     }
 
     /**
+     * Iterative solution.
+     * Its important that we first calculate the maxCost of lower length rods,
+     * and then calculate maxCost of lengthier rods.
+     */
+    private Integer iterativeMaxProfitFromRod(final List<Integer> prices, final Integer rodLength) {
+        maxCostComputations = new int[rodLength+1];
+        Arrays.fill(maxCostComputations, Integer.MIN_VALUE);
+
+        // start calculating max cost of smaller length rods.
+        for (int length = 1; length <= rodLength; length++) {
+            maxCostComputations[length] = prices.get(length-1);
+
+            // for each given length, calculate "which" splits lead to max cost.
+            // since we are calculating splits, we start this loop with a split of 2 pieces,
+            // with lengths n-1 and 1 respectively.
+            for (int lengthOfPiece1 = length-1; lengthOfPiece1 >= 1; lengthOfPiece1--) {
+                int lengthOfPiece2 = length - lengthOfPiece1;
+                maxCostComputations[length] = Math.max(
+                        maxCostComputations[length],
+                        maxCostComputations[lengthOfPiece1] + maxCostComputations[lengthOfPiece2]);
+            }
+        }
+
+        return maxCostComputations[rodLength];
+    }
+
+    /**
+     * Recursive solution.
+     *
      * Find the max price the rod of a given length can be sold at, given the prices for lesser length rods.
      * @param prices list of prices for different lengths of the rod.
      *               (contains prices for lesser lengths of the rod)
@@ -31,7 +74,7 @@ public class RodCutter implements Solution<Integer> {
             // Recursive methods should always have a halting condition to avoid Stack Overflow.
             return 0; // cost of a rod with zero or negative length is zero (does not exist.)
         }
-        int maxCost = maxCostComputations[rodLength-1];
+        int maxCost = maxCostComputations[rodLength-1]; // memoization
 
         // if cost is not already computed, then do it now.
         if (maxCost == Integer.MIN_VALUE) {
@@ -56,10 +99,5 @@ public class RodCutter implements Solution<Integer> {
         int[] storeForMaxCost = new int[length];
         Arrays.fill(storeForMaxCost, Integer.MIN_VALUE);
         return storeForMaxCost;
-    }
-
-    @Override
-    public Integer solution(Object... args) {
-        return maxCostOfRod((List<Integer>) args[0], (Integer) args[1]);
     }
 }
