@@ -43,17 +43,23 @@ public class RodCutter implements Solution<Integer> {
 
         // start calculating max cost of smaller length rods.
         for (int length = 1; length <= rodLength; length++) {
-            maxCostComputations[length] = prices.get(length-1);
+            int tmpMax = prices.get(length-1);
 
             // for each given length, calculate "which" splits lead to max cost.
-            // since we are calculating splits, we start this loop with a split of 2 pieces,
-            // with lengths 1 and n-1 respectively.
+            // we calculate different combinations of 2-piece splits,
+            // i.e. 1/n-1, 2/n-2 .. n-2/2, n-1/1;
+            // This^^^ logic will calculate sum of 1 + (n-1), 2 + (n-2).. twice.
+            // To optimize, we only iterate until length of first piece is less than or equal to n/2
+            // --------------------------------------------------------------------------------------
+            // Since, we calculate maxCosts of smaller lengths, it is sufficient to calculate different combinations
+            // of 2-piece splits for longer rods.
             for (int lengthOfPiece1 = 1; lengthOfPiece1 <= (length)/2; lengthOfPiece1++) {
                 int lengthOfPiece2 = length - lengthOfPiece1;
-                maxCostComputations[length] = Math.max(
-                        maxCostComputations[length],
+                tmpMax = Math.max(
+                        tmpMax,
                         maxCostComputations[lengthOfPiece1] + maxCostComputations[lengthOfPiece2]);
             }
+            maxCostComputations[length] = tmpMax;
         }
 
         return maxCostComputations[rodLength];
