@@ -4,6 +4,7 @@
 package ark.coding.datastructure.primitive_datastructures.graph;
 
 import java.util.Queue;
+import java.util.Stack;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class Graph {
@@ -23,7 +24,7 @@ public class Graph {
 
         // if any node is not traversed, graph is disconnected
         //boolean[] verticesVisited = traverseGraphUsingAdjacencyMatrix(graph);
-        boolean[] verticesVisited = traverseGraphUsingAdjacencyList(graph);
+        boolean[] verticesVisited = traverseGraphUsingDFSAndAdjacencyList(graph);
 
         for (boolean visited : verticesVisited) {
             if (visited == false) {
@@ -32,6 +33,73 @@ public class Graph {
         }
         return isDisconnected ? GraphConnection.DISCONNECTED
                               : GraphConnection.CONNECTED;
+    }
+
+    /**
+     * Recursively traverse the graph, by visiting the child nodes of the current node.
+     *
+     * The depth traversal stops when either of the following two conditions is met -
+     * 1. A leaf node is reached
+     * 2. All the child nodes of a given node have been visited.
+     *
+     * When these "terminating" conditions are met, the algorithm pops the leaf node or
+     * the "root of the sub-graph" that has been traversed, and goes back to the parent node
+     * to check for more nodes.
+     *
+     * @param graph to traverse using Depth-First-Search;
+     *              An <b>Adjacency List</b> representation of the graph.
+     * @return vertices visited during the traversal.
+     */
+    private static boolean[] traverseGraphUsingDFSAndAdjacencyList(int[][] graph) {
+        int totalNodes = graph.length;
+        boolean[] verticesVisited = new boolean[totalNodes];
+
+        Stack<Integer> hierarchy = new Stack<>();
+        // start with '0' node, as the root.
+        hierarchy.push(0);
+
+        do {
+            int currentNode = hierarchy.peek();
+            verticesVisited[currentNode] = true;
+
+            // if currentNode has any children, then traverse them until all are visited
+            // DFS essentially traverses the "sub-graph" under a given node.
+            // - ark
+            if (graph[currentNode].length > 0) {
+                // traverse childNode, that has not been visited yet.
+                boolean allChildNodesVisited = true;
+                childIterator: for (int childNode : graph[currentNode]) {
+                    if (verticesVisited[childNode] == false) {
+                        currentNode = childNode;
+                        hierarchy.push(currentNode);
+                        allChildNodesVisited = false;
+                        break childIterator;
+                    }
+                }
+                if (allChildNodesVisited) {
+                    hierarchy.pop();
+
+                    // A non-empty hierarchy at this point indicates that there are more nodes to be visited.
+                    // If the "sub-graph" under the current node has been traversed completely,
+                    // then the hierarchy will be empty.
+                    if (!hierarchy.empty()) {
+                        currentNode = hierarchy.peek();
+                    }
+                }
+            }
+            // leaf node
+            else {
+                hierarchy.pop();
+
+                // A non-empty hierarchy at this point indicates that there are more nodes to be visited.
+                if (!hierarchy.empty()) {
+                    currentNode = hierarchy.peek();
+                }
+            }
+        }
+        while (!hierarchy.empty());
+
+        return verticesVisited;
     }
 
     /**
