@@ -22,7 +22,8 @@ public class Graph {
         boolean isDisconnected = false;
 
         // if any node is not traversed, graph is disconnected
-        boolean[] verticesVisited = traverseGraph(graph);
+        //boolean[] verticesVisited = traverseGraphUsingAdjacencyMatrix(graph);
+        boolean[] verticesVisited = traverseGraphUsingAdjacencyList(graph);
 
         for (boolean visited : verticesVisited) {
             if (visited == false) {
@@ -39,10 +40,41 @@ public class Graph {
      * The "Frontier" is a set of nodes, at any given time during the graph traversal process,
      * that divide the nodes which are already <b>visited</b> from the ones which have not been visited.
      *
+     * @param graph the graph to traverse, represented as an <b>Adjacency List</b>>
+     * @return array of vertices marked as visited or not.
+     */
+    private static boolean[] traverseGraphUsingAdjacencyList(int[][] graph) {
+        int totalNodes = graph.length;
+        boolean[] verticesVisited = new boolean[totalNodes];
+
+        Queue<Integer> frontier = new LinkedBlockingQueue<>();
+        frontier.add(0);
+
+        do {
+            int currentNode = frontier.remove();
+            verticesVisited[currentNode] = true;
+
+            for (int adjacentNode : graph[currentNode]) {
+                if (verticesVisited[adjacentNode] == false) {
+                    frontier.add(adjacentNode);
+                }
+            }
+        }
+        while(!frontier.isEmpty());
+
+        return verticesVisited;
+    }
+
+    /**
+     * Traverse the given graph, and return a list of traversed nodes.
+     * We use and implement the "Frontier" approach described in CLRS to traverse the graph.
+     * The "Frontier" is a set of nodes, at any given time during the graph traversal process,
+     * that divide the nodes which are already <b>visited</b> from the ones which have not been visited.
+     *
      * @param graph the graph to traverse, represented as an <b>Adjacency Matrix</b>>
      * @return array of vertices marked as visited or not.
      */
-    private static boolean[] traverseGraph(int[][] graph) {
+    private static boolean[] traverseGraphUsingAdjacencyMatrix(int[][] graph) {
         int totalNodes = graph.length;
         boolean[] verticesVisited = new boolean[totalNodes];
 
@@ -73,21 +105,38 @@ public class Graph {
     }
 
     public static void main(String[] args) {
-        int[][] graph1 = new int[][] {
+        int[][] graph1Matrix = new int[][] {
                 {0, 1, 1, 0},
                 {1, 0, 0, 0},
                 {1, 0, 0, 0},
                 {0, 0, 0, 0}
         };
 
-        int[][] graph2 = new int[][] {
+        int[][] graph2Matrix = new int[][] {
                 {0, 1, 1, 0},
                 {1, 0, 0, 0},
                 {1, 0, 0, 1},
                 {0, 0, 1, 0}
         };
 
-        System.out.println("Graph-1 is: " + isGraphDisconnected(graph1));
-        System.out.println("Graph-2 is: " + isGraphDisconnected(graph2));
+        //System.out.println("Graph-1 (adjacency matrix) is: " + isGraphDisconnected(graph1Matrix));
+        //System.out.println("Graph-2 (adjacency matrix) is: " + isGraphDisconnected(graph2Matrix));
+
+        int[][] graph1List = new int[][] {
+                {1, 2},
+                {0},
+                {0},
+                {}
+        };
+
+        int[][] graph2List = new int[][] {
+                {1, 2},
+                {0},
+                {0, 3},
+                {2}
+        };
+
+        System.out.println("Graph-1 (adjacency list) is: " + isGraphDisconnected(graph1List));
+        System.out.println("Graph-2 (adjacency list) is: " + isGraphDisconnected(graph2List));
     }
 }
