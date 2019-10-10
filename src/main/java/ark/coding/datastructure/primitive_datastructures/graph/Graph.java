@@ -14,17 +14,61 @@ public class Graph {
     }
 
     /**
+     * Count the number of edges in the graph.
+     * @param graph represented as an <b>Adjacency List</b>
+     * @return the number of edges in the graph.
+     */
+    public static int countGraphEdges(int[][] graph) {
+        int noOfEdges = 0;
+
+        // count all the edges from each node, and then divide by 2
+        // (to correct the count; as we would have counted a given edge twice.)
+        // an edge to the same node, which forms a loop will be counted as +2, instead of +1
+        // to accommodate our final division by 2.
+        for (int node = 0; node < graph.length; node++) {
+            for (int adjacentNode : graph[node]){
+                if (adjacentNode == node) {
+                    // edge leading to a loop.
+                    // In this case, we increment the count by 2.
+                    noOfEdges = noOfEdges + 2;
+                }
+                else {
+                    noOfEdges = noOfEdges + 1;
+                }
+            }
+        }
+
+        return noOfEdges/2;
+    }
+
+    /**
+     * Check if the graph is connected or not
+     *
+     * @param graph represented as an <b>Adjacency List</b>
+     * @return true, if the graph is connected;
+     *         false, otherwise.
+     */
+    public static boolean isConnected(int[][] graph) {
+        return isDisconnected(graph, true) == GraphConnection.CONNECTED;
+    }
+
+    /**
      * Given an undirected graph, represented by an adjacency matrix, identify if the graph is disconnected or not
      * @param graph to check
-     * @return true, if the graph is disconnected or disjoint.
-     *         false, otherwise
+     * @return {@link GraphConnection#DISCONNECTED}, if the graph is disconnected or disjoint.
+     *         {@link GraphConnection#CONNECTED}, otherwise
      */
-    private static GraphConnection isGraphDisconnected(int[][] graph) {
+    private static GraphConnection isDisconnected(int[][] graph, boolean isAdjacencyList) {
         boolean isDisconnected = false;
 
         // if any node is not traversed, graph is disconnected
-        //boolean[] verticesVisited = traverseGraphUsingAdjacencyMatrix(graph);
-        boolean[] verticesVisited = traverseGraphUsingDFSAndAdjacencyList(graph);
+        boolean[] verticesVisited = new boolean[graph.length];
+        if (isAdjacencyList) {
+            verticesVisited = traverseGraphUsingDFSAndAdjacencyList(graph);
+        }
+        else {
+            verticesVisited = traverseGraphUsingBFSAdjacencyMatrix(graph);
+        }
 
         for (boolean visited : verticesVisited) {
             if (visited == false) {
@@ -142,7 +186,7 @@ public class Graph {
      * @param graph the graph to traverse, represented as an <b>Adjacency Matrix</b>>
      * @return array of vertices marked as visited or not.
      */
-    private static boolean[] traverseGraphUsingAdjacencyMatrix(int[][] graph) {
+    private static boolean[] traverseGraphUsingBFSAdjacencyMatrix(int[][] graph) {
         int totalNodes = graph.length;
         boolean[] verticesVisited = new boolean[totalNodes];
 
@@ -187,8 +231,8 @@ public class Graph {
                 {0, 0, 1, 0}
         };
 
-        //System.out.println("Graph-1 (adjacency matrix) is: " + isGraphDisconnected(graph1Matrix));
-        //System.out.println("Graph-2 (adjacency matrix) is: " + isGraphDisconnected(graph2Matrix));
+        System.out.println("Graph-1 (adjacency matrix) is: " + isDisconnected(graph1Matrix, false));
+        System.out.println("Graph-2 (adjacency matrix) is: " + isDisconnected(graph2Matrix, false));
 
         int[][] graph1List = new int[][] {
                 {1, 2},
@@ -204,7 +248,7 @@ public class Graph {
                 {2}
         };
 
-        System.out.println("Graph-1 (adjacency list) is: " + isGraphDisconnected(graph1List));
-        System.out.println("Graph-2 (adjacency list) is: " + isGraphDisconnected(graph2List));
+        System.out.println("Graph-1 (adjacency list) is: " + isDisconnected(graph1List, true));
+        System.out.println("Graph-2 (adjacency list) is: " + isDisconnected(graph2List, true));
     }
 }
