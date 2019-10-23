@@ -6,8 +6,10 @@ package ark.coding.datastructure.primitive_datastructures.graph;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -29,13 +31,131 @@ public class SpanningTree {
 
     /**
      * Given a weighted, connected & undirected graph, find its Minimum Spanning Tree
+     * using Prim's algorithm.
+     *
+     * 1. Start from <i>any</i> vertex.
+     * 2. Select the least {@link WeightedEdge} from that node
+     * 3. Select the other vertex from the edge selected in step 2
+     * 4. GOTO step-2 and repeat, until we have a spanning tree.
+     *
+     * Textbook definition of Prim's algorithm -
+     * - A group of edges that connects two set of vertices in a graph is called cut in graph theory.
+     * - So, at every step of Prim’s algorithm, we find a cut (of two sets, one contains the vertices already included in MST
+     * and other contains rest of the vertices).
+     * - Pick the minimum weight edge from the cut and include this vertex to MST Set (the set that contains already included vertices).
+
+     * Implementation considerations:
+       1. Start with the empty spanning tree.
+       2. Maintain a set mst[] to keep track to vertices included in minimum spanning tree.
+       3. Assign a key value to all the vertices, (say key []) and initialize all the keys with +∞ (Infinity) except the first vertex.
+         (We will start with this vertex, for which key will be 0).
+       4. Key value in step 3 will be used in making decision that which next vertex and edge will be included in the mst[].
+          We will pick the vertex which is not included in mst[] and has the minimum key.
+          So at the beginning the first vertex will be picked first.
+       5. Repeat the following steps until all vertices are processed
+         a) Pick the vertex u which is not in mst[] and has minimum key.
+         b) Add vertex u to mst[].
+         c) Loop over all the adjacent vertices of u
+            For adjacent vertex v, if v is not in mst[] and edge u-v weight is less than the key of vertex u,
+            key[u] then update the key[u]= edge u-v weight.
+         d) Return mst[].
+     *
+     * @return The minimum spanning tree of the graph, as identified by Prim's algorithm.
+     *         The minimum spanning tree is represented as an <b>Adjacency Matrix</b>.
+     */
+    public int[][] findMinimumSpanningTreeUsingPrimsAlgorithm(int[][] graph) {
+        int totalNodes = graph.length;
+        int[][] minimumSpanningTree = new int[totalNodes][totalNodes];// adjacency matrix.
+
+        Set<Integer> mstNodesSet = new HashSet<>();
+        Map<Integer, Integer> nodeWeightMap = getInitializedNodeWeightMap(graph);
+
+        int startingNode = 0;
+        mstNodesSet.add(startingNode);
+        nodeWeightMap.remove(startingNode);
+
+        int currentNode = startingNode;
+        do {
+            // find min edge from current node;
+            // the other end of the edge should not be in mstNodesSet (to keep MST acyclic)
+            int adjacentNode = findMinWeightedAdjacentNode(currentNode, graph, mstNodesSet, nodeWeightMap);
+            minimumSpanningTree[currentNode][adjacentNode] = graph[currentNode][adjacentNode];
+            mstNodesSet.add(adjacentNode);
+            nodeWeightMap.remove(adjacentNode);
+            currentNode = adjacentNode;
+        }
+        while (!nodeWeightMap.isEmpty());
+
+        return minimumSpanningTree;
+    }
+
+    /**
+     * Gets the minAdjacentNode in O(n) time.
+     * With minBinaryHeap, we can get it in O(log(n))
+     *
+     * @param currentNode the node from which we want to find a minimum weighted edge
+     * @param graph represented as <b>Adjacency Matrix</b>
+     * @param mstNodesSet contains nodes that will be part of the MST;
+     *                    the set is expected to be incomplete.
+     * @param nodeWeightMap Map, which assigns weight to a particular node.
+     *                      The mapping is between the node & its corresponding weight.
+     *                      The weight is calculated by finding the minimum adjacent node of the current node.
+     * @return node adjacent to {@code currentNode}, that is not part of the {@code mstNodesSet},
+     *         and has the minimum weighted edge from the {@code currentNode}
+     */
+    private static int findMinWeightedAdjacentNode(
+            int currentNode,
+            int[][] graph,
+            Set<Integer> mstNodesSet,
+            Map<Integer, Integer> nodeWeightMap) {
+        int[] adjacentNodesOfCurrentNode = graph[currentNode];
+
+        int minWeightedEdgeFromCurrentNode = Integer.MIN_VALUE;
+        int minAdjacentNode = -1;
+        for (int adjacentNode = 0; adjacentNode < graph.length; adjacentNode++) {
+            if (!mstNodesSet.contains(adjacentNode)) {
+                int adjacentNodeWeight = adjacentNodesOfCurrentNode[adjacentNode];
+                if (adjacentNodeWeight < minWeightedEdgeFromCurrentNode) {
+                    minWeightedEdgeFromCurrentNode = adjacentNodeWeight;
+                    minAdjacentNode = adjacentNode;
+                }
+            }
+        }
+        nodeWeightMap.put(minAdjacentNode, minAdjacentNode);
+
+        //check state
+        if (minAdjacentNode == -1) {
+            throw new RuntimeException("Something went wrong when trying to find minAdjacentNode.");
+        }
+        return minAdjacentNode;
+    }
+
+    /**
+     * Get a mapping between the nodes of a graph, and their respective weights.
+     * The weights are initialized to {@link Integer#MAX_VALUE}
+     *
+     * @param graph
+     * @return An initialized {@link Map} containing all the nodes of the graph as keys,
+     *         and their respective weights as the values of the map.
+     */
+    private static Map<Integer, Integer> getInitializedNodeWeightMap(int[][] graph) {
+        Map<Integer, Integer> nodeWeightMap = new HashMap<>();
+        for (int node = 0; node < graph.length; node++) {
+            nodeWeightMap.put(node, Integer.MAX_VALUE);
+        }
+
+        return nodeWeightMap;
+    }
+
+    /**
+     * Given a weighted, connected & undirected graph, find its Minimum Spanning Tree
      * using Kruskal's algorithm.
      *
      * Kruskal's Algorithm:
      *
      * 1. Sort the graph edges with respect to their weights.
      * 2. Start adding edges to the MST from the edge with the smallest weight until the edge of the largest weight.
-     *    Only add edges which doesn't form a cycle , edges which connect only disconnected components.
+     *    Only add edges which doesn't form a cycle , edges which connect only disconnected sub-graphs.
      *
      * @param graph An <b>Adjacency Matrix</b> representation of the graph.
      *              The weight of a given edge is the value in the cell corresponding to the two nodes.
@@ -60,7 +180,7 @@ public class SpanningTree {
         Collections.sort(sortedEdges);
 
         // 2. Add edges from the sorted list (asc order) to the MST
-        //    Do not add an edge, if its two nodes are already connected.
+        //    Do not add an edge, if its corresponding two nodes are already "connected".
         for (WeightedEdge edge : sortedEdges) {
             int node1 = Integer.parseInt(edge.getNode1());
             int node2 = Integer.parseInt(edge.getNode2());
