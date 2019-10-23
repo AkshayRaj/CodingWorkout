@@ -29,6 +29,26 @@ import java.util.concurrent.LinkedTransferQueue;
  */
 public class SpanningTree {
 
+    public static void main(String[] args) {
+        int[][] graph = new int[][] {
+                {0,2,3},
+                {2,0,2},
+                {3,2,0}
+        };
+
+        SpanningTree spanningTree = new SpanningTree();
+        int[][] mst = spanningTree.findMinimumSpanningTreeUsingKruskalsAlgorithm(graph);
+
+        int mstWeight = 0;
+        for (int node = 0; node < mst.length; node++) {
+            for (int adjacentNode = 0; adjacentNode < mst.length; adjacentNode++) {
+                mstWeight = mstWeight + mst[node][adjacentNode];
+            }
+        }
+
+        System.out.println("Weight of the minimum spanning tree(MST): " + mstWeight/2);
+    }
+
     /**
      * Given a weighted, connected & undirected graph, find its Minimum Spanning Tree
      * using Prim's algorithm.
@@ -79,7 +99,11 @@ public class SpanningTree {
             // find min edge from current node;
             // the other end of the edge should not be in mstNodesSet (to keep MST acyclic)
             int adjacentNode = findMinWeightedAdjacentNode(currentNode, graph, mstNodesSet, nodeWeightMap);
+
+            // add the edge for both - currentNode & adjacentNode
             minimumSpanningTree[currentNode][adjacentNode] = graph[currentNode][adjacentNode];
+            minimumSpanningTree[adjacentNode][currentNode] = minimumSpanningTree[currentNode][adjacentNode];
+
             mstNodesSet.add(adjacentNode);
             nodeWeightMap.remove(adjacentNode);
             currentNode = adjacentNode;
@@ -110,7 +134,7 @@ public class SpanningTree {
             Map<Integer, Integer> nodeWeightMap) {
         int[] adjacentNodesOfCurrentNode = graph[currentNode];
 
-        int minWeightedEdgeFromCurrentNode = Integer.MIN_VALUE;
+        int minWeightedEdgeFromCurrentNode = Integer.MAX_VALUE;
         int minAdjacentNode = -1;
         for (int adjacentNode = 0; adjacentNode < graph.length; adjacentNode++) {
             if (!mstNodesSet.contains(adjacentNode)) {
@@ -121,7 +145,7 @@ public class SpanningTree {
                 }
             }
         }
-        nodeWeightMap.put(minAdjacentNode, minAdjacentNode);
+        nodeWeightMap.replace(minAdjacentNode, minAdjacentNode);
 
         //check state
         if (minAdjacentNode == -1) {
@@ -293,7 +317,7 @@ public class SpanningTree {
     private static List<WeightedEdge> getWeightedEdgesFromGraph(int[][] graph) {
         Set<WeightedEdge> edges = new HashSet<>();
         for (int node = 0; node < graph.length; node++) {
-            for (int adjacentNode = 0; node < graph.length; adjacentNode++) {
+            for (int adjacentNode = 0; adjacentNode < graph.length; adjacentNode++) {
                 if (graph[node][adjacentNode] > 0) {
                     edges.add(WeightedEdge.builder()
                             .node1(String.valueOf(node))
