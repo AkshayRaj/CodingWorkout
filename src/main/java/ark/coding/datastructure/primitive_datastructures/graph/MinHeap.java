@@ -49,17 +49,6 @@ public final class MinHeap extends BinaryHeap {
      * @return the heapified array.
      */
     public int[] buildHeap(final int[] array) {
-        // array representing the heap will have empty cells,
-        // if the number of nodes in heap are not exactly equal to 2 raised to some power, i.e (2^power)
-        int heapArrayLength = array.length;
-        for (int power = 0; power < array.length; power++) {
-            if ((2^power) >= array.length) {
-                heapArrayLength = (2^power);
-            }
-        }
-        heap = Arrays.copyOf(array, heapArrayLength);
-        Arrays.fill(heap, array.length, heapArrayLength-1, Integer.MAX_VALUE);
-
         for (int index = 0; index < array.length; index++) {
             heapify(heap, array[index]);
         }
@@ -97,8 +86,44 @@ public final class MinHeap extends BinaryHeap {
      * @param heap the heap, whose one & only one subtree rooted at a given index does not obey the heap property.
      * @param index of the subtree which does not conform to the heap property.
      */
-    private void heapify(final int[] heap, int index) {
-        // TODO: Implement the heapify algorithm.
+    private void heapify(final int[] heap, final int index) {
+        int[] tmpHeap = Arrays.copyOf(heap, heap.length);
+        int elementIndex = index;
+        int parentIndex = parentIndex(tmpHeap, elementIndex);
+        int leftChildIndex = leftChildIndex(tmpHeap, elementIndex);
+        int rightChildIndex = rightChildIndex(tmpHeap, elementIndex);
+
+        // if value at current node is smaller than value in the parent,
+        // then keep PULLING-UP
+        while (tmpHeap[elementIndex] < tmpHeap[parentIndex]) {
+            swap(tmpHeap, index, parentIndex);
+            elementIndex = parentIndex;
+            parentIndex = parentIndex(tmpHeap, elementIndex);
+        }
+        // ^^^ pulling-up while loop complexity is O(log(n))
+
+        // if value at current node is greater than value in either of its children;
+        // then keep PUSHING-DOWN
+        while (tmpHeap[elementIndex] > tmpHeap[rightChildIndex]
+            || tmpHeap[elementIndex] > tmpHeap[leftChildIndex]) {
+
+            // rightChild is smallest of the 3 nodes
+            if (tmpHeap[leftChildIndex] > tmpHeap[rightChildIndex]) {
+                swap(tmpHeap, elementIndex, rightChildIndex);
+                elementIndex = rightChildIndex;
+            }
+            // Or leftChild is smallest of the 3 nodes
+            else {
+                swap(tmpHeap, index, leftChildIndex);
+                elementIndex = leftChildIndex;
+            }
+            leftChildIndex = leftChildIndex(tmpHeap, elementIndex);
+            rightChildIndex = rightChildIndex(tmpHeap, elementIndex);
+        }
+        // ^^^ pushing-down while loop complexity is O(2log(n)) [since we compare with both children]
+        // but since 2 is constant, time complexity of pushing-down while loop is O(log(n))
+
+        this.heap = tmpHeap;
     }
 
     /**
@@ -116,11 +141,11 @@ public final class MinHeap extends BinaryHeap {
         tmpHeap[newElementIndex] = elementValue; // add the new element in the last location
 
         // pull-up if value of new element is less than the parent
-        int parentIndex = parent(tmpHeap, newElementIndex);
+        int parentIndex = parentIndex(tmpHeap, newElementIndex);
         while (tmpHeap[parentIndex] > tmpHeap[newElementIndex]) {
             swap(tmpHeap, parentIndex, newElementIndex);
             newElementIndex = parentIndex;
-            parentIndex = parent(tmpHeap, newElementIndex);
+            parentIndex = parentIndex(tmpHeap, newElementIndex);
         }
         // ^^^ while loop takes O(log(n)) operations
         // to insert a new element & re-balance the heap.
@@ -128,6 +153,29 @@ public final class MinHeap extends BinaryHeap {
         elementKey = newElementIndex;
 
         return elementKey;
+    }
+
+    /**
+     * Delete an element at a given index.
+     *
+     * @param elementKey the key (or the index in array) of the element
+     * @return the re-balanced heap, after deleting the element.
+     */
+    public int[] delete(final int elementKey) {
+        /**
+         * To delete the element
+         * 1. Copy the last element in array (this is the rightmost leaf node) to the position (i.e. array-index)
+         *    of the element to delete.
+         * 2. From that position (i.e. array-index), heapify the subtree.
+         *    Heapify takes O(log(n)) time; where n is the cardinality of the sub-tree.
+         */
+        int lastElement = heap[heap.length - 1];
+        int[] tmpHeap = Arrays.copyOf(heap, heap.length-1);
+        tmpHeap[elementKey] = lastElement;
+        heapify(tmpHeap, elementKey);
+        heap = tmpHeap;
+
+        return heap;
     }
 
     /**
@@ -142,18 +190,6 @@ public final class MinHeap extends BinaryHeap {
         // TODO: Decreases value of element to newValue
 
         return newKey;
-    }
-
-    /**
-     * Delete an element at a given index.
-     *
-     * @param elementKey the key (or the index in array) of the element
-     * @return the re-balanced heap, after deleting the element.
-     */
-    public int[] delete(final int elementKey) {
-        // TODO: re-balance the heap after deleting the element from the heap.
-
-        return heap;
     }
 
     /**

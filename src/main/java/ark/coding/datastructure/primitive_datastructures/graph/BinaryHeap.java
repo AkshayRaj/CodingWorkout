@@ -14,7 +14,7 @@ public class BinaryHeap {
      * @param elementIndex array index of the element
      * @return index of the parent of the element.
      */
-    protected int parent(int[] binaryHeap, int elementIndex) {
+    protected int parentIndex(int[] binaryHeap, int elementIndex) {
         if (binaryHeap.length == 0) {
             Logger.getGlobal().warning(String.format("Heap is not initialized. " +
                     "Parent does not exist for element at index[%d]", elementIndex));
@@ -36,7 +36,7 @@ public class BinaryHeap {
      * @return index of the left child of the current element;
      *         {@literal -1} if the element is a leaf node or left child does not exist.
      */
-    protected int leftChild(int[] binaryHeap, int elementIndex) {
+    protected int leftChildIndex(int[] binaryHeap, int elementIndex) {
         int leftChild = 2 * elementIndex + 1;
         if (binaryHeap.length <= leftChild) {
             return -1;
@@ -53,7 +53,7 @@ public class BinaryHeap {
      * @return index of the right child of the current element;
      *         {@literal -1} if the element is a leaf node or right child does not exist.
      */
-    protected int rightChild(int[] binaryHeap, int elementIndex) {
+    protected int rightChildIndex(int[] binaryHeap, int elementIndex) {
         int rightChild = 2 * elementIndex + 2;
         if (binaryHeap.length <= rightChild) {
             return -1;
