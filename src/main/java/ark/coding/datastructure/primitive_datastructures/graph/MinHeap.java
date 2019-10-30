@@ -49,9 +49,32 @@ public final class MinHeap extends BinaryHeap {
      * @return the heapified array.
      */
     public int[] buildHeap(final int[] array) {
+        int[] tmpHeap = Arrays.copyOf(array, array.length);
+
+        /**
+         * The following implementation has time complexity of O(n * log(n))
+         * <b>UPDATE:</b> It is actually O(n), as explained in the following article -
+         * Ref: http://www.cs.umd.edu/~meesh/351/mount/lectures/lect14-heapsort-analysis-part.pdf
         for (int index = 0; index < array.length; index++) {
-            heapify(heap, array[index]);
+            heapify(tmpHeap, index);
         }
+        // ^^^ time complexity of heapify is O(n * log(n))
+        // We "heapify" n times; heapify has O(log(n)) time complexity
+         */
+
+        /**
+         * An optimized implementation, uses push down on all levels, except last -
+         * 1. Get the last non-leaf node. T
+         *    This is the parent of the last element, i.e. element at (n-1) index
+         * 2. Once you get this node, iteratively call push-down from this node until you reach root node
+         *    i.e. element at array index '0'
+         */
+        int parentIndexOfLastElement = parentIndex(tmpHeap, tmpHeap.length - 1);
+        for (int nonLeafNodeIndex = parentIndexOfLastElement; nonLeafNodeIndex >= 0; parentIndexOfLastElement--) {
+            tmpHeap = pushDown(tmpHeap, tmpHeap[nonLeafNodeIndex]);
+        }
+
+        heap = tmpHeap;
         return heap;
     }
 
@@ -69,7 +92,14 @@ public final class MinHeap extends BinaryHeap {
         if (heap1[0] > heap2[0]) {
             return mergeHeaps(heap2, heap1);
         }
-        // TODO: Implement merge of two min binary heaps
+
+        int mergedHeapsLength = heap1.length + heap2.length;
+        int[] tmpHeap = Arrays.copyOf(heap1, mergedHeapsLength);
+        tmpHeap = Arrays.copyOfRange(tmpHeap, heap1.length, heap2.length-1);
+
+        this.heap = buildHeap(tmpHeap);
+        // ^^^ time complexity is O(m+k), m & k are lengths of two heaps respectively.
+        // We already know that #buildHeap() is O(n) time complexity
 
         return heap;
     }
@@ -93,35 +123,15 @@ public final class MinHeap extends BinaryHeap {
         int leftChildIndex = leftChildIndex(tmpHeap, elementIndex);
         int rightChildIndex = rightChildIndex(tmpHeap, elementIndex);
 
-        // if value at current node is smaller than value in the parent,
-        // then keep PULLING-UP
-        while (tmpHeap[elementIndex] < tmpHeap[parentIndex]) {
-            swap(tmpHeap, index, parentIndex);
-            elementIndex = parentIndex;
-            parentIndex = parentIndex(tmpHeap, elementIndex);
+        // if element is less than parent, then PULL-UP
+        if (tmpHeap[elementIndex] < tmpHeap[parentIndex]) {
+            tmpHeap = pullUp(tmpHeap, elementIndex);
         }
-        // ^^^ pulling-up while loop complexity is O(log(n))
-
-        // if value at current node is greater than value in either of its children;
-        // then keep PUSHING-DOWN
-        while (tmpHeap[elementIndex] > tmpHeap[rightChildIndex]
-            || tmpHeap[elementIndex] > tmpHeap[leftChildIndex]) {
-
-            // rightChild is smallest of the 3 nodes
-            if (tmpHeap[leftChildIndex] > tmpHeap[rightChildIndex]) {
-                swap(tmpHeap, elementIndex, rightChildIndex);
-                elementIndex = rightChildIndex;
-            }
-            // Or leftChild is smallest of the 3 nodes
-            else {
-                swap(tmpHeap, index, leftChildIndex);
-                elementIndex = leftChildIndex;
-            }
-            leftChildIndex = leftChildIndex(tmpHeap, elementIndex);
-            rightChildIndex = rightChildIndex(tmpHeap, elementIndex);
+        // otherwise check if element is bigger than any of its children and PUSH-DOWN
+        else if (tmpHeap[elementIndex] > tmpHeap[rightChildIndex]
+                || tmpHeap[elementIndex] > tmpHeap[leftChildIndex]) {
+            tmpHeap = pushDown(tmpHeap, elementIndex);
         }
-        // ^^^ pushing-down while loop complexity is O(2log(n)) [since we compare with both children]
-        // but since 2 is constant, time complexity of pushing-down while loop is O(log(n))
 
         this.heap = tmpHeap;
     }
@@ -254,6 +264,51 @@ public final class MinHeap extends BinaryHeap {
             return new int[]{};
         }
         return heap;
+    }
+
+    private int[] pullUp(final int[] tmpHeap, final int index) {
+        int elementIndex = index;
+        int parentIndex = parentIndex(tmpHeap, elementIndex);
+
+        // if value at current node is smaller than value in the parent,
+        // then keep PULLING-UP
+        while (tmpHeap[elementIndex] < tmpHeap[parentIndex]) {
+            swap(tmpHeap, index, parentIndex);
+            elementIndex = parentIndex;
+            parentIndex = parentIndex(tmpHeap, elementIndex);
+        }
+        // ^^^ pulling-up while loop complexity is O(log(n))
+
+        return tmpHeap;
+    }
+
+    private static int[] pushDown(final int[] tmpHeap, final int index) {
+        int elementIndex = index;
+        int leftChildIndex = leftChildIndex(tmpHeap, elementIndex);
+        int rightChildIndex = rightChildIndex(tmpHeap, elementIndex);
+
+        // if value at current node is greater than value in either of its children;
+        // then keep PUSHING-DOWN
+        while (tmpHeap[elementIndex] > tmpHeap[rightChildIndex]
+                || tmpHeap[elementIndex] > tmpHeap[leftChildIndex]) {
+
+            // rightChild is smallest of the 3 nodes
+            if (tmpHeap[leftChildIndex] > tmpHeap[rightChildIndex]) {
+                swap(tmpHeap, elementIndex, rightChildIndex);
+                elementIndex = rightChildIndex;
+            }
+            // Or leftChild is smallest of the 3 nodes
+            else {
+                swap(tmpHeap, index, leftChildIndex);
+                elementIndex = leftChildIndex;
+            }
+            leftChildIndex = leftChildIndex(tmpHeap, elementIndex);
+            rightChildIndex = rightChildIndex(tmpHeap, elementIndex);
+        }
+        // ^^^ pushing-down while loop complexity is O(2log(n)) [since we compare with both children]
+        // but since 2 is constant, time complexity of pushing-down while loop is O(log(n))
+
+        return tmpHeap;
     }
 
     private static void swap(int[] array, int index1, int index2) {
