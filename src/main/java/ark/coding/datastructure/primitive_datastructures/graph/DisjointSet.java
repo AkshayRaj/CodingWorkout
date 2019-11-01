@@ -46,7 +46,7 @@ public class DisjointSet {
 
     /**
      * Merges the set containing {@code element1} with the set containing {@code element2}.
-     * O(N) ; N is the total number of elements in all the subsets.
+     * O(N); N is the total number of elements in all the subsets.
      *
      * @param element1 an element of one of the sets.
      * @param element2 another element of one of the sets.
@@ -54,6 +54,27 @@ public class DisjointSet {
      */
     public int mergeSet(int element1, int element2) {
         int mergedSetRep = -1;
+
+        if(!disjointSet.containsKey(element1)) {
+            if (!disjointSet.containsKey(element2)) {
+                int repForOneAndTwo = Math.min(element1, element2);
+                disjointSet.put(element1, repForOneAndTwo);
+                disjointSet.put(element2, repForOneAndTwo);
+                return repForOneAndTwo;
+            }
+            else {
+                int newRepForElement1 = disjointSet.get(element2);
+                disjointSet.put(element1, newRepForElement1);
+                return newRepForElement1;
+            }
+        }
+        else {
+            if (!disjointSet.containsKey(element2)) {
+                int newRepForElement2 = disjointSet.get(element1);
+                disjointSet.put(element2, newRepForElement2);
+                return newRepForElement2;
+            }
+        }
 
         int representative1 = disjointSet.get(element1);
         int representative2 = disjointSet.get(element2);
