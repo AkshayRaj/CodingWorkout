@@ -8,6 +8,8 @@ package ark.coding.datastructure.primitive_datastructures.graph;
  * In a data structure of disjoint sets every set contains a representative, which is one member of the set.
  */
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -24,7 +26,14 @@ import java.util.Set;
  */
 public class DisjointSet {
 
-    Map<Integer, Integer> disjointSet;
+    Map<Integer, Integer> disjointSet = new HashMap<>();
+
+    public DisjointSet(int[][] graph) {
+        int arrayLength = graph.length;
+        for (int index = 0; index < arrayLength; index++) {
+            disjointSet.put(index, index);
+        }
+    }
 
     /**
      * Creates a new element, and adds it to a single element set, containing the new element.
@@ -125,9 +134,28 @@ public class DisjointSet {
      */
     public int find(int element) {
         if (!disjointSet.containsKey(element)) {
-            throw new RuntimeException(String.format("Element-[%d] does not exist in the DisjointSet."));
+            return -1;
         }
 
         return disjointSet.get(element);
+    }
+
+    /**
+     * Check whether the given elements belong to the same subset, i.e. they have same representative.
+     *
+     * @param element1 one of the elements to compare
+     * @param element2 the other element to compare
+     * @return true, if both the elements have the same representative;
+     *         false, otherwise.
+     */
+    public boolean find(int element1, int element2) {
+        if (!disjointSet.containsKey(element1) || !disjointSet.containsKey(element2)) {
+            return false;
+        }
+        return disjointSet.get(element1).equals(disjointSet.get(element2));
+    }
+
+    public Collection<Integer> getReps() {
+        return disjointSet.values();
     }
 }

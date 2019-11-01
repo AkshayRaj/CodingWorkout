@@ -22,7 +22,7 @@ import java.util.concurrent.LinkedTransferQueue;
  *
  * A single graph can have many different spanning trees.
  *
- *  A minimum spanning tree (MST) or minimum weight spanning tree for a weighted, connected and undirected graph
+ * A minimum spanning tree (MST) or minimum weight spanning tree for a weighted, connected and undirected graph
  * is a spanning tree with weight less than or equal to the weight of every other spanning tree.
  *
  * The weight of a spanning tree is the sum of weights given to each edge of the spanning tree.
@@ -37,7 +37,9 @@ public class SpanningTree {
         };
 
         SpanningTree spanningTree = new SpanningTree();
+
         int[][] mst = spanningTree.findMinimumSpanningTreeUsingKruskalsAlgorithm(graph);
+        //int[][] mst = spanningTree.findMinimumSpanningTreeUsingPrimsAlgorithm(graph);
 
         int mstWeight = 0;
         for (int node = 0; node < mst.length; node++) {
@@ -171,6 +173,10 @@ public class SpanningTree {
         return nodeWeightMap;
     }
 
+    /*************************************************************************************************
+    ******************************************* KRUSKAL'S ********************************************
+    **************************************************************************************************/
+
     /**
      * Given a weighted, connected & undirected graph, find its Minimum Spanning Tree
      * using Kruskal's algorithm.
@@ -203,17 +209,35 @@ public class SpanningTree {
         List<WeightedEdge> sortedEdges = getWeightedEdgesFromGraph(graph);
         Collections.sort(sortedEdges);
 
+        DisjointSet disjointSet = new DisjointSet(graph);
+
         // 2. Add edges from the sorted list (asc order) to the MST
         //    Do not add an edge, if its corresponding two nodes are already "connected".
         for (WeightedEdge edge : sortedEdges) {
             int node1 = Integer.parseInt(edge.getNode1());
             int node2 = Integer.parseInt(edge.getNode2());
-            if (!areNodesConnectedAdjMatrix(minimumSpanningTree, node1, node2)) {
+            if (!areNodesConnectedDisjointSet(disjointSet, node1, node2)) {
                 addWeightedEdgeToGraph(minimumSpanningTree, edge);
+                disjointSet.mergeSet(node1, node2);
             }
+            //^^^ merge operation of DisjointSet is O(n), whereas find is O(1)
+            // Therefore, Kruskal's algorithm finds MST in O(n)
         }
 
+        // check state - validation (of sorts) of this implementation
+        checkDisjointSetStateForMST(disjointSet);
+
         return minimumSpanningTree;
+    }
+
+    private void checkDisjointSetStateForMST(DisjointSet disjointSet) {
+        List<Integer> reps = Arrays.asList(disjointSet.getReps().toArray(new Integer[]{}));
+        int firstRep = reps.get(0);
+        for (int rep : reps) {
+            if (rep != firstRep) {
+                throw new RuntimeException("Reps are not same in DisjointSet for MST.");
+            }
+        }
     }
 
     /**
@@ -269,6 +293,23 @@ public class SpanningTree {
      * Helper method to check whether a given pair of nodes are connected in the graph.
      * The nodes are said to be "connected" if there exists a path between the two nodes.
      *
+     * <b>Note: This uses the {@link DisjointSet} data structure.</b>
+     *
+     *
+     * @param disjointSet
+     * @param node1 will act as the initial frontier during the graph traversal.
+     * @param node2 the other node, to check for existence of a path.
+     * @return true, if a path exists from node1 to node2;
+     *         false, otherwise.
+     */
+    private static boolean areNodesConnectedDisjointSet(DisjointSet disjointSet, int node1, int node2) {
+        return disjointSet.find(node1, node2);
+    }
+
+    /**
+     * Helper method to check whether a given pair of nodes are connected in the graph.
+     * The nodes are said to be "connected" if there exists a path between the two nodes.
+     *
      * @param graph represented by an <b>Adjacency Matrix</b>
      * @param node1 will act as the initial frontier during the graph traversal.
      * @param node2 the other node, to check for existence of a path.
@@ -285,6 +326,7 @@ public class SpanningTree {
 
         boolean[] nodesVisited = new boolean[totalNodes];
 
+        // this do-while loop traverses the graph in BFS-order from `node1`
         do {
             int node = frontier.poll();
             nodesVisited[node] = true;
@@ -301,8 +343,10 @@ public class SpanningTree {
                     }
                 }
             }
+            //^^^ this `for` loop has O(n) time complexity; is the number of nodes
         }
         while (!frontier.isEmpty());
+        //^^^ the while + nested-for loop has O(n^2) time complexity
 
         return false;
     }
