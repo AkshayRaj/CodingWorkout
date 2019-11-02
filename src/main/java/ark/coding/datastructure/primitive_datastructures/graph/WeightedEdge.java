@@ -57,6 +57,10 @@ public class WeightedEdge implements Comparable<WeightedEdge> {
         return weight;
     }
 
+    public boolean exists() {
+        return weight > 0;
+    }
+
     public static class Builder {
         private String node1;
         private String node2;
