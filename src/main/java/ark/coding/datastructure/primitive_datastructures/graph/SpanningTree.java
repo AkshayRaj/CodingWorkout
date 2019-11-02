@@ -67,25 +67,12 @@ public class SpanningTree {
      * - Pick the minimum weight edge from the cut and include this vertex to MST Set (the set that contains already included vertices).
 
      * Implementation considerations:
-       1. Start with the empty spanning tree.
-       2. Maintain a set mst[] to keep track to vertices included in minimum spanning tree.
-       3. Assign a key value to all the vertices, (say key []) and initialize all the keys with +∞ (Infinity) except the first vertex.
-         (We will start with this vertex, for which key will be 0).
-       4. Key value in step 3 will be used in making decision that which next vertex and edge will be included in the mst[].
-          We will pick the vertex which is not included in mst[] and has the minimum key.
-          So at the beginning the first vertex will be picked first.
-       5. Repeat the following steps until all vertices are processed
-         a) Pick the vertex u which is not in mst[] and has minimum key.
-         b) Add vertex u to mst[].
-         c) Loop over all the adjacent vertices of u
-            For adjacent vertex v, if v is not in mst[] and edge u-v weight is less than the key of vertex u,
-            key[u] then update the key[u]= edge u-v weight.
-         d) Return mst[].
+        
      *
      * @return The minimum spanning tree of the graph, as identified by Prim's algorithm.
      *         The minimum spanning tree is represented as an <b>Adjacency Matrix</b>.
      */
-    public int[][] findMinimumSpanningTreeUsingPrimsAlgorithm(int[][] graph) {
+    public int[][] findMinimumSpanningTreeUsingPrimsAlgorithm(final int[][] graph) {
         int totalNodes = graph.length;
         int[][] minimumSpanningTree = new int[totalNodes][totalNodes];// adjacency matrix.
 
@@ -98,17 +85,6 @@ public class SpanningTree {
 
         int currentNode = startingNode;
         do {
-            // find min edge from current node;
-            // the other end of the edge should not be in mstNodesSet (to keep MST acyclic)
-            int adjacentNode = findMinWeightedAdjacentNode(currentNode, graph, mstNodesSet, nodeWeightMap);
-
-            // add the edge for both - currentNode & adjacentNode
-            minimumSpanningTree[currentNode][adjacentNode] = graph[currentNode][adjacentNode];
-            minimumSpanningTree[adjacentNode][currentNode] = minimumSpanningTree[currentNode][adjacentNode];
-
-            mstNodesSet.add(adjacentNode);
-            nodeWeightMap.remove(adjacentNode);
-            currentNode = adjacentNode;
         }
         while (!nodeWeightMap.isEmpty());
 
@@ -208,6 +184,7 @@ public class SpanningTree {
         // 1. Sort the edges w.r.t their weights
         List<WeightedEdge> sortedEdges = getWeightedEdgesFromGraph(graph);
         Collections.sort(sortedEdges);
+        // ^^^ time complexity of the sort algorithm; lets assume O(n*log(n))
 
         DisjointSet disjointSet = new DisjointSet(graph);
 
