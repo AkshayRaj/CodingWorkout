@@ -51,7 +51,7 @@ public final class MinHeap extends BinaryHeap {
     public int[] buildHeap(final int[] array) {
         int[] tmpHeap = Arrays.copyOf(array, array.length);
 
-        /**
+        /********************************************************************************
          * The following implementation has time complexity of O(n * log(n))
          * <b>UPDATE:</b> It is actually O(n), as explained in the following article -
          * Ref: http://www.cs.umd.edu/~meesh/351/mount/lectures/lect14-heapsort-analysis-part.pdf
@@ -60,7 +60,7 @@ public final class MinHeap extends BinaryHeap {
         }
         // ^^^ time complexity of heapify is O(n * log(n))
         // We "heapify" n times; heapify has O(log(n)) time complexity
-         */
+         *********************************************************************************/
 
         /**
          * An optimized implementation, uses push down on all levels, except last -
@@ -71,7 +71,7 @@ public final class MinHeap extends BinaryHeap {
          */
         int parentIndexOfLastElement = parentIndex(tmpHeap, tmpHeap.length - 1);
         for (int nonLeafNodeIndex = parentIndexOfLastElement; nonLeafNodeIndex >= 0; parentIndexOfLastElement--) {
-            tmpHeap = pushDown(tmpHeap, tmpHeap[nonLeafNodeIndex]);
+            tmpHeap = pushDown(tmpHeap, nonLeafNodeIndex);
         }
 
         heap = tmpHeap;
@@ -198,6 +198,8 @@ public final class MinHeap extends BinaryHeap {
     public int decreaseElement(final int elementKey, final int newValue) {
         int newKey = -1;
         // TODO: Decreases value of element to newValue
+        heap[elementKey] = newValue;
+        heapify(heap, elementKey);
 
         return newKey;
     }

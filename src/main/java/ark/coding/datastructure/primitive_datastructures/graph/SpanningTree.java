@@ -78,6 +78,7 @@ public class SpanningTree {
 
         Set<Integer> nodesInMST = new HashSet<>();
         Map<Integer, Integer> nodeWeightMap = getInitializedNodeWeightMap(graph);
+        MinHeap minHeap = new MinHeap();
 
         int currentNode = 0;
         nodesInMST.add(currentNode);
@@ -145,6 +146,14 @@ public class SpanningTree {
                 }
             }
         }
+        // time complexity of these nested for loops is O(n^2)
+        // No of comparisons - (nodesInMST) * (nodes not in MST)
+        // 1st iteration  ==>     1         *  (n-1)
+        // 2nd iteration  ==>     2         *  (n-2)
+        // ...
+        // second last    ==>    (n-2)      *    2
+        // last iteration ==>    (n-1)      *    1
+        // Therefore, no of operations are (n-1)^2 ~ O(n^2)
         return minEdge;
     }
 
