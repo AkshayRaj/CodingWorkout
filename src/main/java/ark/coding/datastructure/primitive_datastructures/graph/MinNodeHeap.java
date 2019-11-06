@@ -6,16 +6,16 @@ package ark.coding.datastructure.primitive_datastructures.graph;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * A minimum binary heap of {@link WeightedNode}s.
  */
 public final class MinNodeHeap extends NodeHeap {
 
-    public MinNodeHeap(int initialCapacity) {
+    public MinNodeHeap(int[][] graph) {
         nodeKeyMap = new DualHashBidiMap<>();
-        heap = new int[initialCapacity];
+        heap = new int[graph.length];
+        initializeNodeHeap(graph);
     }
 
     /**
@@ -23,7 +23,13 @@ public final class MinNodeHeap extends NodeHeap {
      */
     @Override
     public void insert(WeightedNode node) {
+        int noOfNodes = heap.length + 1;
+        heap = Arrays.copyOf(heap, noOfNodes);
 
+        heap[noOfNodes - 1] = node.getWeight();
+        nodeKeyMap.put(node.getName(), noOfNodes - 1);
+
+        pullUp(noOfNodes - 1);
     }
 
     /**
@@ -52,18 +58,30 @@ public final class MinNodeHeap extends NodeHeap {
      * {@inheritDoc}
      */
     @Override
-    void decreaseElement(int nodeName, int nodeWeight) {
+    public void decreaseElement(String nodeName, int nodeWeight) {
+        int key = nodeKeyMap.get(nodeName);
+        int currentWeight = heap[key];
+        if (nodeWeight > currentWeight) {
+            throw new RuntimeException(String.format("Current weight [%d] of node [%s] is less than the new weight[%d].",
+                    currentWeight, nodeName, nodeWeight));
+        }
 
+        heap[key] = nodeWeight;
+        pullUp(key);
     }
 
-    public void initialize(final List<WeightedNode> weightedNodes) {
-        int count = 0;
-        for (WeightedNode node : weightedNodes) {
-            heap[count] = node.getWeight();
-            nodeKeyMap.put(node.getName(), count);
-            count++;
-        }
-        buildNodeHeap();
+    @Override
+    public void remove(String nodeName) {
+        int lastElementIndex = heap.length - 1;
+        int nodeKey = nodeKeyMap.get(nodeName);
+
+        // 1. swap with lastElement
+        // 2.then remove the lastElement entries from the map and heap
+        swap(nodeKey, lastElementIndex);
+        nodeKeyMap.remove(nodeName);
+        heap = Arrays.copyOf(heap, heap.length - 1);
+        // 3. pushDown the original last element
+        pushDown(nodeKey);
     }
 
     /**
@@ -76,22 +94,28 @@ public final class MinNodeHeap extends NodeHeap {
     private void buildNodeHeap() {
         int parentIndexOfLastElement = parentIndex(heap, heap.length - 1);
         for (int nonLeafNodeIndex = parentIndexOfLastElement; nonLeafNodeIndex >= 0; parentIndexOfLastElement--) {
-            heap = pushDown(nonLeafNodeIndex);
+            pushDown(nonLeafNodeIndex);
         }
     }
 
-    private int[] pushDown(final int index) {
+    private void pushDown(final int index) {
+        if (heap.length == 0) {
+            return;
+        }
         int elementIndex = index;
         int leftChildIndex = leftChildIndex(heap, elementIndex);
         int rightChildIndex = rightChildIndex(heap, elementIndex);
+        int elementWeight = getWeight(elementIndex);
+        int rightChildWeight = getWeight(rightChildIndex);
+        int leftChildWeight = getWeight(leftChildIndex);
 
         // if value at current node is greater than value in either of its children;
         // then keep PUSHING-DOWN
-        while (heap[elementIndex] > heap[rightChildIndex]
-                || heap[elementIndex] > heap[leftChildIndex]) {
+        while (elementWeight > rightChildWeight
+                || elementWeight > leftChildWeight) {
 
             // rightChild is smallest of the 3 nodes
-            if (heap[leftChildIndex] > heap[rightChildIndex]) {
+            if (leftChildWeight > rightChildWeight) {
                 swap(elementIndex, rightChildIndex);
                 elementIndex = rightChildIndex;
             }
@@ -102,11 +126,31 @@ public final class MinNodeHeap extends NodeHeap {
             }
             leftChildIndex = leftChildIndex(heap, elementIndex);
             rightChildIndex = rightChildIndex(heap, elementIndex);
+            leftChildWeight = getWeight(leftChildIndex);
+            rightChildWeight = getWeight(rightChildIndex);
         }
         // ^^^ pushing-down while loop complexity is O(2log(n)) [since we compare with both children]
         // but since 2 is constant, time complexity of pushing-down while loop is O(log(n))
+    }
 
-        return heap;
+    private int getWeight(int index) {
+        return index >= 0
+                ? heap[index]
+                : Integer.MAX_VALUE;
+    }
+
+    private void pullUp(int index) {
+        int elementIndex = index;
+        int parentIndex = parentIndex(heap, elementIndex);
+
+        // if value at current node is smaller than value in the parent,
+        // then keep PULLING-UP
+        while (heap[elementIndex] < heap[parentIndex]) {
+            swap(index, parentIndex);
+            elementIndex = parentIndex;
+            parentIndex = parentIndex(heap, elementIndex);
+        }
+        // ^^^ pulling-up while loop complexity is O(log(n))
     }
 
     private void swap(int indexNode1, int indexNode2) {
@@ -135,4 +179,12 @@ public final class MinNodeHeap extends NodeHeap {
         pushDown(index);
     }
 
+    private void initializeNodeHeap(int[][] graph) {
+        for (int node = 0; node < graph.length; node++) {
+            String nodeName = String.valueOf(node);
+            int nodeWeight = Integer.MAX_VALUE;
+            heap[node] = nodeWeight;
+            nodeKeyMap.put(nodeName, node);
+        }
+    }
 }

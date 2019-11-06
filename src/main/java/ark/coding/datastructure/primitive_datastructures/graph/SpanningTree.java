@@ -77,12 +77,11 @@ public class SpanningTree {
         int[][] minimumSpanningTree = new int[totalNodes][totalNodes];// adjacency matrix.
 
         Set<Integer> nodesInMST = new HashSet<>();
-        Map<Integer, Integer> nodeWeightMap = getInitializedNodeWeightMap(graph);
-        MinHeap minHeap = new MinHeap();
+        MinNodeHeap nodeWeightMap = new MinNodeHeap(graph);
 
         int currentNode = 0;
         nodesInMST.add(currentNode);
-        nodeWeightMap.remove(currentNode);
+        nodeWeightMap.remove(String.valueOf(currentNode));
 
         do {
             // find "cut" between set of nodes in `mstNodesSet` & `nodeWeightMap` respectively
@@ -95,15 +94,18 @@ public class SpanningTree {
             //    - add the cut to the MST
             // 6. Update currentNode to the second node of the cut
             // 7. GOTO step 1
-
+            // =====================================================================================================
             // 1. Update weights of  "adjacentNodes of the currentNode" in nodeWeightMap
-            for (int adjacentNode : nodeWeightMap.keySet()) {
+            Set<String> nodesNotInMST = new HashSet<>(nodeWeightMap.keySet());
+            for (String nodeName : nodesNotInMST) {
+                int adjacentNode = Integer.parseInt(nodeName);
                 if (edgeExists(graph, currentNode, adjacentNode)) {
-                    if (graph[currentNode][adjacentNode] < nodeWeightMap.get(adjacentNode)) {
-                        nodeWeightMap.replace(adjacentNode, graph[currentNode][adjacentNode]);
+                    if (graph[currentNode][adjacentNode] < nodeWeightMap.getWeight(nodeName)) {
+                        nodeWeightMap.decreaseElement(nodeName, graph[currentNode][adjacentNode]);
                     }
                 }
             }
+            // ^^^ O(V)
 
             //2. find the minimum "cut" between nodesInMST & nodesNotInMST (i.e. nodes in nodeWeightMap)
             WeightedEdge minEdge = findMinEdge(graph, nodesInMST, nodeWeightMap);
@@ -111,7 +113,7 @@ public class SpanningTree {
             // 3. Update state
             int nodeInMST = Integer.parseInt(minEdge.getNode1());
             int nodeToInclude = Integer.parseInt(minEdge.getNode2());
-            nodeWeightMap.remove(nodeToInclude);
+            nodeWeightMap.remove(String.valueOf(nodeToInclude));
             nodesInMST.add(nodeToInclude);
             minimumSpanningTree[nodeInMST][nodeToInclude] = minEdge.getWeight();
             minimumSpanningTree[nodeToInclude][nodeInMST] = minEdge.getWeight();
@@ -120,26 +122,27 @@ public class SpanningTree {
             currentNode = nodeToInclude;
         }
         while (!nodeWeightMap.isEmpty());
-        // ^^^ time complexity of the while loop, excluding any inner loops, is O(n)
+        // ^^^ time complexity of the while loop, excluding any inner loops, is O(V)
 
         return minimumSpanningTree;
     }
 
-    private WeightedEdge findMinEdge(int[][] graph, Set<Integer> nodesInMST, Map<Integer, Integer> nodeWeightMap) {
+    private WeightedEdge findMinEdge(int[][] graph, Set<Integer> nodesInMST, MinNodeHeap nodeWeightMap) {
         WeightedEdge minEdge = null;
         int minWeightedNode = Integer.MAX_VALUE;
-        for (int nodeNotInMST : nodeWeightMap.keySet()) {
-            if (nodeWeightMap.get(nodeNotInMST) < minWeightedNode) {
-                minWeightedNode = nodeWeightMap.get(nodeNotInMST);
+        for (String nodeNotInMST : nodeWeightMap.keySet()) {
+            if (nodeWeightMap.getWeight(nodeNotInMST) < minWeightedNode) {
+                minWeightedNode = nodeWeightMap.getWeight(nodeNotInMST);
             }
         }
+        // TODO: improve time complexity in this method
 
         for (int nodeInMST : nodesInMST) {
-            for (int nodeNotInMST : nodeWeightMap.keySet()) {
+            for (String nodeNotInMST : nodeWeightMap.keySet()) {
                 WeightedEdge edge = WeightedEdge.builder()
                         .node1(String.valueOf(nodeInMST))
                         .node2(String.valueOf(nodeNotInMST))
-                        .weight(graph[nodeInMST][nodeNotInMST])
+                        .weight(graph[nodeInMST][Integer.parseInt(nodeNotInMST)])
                         .build();
                 if (edge.exists() && edge.getWeight() <= minWeightedNode) {
                     minEdge = edge;
@@ -263,8 +266,8 @@ public class SpanningTree {
                 addWeightedEdgeToGraph(minimumSpanningTree, edge);
                 disjointSet.mergeSet(node1, node2);
             }
-            //^^^ merge operation of DisjointSet is O(n), whereas find is O(1)
-            // Therefore, Kruskal's algorithm finds MST in O(n)
+            //^^^ merge operation of DisjointSet is O(log(V)), whereas find is O(1)
+            // Therefore, Kruskal's algorithm finds MST in O(E)
         }
 
         // check state - validation (of sorts) of this implementation

@@ -5,14 +5,19 @@ package ark.coding.datastructure.primitive_datastructures.graph;
 
 import org.apache.commons.collections4.BidiMap;
 
+import java.util.Set;
+
+/**
+ * Binary heap of {@link WeightedNode}s.
+ */
 public abstract class NodeHeap extends BinaryHeap {
 
     /**
-     * Insert the given {@link WeightedNode} in the binary heap.
+     * Insert a new {@link WeightedNode} in the binary heap.
      *
      * @param node to add to the heap
      */
-    abstract void insert(final WeightedNode node);
+    public abstract void insert(final WeightedNode node);
 
     /**
      * Retrieve the minimum {@link WeightedNode} from the heap,
@@ -20,7 +25,7 @@ public abstract class NodeHeap extends BinaryHeap {
      *
      * @return the minimum {@link WeightedNode} in the heap.
      */
-    abstract WeightedNode extractMinimum();
+    public abstract WeightedNode extractMinimum();
 
     /**
      * Check if a particular node exists in the heap.
@@ -29,7 +34,7 @@ public abstract class NodeHeap extends BinaryHeap {
      * @return true, if the node exists in the heap;
      *         false, otherwise.
      */
-    abstract boolean contains(String name);
+    public abstract boolean contains(String name);
 
     /**
      * Decrease the weight of a node.
@@ -37,7 +42,14 @@ public abstract class NodeHeap extends BinaryHeap {
      * @param nodeName name of the node
      * @param nodeWeight new weight of the node.
      */
-    abstract void decreaseElement(final int nodeName, final int nodeWeight);
+    public abstract void decreaseElement(final String nodeName, final int nodeWeight);
+
+    /**
+     * Remove the node from the heap.
+     *
+     * @param nodeName name of the node to remove.
+     */
+    public abstract void remove(String nodeName);
 
     /**
      * Mapping between the name of the node, and the location (array-index) in {@link #heap}
@@ -51,4 +63,16 @@ public abstract class NodeHeap extends BinaryHeap {
      * in {@link #nodeKeyMap}
      */
     int[] heap;
+
+    public Set<String> keySet() {
+        return nodeKeyMap.keySet();
+    }
+
+    public int getWeight(String nodeName) {
+        return heap[nodeKeyMap.get(nodeName)];
+    }
+
+    public boolean isEmpty() {
+        return nodeKeyMap.isEmpty();
+    }
 }
