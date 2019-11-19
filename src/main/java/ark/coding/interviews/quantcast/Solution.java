@@ -2,6 +2,78 @@ package ark.coding.interviews.quantcast;
 
 public class Solution {
 
+    static int findCountOfBidByFindingFirstLastIndex(int currentBid, int[] previousBids) {
+        int indexOfFirstOccurrence = findFirstOccurence(currentBid, previousBids);
+        if (indexOfFirstOccurrence == -1) {
+            return -1;
+        }
+
+        int indexOfLastOccurence = findLastOccurence(currentBid, previousBids);
+
+        return indexOfLastOccurence - indexOfFirstOccurrence
+                + 1; // we add 1 to accommodate the inclusion of last index.
+    }
+
+    private static int findFirstOccurence(final int numberToLookFor, final int[] sortedArray) {
+        int length = sortedArray.length;
+
+        int start = 0;
+        int end = length - 1;
+        int mid = (start + end)/2;
+
+        int indexOfFirstOccurence = -1;
+        while (start <= end) {
+            if (sortedArray[mid] < numberToLookFor) {
+                // discard left-half of the array
+                start = mid + 1;
+            }
+            else if (sortedArray[mid] > numberToLookFor) {
+                // discard the right-half of the array
+                end = mid - 1;
+            }
+            else if (sortedArray[mid] == numberToLookFor) {
+                // We found the location; store it
+                indexOfFirstOccurence = mid;
+
+                // and continue looking in the left-half of the array
+                // to find the "first" occurrence of our number
+                end = mid - 1;
+            }
+            mid = (start + end)/2;
+        }
+
+        return indexOfFirstOccurence;
+    }
+
+    private static int findLastOccurence(int numberToLookFor, int[] sortedArray) {
+        int length = sortedArray.length;
+
+        int start = 0;
+        int end = length - 1;
+        int mid = (start + end)/2;
+
+        int indexOfLastOccurrence = -1;
+        while (start <= end) {
+            if (sortedArray[mid] < numberToLookFor) {
+                // discard left half of the array
+                start = mid + 1;
+            }
+            else if (sortedArray[mid] > numberToLookFor) {
+                // discard right half of the array
+                end = mid - 1;
+            }
+            else if (sortedArray[mid] == numberToLookFor) {
+                // store the index
+                indexOfLastOccurrence = mid;
+                // and then continue looking in the right half of the array
+                start = mid + 1;
+            }
+            mid = (start + end)/2;
+        }
+
+        return indexOfLastOccurrence;
+    }
+
     /**
      *
      * @param currentBid The current bid amount
@@ -24,6 +96,10 @@ public class Solution {
         int length = previousBids.length;
         if (length == 0) {
             return -1;
+        }
+
+        if (length > 0) {
+            return findCountOfBidByFindingFirstLastIndex(currentBid, previousBids);
         }
 
         int low = 0;
@@ -50,6 +126,13 @@ public class Solution {
         if (valueInMid != currentBid) {
             return -1;
         }
+
+        /**
+         * ******************************************************************
+         * Use Binary search to get "first" & "last" occurrences of currentBid,
+         * once midIndex has been identified.
+         * *******************************************************************
+         */
 
         // Once we find the index in array where the currentBid is found,
         // we go both left & right to count for duplicate occurences.
@@ -82,6 +165,6 @@ public class Solution {
     public static void main(String[] args) {
         int[] test = new int[] {1, 2, 2, 2, 2, 2, 3};
 
-        System.out.println(findCountOfBid(2, test));
+        System.out.println(findCountOfBid(4, test));
     }
 }
