@@ -1,7 +1,7 @@
 /**
  * Created by Akshayraj
  */
-package ark.coding.temp;
+package ark.coding.interviews.amzn;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,7 +13,6 @@ import java.util.Scanner;
 public class Solution {
     public static void main(String[] args) throws IOException {
         Solution solution = new Solution();
-        GCD gcd = solution.getGCD();
 
         Scanner scanner = new Scanner(System.in);
         int length = scanner.nextInt();
@@ -21,18 +20,27 @@ public class Solution {
         for(int i=0; i<length; i++ ) {
             myArray[i] = scanner.nextInt();
         }
-
-        int greatestCD = gcd.generalizedGCD(length, myArray);
-        System.out.println(greatestCD);
     }
 
     /*********************************************************************
      *                  TEST - 1
+     * Autotype suggestions -
+     * After a user has typed two characters in a search box, show him list of suggestions from a given repository of keywords.
+     * Show atmost 3 suggestions.
      *********************************************************************/
-    // METHOD SIGNATURE BEGINS, THIS METHOD IS REQUIRED
+    /**
+     *
+     * @param numreviews the number of keywords in the repository
+     * @param repository A given repository of keywords, to be returned as suggestions.
+     * @param customerQuery the full string of customer query;
+     *                      Start showing suggestions after the first two characters of the search string
+     * @return List of list of suggestions.
+     *         The multiple lists in the outer list will contain the suggestions, start from the first 2 characters of
+     *         the query, up to the full customer query string
+     */
     List<List<String>> threeKeywordSuggestions(int numreviews,
-                                                List<String> repository,
-                                                String customerQuery) {
+                                               List<String> repository,
+                                               String customerQuery) {
         int lengthOfQuery = customerQuery.length();
         List<List<String>> suggestions = new ArrayList<List<String>>();
         if (lengthOfQuery < 2 || numreviews == 0) {
@@ -66,14 +74,16 @@ public class Solution {
 
         return subStringSuggestions;
     }
-    // METHOD SIGNATURE ENDS
-
-
 
     /*********************************************************************
      *                  TEST - 2
+     * A cluster of servers is in a 2D grid of {@code rows} * {@code columns}
+     * If a server is updated with latest patch/version, it is marked as 1; 0 otherwise
+     * An updated server can update its neighbours (left, right, up, down (not diagonal)) in 1 day
+     * QUESTION:
+     * Given the current state of patched servers,
+     * find minimum number of days it will take to update all servers in a grid.
      *********************************************************************/
-    // METHOD SIGNATURE BEGINS, THIS METHOD IS REQUIRED
     int minimumDays(int rows, int columns, List<List<Integer>> grid) {
         int numberOfMinimumDays = 0;
 
@@ -83,7 +93,6 @@ public class Solution {
             numberOfMinimumDays++;
         }
 
-        // WRITE YOUR CODE HERE
         return numberOfMinimumDays;
     }
 
@@ -192,20 +201,26 @@ public class Solution {
 
         return rows * columns == totalServersUpdated;
     }
-    // METHOD SIGNATURE ENDS
+
+    /*********************************************************************
+     * TEST ENDS
+     *********************************************************************/
 
 
     /*********************************************************************
-     *
+     * DEMO QUESTIONS -
+     * 1. Find GCD of numbers given in an array
+     * 2. Find state of cells after 'n' days
      *********************************************************************/
-
-    GCD getGCD() {
-        return new GCD();
-    }
 
     class GCD
     {
-        // METHOD SIGNATURE BEGINS, THIS METHOD IS REQUIRED
+        /**
+         * 1. Find GCD
+         * @param num number of elements in the array
+         * @param arr array of number
+         * @return
+         */
         public int generalizedGCD(int num, int[] arr) {
             Arrays.sort(arr);
             int tmpGCD = arr[0];
@@ -221,6 +236,17 @@ public class Solution {
         // METHOD SIGNATURE ENDS
     }
 
+    /**
+     * 2. Find state of cells after 'n' days
+     * - There are 8 cells in a straight line. They are either active(1) or inactive(0)
+     * - If cells on the either side are active/inactive, then a given cell goes inactive the next day;
+     *   otherwise it goes active.
+     * - For cells at the edges, assume the "other neighbour" as inactive
+     *
+     * @param states states of the cells today
+     * @param days the number of days after which we want to find the state of the cell
+     * @return the state of the cells after a given number of days, given the current state of the cells.
+     */
     public List<Integer> cellCompete(int[] states, int days) {
         int[] givenState = Arrays.copyOf(states, states.length);
         for (int day = 1; day <= days; day++) {
@@ -234,7 +260,7 @@ public class Solution {
         return finalState;
     }
 
-    public int[] stateAfterOneDay(int[] state) {
+    private int[] stateAfterOneDay(int[] state) {
         int[] newState = new int[8];
         for (int index = 0; index < 8; index++) {
             //edge cells
@@ -267,6 +293,6 @@ public class Solution {
         return newState;
     }
     /*********************************************************************
-     *
+     * DEMO END
      *********************************************************************/
 }
