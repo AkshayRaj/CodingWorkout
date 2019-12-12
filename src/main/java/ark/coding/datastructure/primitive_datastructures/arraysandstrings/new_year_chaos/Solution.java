@@ -117,10 +117,10 @@ public class Solution {
      * However, swap has occurred, which changed the state of the queue;
      * therefore a swap in the opposite direction should happen to restore the original state of the queue, i.e sorted array of integers.
      */
-    private static void swap(int[] queue, int element1Index, int element2Index) {
-        int tmp = queue[element1Index];
-        queue[element1Index] = queue[element2Index];
-        queue[element2Index] = tmp;
+    public static void swap(int[] array, int element1Index, int element2Index) {
+        int tmp = array[element1Index];
+        array[element1Index] = array[element2Index];
+        array[element2Index] = tmp;
     }
 
     // Complete the minimumBribes function below.
