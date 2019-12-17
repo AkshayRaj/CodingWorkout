@@ -4,27 +4,26 @@
 package ark.coding.temp;
 import java.util.Scanner;
 
-import static ark.coding.tools.Utils.swapElements;
+import static ark.coding.algorithm.sorting_algorithms.Sort.bubbleSort;
 
 public class Solution {
 
     private static final Scanner scanner = new Scanner(System.in);
 
-    static void countSwaps(int[] a) {
-        int length = a.length;
+    // Complete the maximumToys function below.
+    static int maximumToys(int[] prices, int k) {
+        bubbleSort(prices);
 
-        int swapCount = 0;
-        for (int iterationCount = 0; iterationCount < length; iterationCount++) {
-            for (int index = 0; index < length - 1; index++) {
-                if (a[index] > a[index + 1]) {
-                    swapElements(a, index, index + 1);
-                    swapCount++;
-                }
-            }
+        int maxToys = 0;
+        int costOfToys = 0;
+        int index = 0;
+        while (costOfToys + prices[index] <= k
+                && index < prices.length) {
+            costOfToys = costOfToys + prices[index];
+            maxToys++;
+            index++;
         }
-        System.out.println(String.format("Array is sorted in %d swaps.", swapCount));
-        System.out.println(String.format("First Element: %d", a[0]));
-        System.out.println(String.format("Last Element: %d", a[length-1]));
+        return maxToys;
     }
 
     public static void main(String[] args) {

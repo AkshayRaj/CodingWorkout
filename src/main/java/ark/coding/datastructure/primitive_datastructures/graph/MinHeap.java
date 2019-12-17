@@ -58,7 +58,7 @@ public final class MinHeap extends BinaryHeap {
         for (int index = 0; index < array.length; index++) {
             heapify(tmpHeap, index);
         }
-        // ^^^ time complexity of heapify is O(n * log(n))
+        // ^^^ time complexity of heap-sort is O(n * log(n))
         // We "heapify" n times; heapify has O(log(n)) time complexity
          *********************************************************************************/
 
@@ -70,7 +70,7 @@ public final class MinHeap extends BinaryHeap {
          *    i.e. element at array index '0'
          */
         int parentIndexOfLastElement = parentIndex(tmpHeap, tmpHeap.length - 1);
-        for (int nonLeafNodeIndex = parentIndexOfLastElement; nonLeafNodeIndex >= 0; parentIndexOfLastElement--) {
+        for (int nonLeafNodeIndex = parentIndexOfLastElement; nonLeafNodeIndex >= 0; nonLeafNodeIndex--) {
             tmpHeap = pushDown(tmpHeap, nonLeafNodeIndex);
         }
 
@@ -307,7 +307,7 @@ public final class MinHeap extends BinaryHeap {
             leftChildIndex = leftChildIndex(tmpHeap, elementIndex);
             rightChildIndex = rightChildIndex(tmpHeap, elementIndex);
         }
-        // ^^^ pushing-down while loop complexity is O(2log(n)) [since we compare with both children]
+        // ^^^ pushing-down while-loop complexity is O(2log(n)) [since we compare with both children]
         // but since 2 is constant, time complexity of pushing-down while loop is O(log(n))
 
         return tmpHeap;
