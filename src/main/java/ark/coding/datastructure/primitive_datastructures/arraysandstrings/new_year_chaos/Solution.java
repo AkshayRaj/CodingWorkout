@@ -3,6 +3,8 @@
  */
 package ark.coding.datastructure.primitive_datastructures.arraysandstrings.new_year_chaos;
 
+import ark.coding.tools.Utils;
+
 import java.util.Scanner;
 
 public class Solution {
@@ -42,6 +44,8 @@ public class Solution {
         int lastElementIndex = queue.length - 1;
 
         int noOfTotalMinimumBribes = 0;
+
+        // iterate from the last person towards the first.
         for (int index = lastElementIndex; index >= 0; index--) {
             int actualPerson = queue[index];
             int expectedPerson = index + 1;// queue goes from 1 -> n; OR n -> 1 (for our loop)
@@ -54,14 +58,14 @@ public class Solution {
             if (expectedPerson != actualPerson) {
                 if (queue[index-1] == expectedPerson) {
                     // this means expectedPerson = queue[index-1]
-                    swap(queue, index, index-1);
+                    Utils.swapElements(queue, index, index-1);
                     bribesGivenByExpectedPerson = 1;
                 } else if (queue[index-2] == expectedPerson) {
                     // this means expectedPerson = queue[index-2]
                     // Note:- Swapping first index-2 with index-1, and then index-1 with index
                     //        maintains the ordering between the elements on the right of the expectedPerson.
-                    swap(queue, index - 2, index - 1);
-                    swap(queue, index - 1, index);
+                    Utils.swapElements(queue, index - 2, index - 1);
+                    Utils.swapElements(queue, index - 1, index);
                     bribesGivenByExpectedPerson = 2;
                 } else {
                     // Expected person has bribed more than 2 times.
@@ -95,6 +99,10 @@ public class Solution {
          * By "undoing" the bribes, we actively try to restore the original state of the queue, one swap at a time.
          * So, our solution reduces to keep track of "swaps" which undo the bribes.
          *
+         * Swapping is very inherent to this solution.
+         * One can try to "formulize" ways to count the number of bribes.
+         * However, swap has occurred, which changed the state of the queue;
+         * therefore a swap in the opposite direction should happen to restore the original state of the queue, i.e sorted array of integers.
          */
     }
 
@@ -110,18 +118,6 @@ public class Solution {
 //
 //        return noOfBribes;
 //    }
-
-    /**
-     * Swapping is very inherent to this solution.
-     * One can try to "formulize" ways to count the number of bribes.
-     * However, swap has occurred, which changed the state of the queue;
-     * therefore a swap in the opposite direction should happen to restore the original state of the queue, i.e sorted array of integers.
-     */
-    public static void swap(int[] array, int element1Index, int element2Index) {
-        int tmp = array[element1Index];
-        array[element1Index] = array[element2Index];
-        array[element2Index] = tmp;
-    }
 
     // Complete the minimumBribes function below.
     public static void minimumBribesWithBubbleSort(int[] queue) {

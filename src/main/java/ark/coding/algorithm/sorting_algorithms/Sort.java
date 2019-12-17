@@ -3,15 +3,34 @@
  */
 package ark.coding.algorithm.sorting_algorithms;
 
+import static ark.coding.tools.Utils.swapElements;
+
 public class Sort {
     static int[] mArray = {5, 2, 4, 6, 1, 3};
 
     public static void main(String[] args){
         insertSort(mArray);
+        printArray(mArray, "insertSort Finish: ");
     }
 
     /**
-     * sorts the given array using insertion Sort
+     * Sorts the given array using bubble Sort
+     * @param array the array to be sorted
+     */
+    public static void bubbleSort(int[] array) {
+        int length = array.length;
+
+        for (int iterationCount = 0; iterationCount < length; iterationCount++) {
+            for (int index = 0; index < length - 1; index++) {
+                if (array[index] > array[index + 1]) {
+                    swapElements(array, index, index + 1);
+                }
+            }
+        }
+    }
+
+    /**
+     * Sorts the given array using insertion Sort
      * @param array the array to be sorted
      */
     public static void insertSort(int[] array){
@@ -20,30 +39,13 @@ public class Sort {
 
             int previousIndex = currentIndex - 1;
 
-            while(previousIndex >= 0 && array[currentIndex] < array[previousIndex]){
-                array = swapElements(currentIndex, previousIndex, array);
+            while(previousIndex >= 0 && array[currentIndex] < array[previousIndex]) {
+                swapElements(array, currentIndex, previousIndex);
 
                 currentIndex--;
                 previousIndex --;
             }
         }
-        printArray(mArray, "insertSort Finish: ");
-    }
-
-    /**
-     * swaps the elements in currentIndex and previous Index in the given array
-     * @param currentIndex points to the element in array[currentIndex]
-     * @param previousIndex points to the element in array[previousIndex]
-     * @param array the array whose elements are to be swapped
-     * @return the array that was passed to this method with the elements swapped
-     */
-    private static int[] swapElements(int currentIndex, int previousIndex, int[] array) {
-
-        int temp = array[currentIndex];
-        array[currentIndex] = array[previousIndex];
-        array[previousIndex] = temp;
-
-        return array;
     }
 
     /**
