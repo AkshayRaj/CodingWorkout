@@ -1,0 +1,11 @@
+
+
+1. Coding round
+   There was a problem statement, and I was asked to complete each of the steps for a Tic-tac-toe game
+   I was able to complete 3 steps in 40 mins. There were another 2 or 3 steps
+
+2. There was another 40 mins of short questions interview. I was asked about 30-35 questions,
+   which ranged from DS, sql, javascript, system designing aspects, and C/C++.
+
+3. Then there was a trouble shooting session. I was asked to fix the failing tests cases for a WebCrawler application.
+   The troubleshooting project is saved in resources folder as a zip file. Import is as a separate maven project in your IDE
