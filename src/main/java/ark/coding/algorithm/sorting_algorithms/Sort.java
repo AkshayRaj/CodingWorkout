@@ -8,7 +8,7 @@ import java.util.Arrays;
 import static ark.coding.tools.Utils.swapElements;
 
 public class Sort {
-    static int[] mArray = {5, 2, 4, 6, 1, 3,10,7,9,8};
+    static int[] mArray = {5, 2, 4, 6, 1, 3, 10, 7, 9, 8, 12, 13, 14,16, 11, 15};
 
     public static void main(String[] args){
         //insertSort(mArray);
