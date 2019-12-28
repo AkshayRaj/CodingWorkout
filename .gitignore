@@ -14,3 +14,4 @@ libs/
 module_codingworkout.xml
 src/main/java/ark/coding/libraries/jackson/ProcTimeStamp.java
 src/main/java/ark/coding/libraries/jackson/file.json
+src/main/java/ark/coding/temp/Solution.java
