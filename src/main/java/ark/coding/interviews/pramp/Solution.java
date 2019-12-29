@@ -53,7 +53,7 @@ public class Solution {
      *  Create an empty array, all elements initialized to zero.
      *  Add items to it, whenever we encounter a non-zero number in the original array.
      *  We thus maintain order.
-     *  This would result in a O(n) space complexity. With the correct approach, we reduce the need for creating an additional array.
+     *  This would result in a O(n) space complexity. With the optimal approach, we reduce the need for creating an additional array.
      *
      * @param array
      * @return
@@ -70,4 +70,5 @@ public class Solution {
         }
         return array;
     }
+
 }
