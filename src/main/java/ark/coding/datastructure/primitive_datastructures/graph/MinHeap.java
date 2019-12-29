@@ -36,6 +36,21 @@ public final class MinHeap extends BinaryHeap {
      */
     int[] heap = new int[]{};
 
+    public MinHeap(int heapSize) {
+        this(heapSize, 0);
+    }
+
+    public MinHeap(int heapSize, int initializer) {
+        heap = new int[heapSize];
+        for (int index = 0; index < heapSize; index++) {
+            heap[index] = initializer;
+        }
+    }
+
+    public MinHeap() {
+
+    }
+
     /**
      * An unsorted, unordered array of positive integers, that are arranged in a "heap" pattern within the array.
      *
