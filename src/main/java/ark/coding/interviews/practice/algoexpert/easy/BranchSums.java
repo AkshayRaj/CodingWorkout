@@ -16,6 +16,42 @@ import java.util.Stack;
 public class BranchSums {
 
     /**
+     * Official approach of Algo-Expert. (I re-worked it)
+     *
+     * - As we go down and trace a branch, keep the sum of all ancestors, traversed so far in the path.
+     * - First traverse the left child, and then the right child.
+     * - We can implement this recursively; terminate the recursion when you encounter a null node.
+     * - When you encounter a leaf node, add the sum to the list.
+     *
+     * @param root the root of the binary tree
+     * @return list of sums of all branches, ordered from leftmost branch to the rightmost.
+     */
+    public static List<Integer> branchSumsRecursive(BinaryTree root) {
+        List<Integer> solution = new ArrayList<>();
+
+        int sumOfAllAncestorsInBranch = 0;
+        calculateBranchSum(root, sumOfAllAncestorsInBranch, solution);
+
+        return solution;
+    }
+
+    private static void calculateBranchSum(BinaryTree node, int sumOfAllAncestorsInBranch, List<Integer> solution) {
+        if (node == null) {
+            return;
+        }
+
+        // for a leaf node, calculate the final sum of the branch, and add it to the list
+        if (node.left == null && node.right == null) {
+            int branchSum = sumOfAllAncestorsInBranch + node.value;
+            solution.add(branchSum);
+        }
+
+        int updatedRunningBranchSum = sumOfAllAncestorsInBranch + node.value;
+        calculateBranchSum(node.left, updatedRunningBranchSum, solution);
+        calculateBranchSum(node.right, updatedRunningBranchSum, solution);
+    }
+
+    /**================================================================================================================================
      * Approach:
      * One of the requirements for the solution is that the sum of branches have to be ordered from leftmost branch -> rightmost branch.
      *
