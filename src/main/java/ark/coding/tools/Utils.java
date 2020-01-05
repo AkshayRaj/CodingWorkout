@@ -3,6 +3,8 @@
  */
 package ark.coding.tools;
 
+import java.util.List;
+
 public class Utils {
 
     public static void printArray(int[] array){
@@ -30,5 +32,12 @@ public class Utils {
         int tmp = array[element1Index];
         array[element1Index] = array[element2Index];
         array[element2Index] = tmp;
+    }
+
+    public static void swapElements(List<Integer> list, int element1Index, int element2Index) {
+        int element1 = list.get(element1Index);
+        int element2 = list.get(element2Index);
+        list.set(element1Index, element2);
+        list.set(element2Index, element1);
     }
 }

@@ -58,7 +58,7 @@ public class Solution {
      * @param array
      * @return
      */
-    static int[] moveZerosToEnd(int[] array) {
+    public static int[] moveZerosToEnd(int[] array) {
         int nextIndexForNonZeroNumber = 0;
         for (int index = 0; index < array.length; index++) {
             if (array[index] != 0) {
