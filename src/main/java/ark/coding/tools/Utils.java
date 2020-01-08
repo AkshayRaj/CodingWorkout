@@ -7,9 +7,20 @@ import java.util.List;
 
 public class Utils {
 
+    public static void printArray(char[] array){
+        for (int index = 0; index  < array.length; index ++){
+            if (index == array.length-1) {
+                System.out.print("'" + array[index] + "'.");
+            }
+            else {
+                System.out.print("'" + array[index] + "', ");
+            }
+        }
+    }
+
     public static void printArray(int[] array){
         for (int index = 0; index  < array.length; index ++){
-            System.out.print( array[index] + " ");
+            System.out.print(array[index] + " ");
         }
     }
 
