@@ -16,9 +16,12 @@ import java.util.List;
 public class MinMaxStack {
     private int[] array = new int[10];
     private int head = -1;
-    private int min = Integer.MAX_VALUE;
-    private int max = Integer.MIN_VALUE;
 
+    // We could use min, max variables to track min/max numbers in the stack.
+    // However, after a pop we need to iterate O(n) to find min/max
+    //
+    // The MinMaxPair represents the min/max of the stack after a number has been pushed to the stack.
+    // We keep a list of such pairs, which map to the element at the head of the stack.
     private List<MinMaxPair> minMaxPairs = new ArrayList<>();
 
     /**
@@ -37,28 +40,14 @@ public class MinMaxStack {
     public int pop() {
         // Write your code here.
         int popped = array[head];
+        minMaxPairs.remove(head);
         head--;
         if (head <= array.length/4 && array.length > 20) {
             // this means size of array is way more than required, and halving it would make the size to 10.
             array = Arrays.copyOfRange(array,0, array.length/2);
         }
 
-        if (popped == max) {
-            max = Integer.MIN_VALUE;
-            for (int index = 0; index <= head; index++) {
-                if (array[index] > max) {
-                    max = array[index];
-                }
-            }
-        }
-        if (popped == min) {
-            min = Integer.MAX_VALUE;
-            for (int index = 0; index <= head; index++) {
-                if (array[index] < min) {
-                    min = array[index];
-                }
-            }
-        }
+
         return popped;
     }
 
@@ -73,11 +62,17 @@ public class MinMaxStack {
         }
         head++;
         array[head] = number;
-        if (number > max) {
-            max = number;
+
+        //================================
+        // Update MinMaxPair
+        if (head == 0) {
+            minMaxPairs.add(new MinMaxPair(number, number));
         }
-        if (number < min) {
-            min = number;
+        if (head > 0) {
+            MinMaxPair previousMinMax = minMaxPairs.get(head-1);
+            int newMin = Math.min(number, previousMinMax.min);
+            int newMax = Math.max(number, previousMinMax.max);
+            minMaxPairs.add(new MinMaxPair(newMin, newMax));
         }
     }
 
@@ -87,7 +82,7 @@ public class MinMaxStack {
      */
     public int getMin() {
         // Write your code here.
-        return min;
+        return minMaxPairs.get(head).min;
     }
 
     /**
@@ -96,7 +91,7 @@ public class MinMaxStack {
      */
     public int getMax() {
         // Write your code here.
-        return max;
+        return minMaxPairs.get(head).max;
     }
 
     private boolean isStackFull() {
