@@ -121,9 +121,10 @@ public class BSTConstruction {
 
             // 2. Find the node to replace with.
             //    Carve it out - No incoming link from parent, no outgoing links to left/right children.
-            BST replacementNode = nodeToRemove.right;
+            BST replacementNode = null;
             BST replacementNodeParent = nodeToRemove;
             if (nodeToRemove.right != null) {
+                replacementNode = nodeToRemove.right;
                 if (replacementNode.left != null) {
                     while (replacementNode.left != null) {
                         replacementNodeParent = replacementNode;
@@ -141,12 +142,12 @@ public class BSTConstruction {
             }
             else if (nodeToRemove.left != null) {
                 replacementNode = nodeToRemove.left;
-                replacementNodeParent = nodeToRemove;
                 if (replacementNode.right != null) {
                     while (replacementNode.right != null) {
                         replacementNodeParent = replacementNode;
                         replacementNode = replacementNodeParent.right;
                     }
+                    // right rotate the sub-tree
                     replacementNodeParent.right = replacementNode.left;
                     replacementNode.left = null;
                 }
@@ -157,28 +158,27 @@ public class BSTConstruction {
             }
             else {
                 // both of `nodeToRemove`'s children are null, i.e. it is a leaf node.
-                replacementNode = null;
+                // we don't have to replace this with anything. Just remove it and deference the pointer from the parent.
+                if (parentNode != null) {
+                    if (leftOrRight) {
+                        parentNode.left = null;
+                    } else {
+                        parentNode.right = null;
+                    }
+                }
+                // if parentNode is null, that means we are removing root.
+                // & we are removing the only node in the tree, as root is a leaf node.
+                return null;
             }
 
             // 3. Replace the nodeToRemove with its replacement
             //      By this point we have -
             //      i)   `nodeToRemove` & its parent
             //      ii)  a fully carved out `replacementNode`
-            if (parentNode == null) {
-                // we are removing the root.
-                this.value = replacementNode.value;
-            }
-            else {
-                replacementNode.left = nodeToRemove.left;
-                replacementNode.right = nodeToRemove.right;
-                nodeToRemove.left = null;
-                nodeToRemove.right = null;
-                if (leftOrRight) {
-                    parentNode.left = replacementNode;
-                }
-                else {
-                    parentNode.right = replacementNode;
-                }
+            if (replacementNode != null) {
+                // `nodeToRemove` has children.
+                // So we replace it with one of its descendants, which is identified and referenced by `replacementNode`
+                nodeToRemove.value = replacementNode.value;
             }
 
             return this;
