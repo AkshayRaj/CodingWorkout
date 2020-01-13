@@ -24,11 +24,31 @@ public class UniqueIntegerPermutations {
         return solution;
     }
 
+    /**
+     * Recursive Fn:
+     * 1. Iterate remaining numbers in the permutationIndex spot
+     *    For each number in remaining numbers list -
+     *    a) Add it to the current permutationIndex spot
+     *    b) Remove the number from remaining numbers list
+     *    c) Increment the permutationIndex spot to the next index, i.e. +1
+     *
+     *    //------------- Recurse on smaller problem set --------//
+     *    d) Call function with the new values (or the updated object)
+     *    //----- After recursion from smaller sized problem returns --------//
+     *
+     *    e) After recursion returns, add the number removed in (b) back to remaining numbers list
+     *    f) permutationIndex by default returns to the same value it was when the function was invoked.
+     *
+     * @param solution Add each permutation calculated to the solution
+     * @param tmpForConstructingPermutation kinda like a worksheet for calculating different permutations.
+     * @param remainingNumbersToAddInPermutation numbers that have not been included in the permutation so far.
+     * @param nextNumberIndex next spot we look at for adding numbers from the remainingNumber list.
+     */
     private static void constructPermutationOfRemainingNumbers(List<List<Integer>> solution,
                                                                Integer[] tmpForConstructingPermutation,
-                                                               List<Integer> numbersToAddInPermutation,
+                                                               List<Integer> remainingNumbersToAddInPermutation,
                                                                int nextNumberIndex) {
-        if (numbersToAddInPermutation.isEmpty()) {
+        if (remainingNumbersToAddInPermutation.isEmpty()) {
             List<Integer> oneOfThePermutationsPossible = Arrays.asList(tmpForConstructingPermutation)
                     .stream()
                     .collect(Collectors.toList());
@@ -36,8 +56,7 @@ public class UniqueIntegerPermutations {
             return;
         }
 
-        for (int index = 0; index < numbersToAddInPermutation.size(); index++) {
-            List<Integer> remainingNumbersToAddInPermutation = new ArrayList<Integer>(numbersToAddInPermutation);
+        for (int index = 0; index < remainingNumbersToAddInPermutation.size(); index++) {
             int number = remainingNumbersToAddInPermutation.remove(index);
 
             tmpForConstructingPermutation[nextNumberIndex] = number;
@@ -46,6 +65,7 @@ public class UniqueIntegerPermutations {
                     tmpForConstructingPermutation,
                     remainingNumbersToAddInPermutation,
                     nextNumberIndex + 1);
+            remainingNumbersToAddInPermutation.add(index, number);
         }
     }
 
@@ -58,8 +78,8 @@ public class UniqueIntegerPermutations {
             Set<Integer> numbersAlreadyIncludedInPermutation = new HashSet<Integer>();
             constructPermutationOfRemainingNumbersV2(
                     solution,
-                    array,
                     tmpForConstructingPermutationsInPlace,
+                    array,
                     numbersAlreadyIncludedInPermutation,
                     0);
         }
@@ -80,8 +100,8 @@ public class UniqueIntegerPermutations {
      */
     private static void constructPermutationOfRemainingNumbersV2(
             final List<List<Integer>> solution,
-            final List<Integer> originalArrayOfUniqueNumbers,
             Integer[] tmpForConstructingPermutation,
+            final List<Integer> originalArrayOfUniqueNumbers,
             Set<Integer> numbersAlreadyInPermutation,
             int nextNumberIndex) {
         if (numbersAlreadyInPermutation.size() == originalArrayOfUniqueNumbers.size()) {
@@ -92,16 +112,15 @@ public class UniqueIntegerPermutations {
             return;
         }
 
-        for (int index = 0; index < originalArrayOfUniqueNumbers.size(); index++) {
-            int nextNumber = originalArrayOfUniqueNumbers.get(index);
+        for (Integer nextNumber : originalArrayOfUniqueNumbers) {
             if (!numbersAlreadyInPermutation.contains(nextNumber)) {
                 numbersAlreadyInPermutation.add(nextNumber);
 
                 tmpForConstructingPermutation[nextNumberIndex] = nextNumber;
                 constructPermutationOfRemainingNumbersV2(
                         solution,
-                        originalArrayOfUniqueNumbers,
                         tmpForConstructingPermutation,
+                        originalArrayOfUniqueNumbers,
                         numbersAlreadyInPermutation,
                         nextNumberIndex + 1);
                 numbersAlreadyInPermutation.remove(nextNumber);
