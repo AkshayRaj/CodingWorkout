@@ -67,7 +67,7 @@ public class TopologicalSort {
 
         return validOrder;
     }
-    // ^^^ Time complexity if O(n * n log(b));
+    // ^^^ Time complexity if O(n * n log(n));
     // (The n log(n)) results from having to sort the list after each pop.
     // If we use MinHeap, the time complexity will drop to just O(n log(n)).
     //
