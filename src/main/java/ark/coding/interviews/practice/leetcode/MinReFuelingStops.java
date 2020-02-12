@@ -50,22 +50,49 @@ public class MinReFuelingStops {
         int distanceTravelledSoFar = 0;
         int gasStationNo = 0;
         int noOfStopsMadeTillNow = 0;
-        return recursive(
-                totalDistance,
-                distanceTravelledSoFar,
-                startFuel,
-                gasStationNo,
-                gasStations,
-                noOfStopsMadeTillNow);
+
+        return memoizedWithIterative(totalDistance, startFuel, gasStations);
+//        return recursive(
+//                totalDistance,
+//                distanceTravelledSoFar,
+//                startFuel,
+//                gasStationNo,
+//                gasStations,
+//                noOfStopsMadeTillNow);
     }
 
-    static int memoizedWithIterative(
-        int totalDistance,
-        int distanceTraveled,
-        int fuelRemaining,
-        int stopNo,
-        List<GasStation> gasStations,
-        int noOfStopsMadeTillNow) {
+    static int memoizedWithIterative(int totalDistance, int fuelRemaining, List<GasStation> gasStations) {
+        int[] maxDistancePossible = new int[gasStations.size() + 1];
+        maxDistancePossible[0] = fuelRemaining;
+
+        for (int stationNo = 0; stationNo < gasStations.size(); stationNo++) {
+            GasStation currentStation = gasStations.get(stationNo);
+
+            /**
+             * Calculate the farthest you can reach with `i`+1 number of stops.
+             * In the next iteration, i has incremented by 1, and you can use the previously computed result
+             * to calculate the next `i`+1.
+             */
+            for (int noOfStops = stationNo; noOfStops >= 0; noOfStops--) {
+                if (maxDistancePossible[noOfStops] >= currentStation.distanceFromStartingPosition) {
+                    maxDistancePossible[noOfStops + 1] = Math.max(
+                            maxDistancePossible[noOfStops + 1],
+                            maxDistancePossible[noOfStops] + currentStation.refuelingCapacity
+                    );
+                }
+            }
+        }
+
+        /**
+         * 1. maxDistancePossible[i] contains the farthest you can reach using `i` number of stops.
+         * 2. <b>Start from i=0</b>
+         *    - If maxDistancePossible[i] >= target, then i is the min number of stops to reach target.
+         */
+        for (int noOfStops = 0; noOfStops <= gasStations.size(); noOfStops++) {
+            if (maxDistancePossible[noOfStops] >= totalDistance) {
+                return noOfStops;
+            }
+        }
 
         return -1;
     }

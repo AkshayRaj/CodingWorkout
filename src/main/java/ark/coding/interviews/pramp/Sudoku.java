@@ -103,7 +103,7 @@ public class Sudoku {
             Character currentChar = board[row][rowCell];
             if (!currentChar.equals('.')) {
                 if (charSet.contains(currentChar)) {
-                    // re-state the original board
+                    // reset the original board
                     board[row][column] = '.';
                     return false;
                 }

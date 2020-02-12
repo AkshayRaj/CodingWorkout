@@ -51,4 +51,10 @@ public class Utils {
         list.set(element1Index, element2);
         list.set(element2Index, element1);
     }
+
+    public static void printList(List sol) {
+        for (Object obj : sol) {
+            System.out.println(obj);
+        }
+    }
 }
