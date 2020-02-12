@@ -3,12 +3,20 @@
  */
 package ark.coding.interviews.practice.algoexpert.medium;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.List;
 
 /**
  * https://www.algoexpert.io/questions/Powerset
+ * The approach implemented in both of the {@link #buildPowerSet(List, Deque, List)}
+ * and {@link #buildPowerSetV2(List, List, Deque, int)} methods follows the Depth-FirstlApproach.
+ *
+ * We can also find the powerset using a Breadth-First-Approach -
+ * Check {@link ark.coding.interviews.practice.coding_patterns_course.subsets.Subsets} for BFS implementation
  */
-class PowerSet {
+public class PowerSet {
     public static List<List<Integer>> powerset(List<Integer> array) {
         List<List<Integer>> solution = new ArrayList<>();
         solution.add(new ArrayList<>());
@@ -59,6 +67,7 @@ class PowerSet {
     }
 
     /**
+     *
      * Build power-set of integers from the {@code originalArray}
      * Only consider the integers from {@code startingIndex} to  {@code originalArray.size()-1},
      * i.e. from {@code startingIndex} to the last element.
@@ -89,5 +98,5 @@ class PowerSet {
             startingIndexToDetermineRemainingNumbers++;
         }
     }
-    // Time  : n * n!
+    // Time  : 2^n (there are 2^n subsets)
 }
