@@ -24,6 +24,12 @@ public class Utils {
         }
     }
 
+    public static void printArray(Integer[] array){
+        for (int index = 0; index  < array.length; index ++){
+            System.out.print(array[index] + " ");
+        }
+    }
+
     public static void reverseArray(int[] array){
         int lastElementIndex = array.length - 1;
 
@@ -56,5 +62,60 @@ public class Utils {
         for (Object obj : sol) {
             System.out.println(obj);
         }
+    }
+
+    public static void printBits(long number) {
+        byte count = 64; // long is 64 bits
+
+        StringBuilder string = new StringBuilder("Number [%d] is ");
+        if (Byte.MIN_VALUE <= number & number <= Byte.MAX_VALUE ) {
+            string.append("a 'byte'");
+            count = 8; // byte is 8 bits
+        }
+        else if (Short.MIN_VALUE <= number & number <= Short.MAX_VALUE ) {
+            string.append("a 'short'");
+            count = 16; // short is 16 bits
+        }
+        else if (Integer.MIN_VALUE <= number & number <= Integer.MAX_VALUE ) {
+            string.append("an 'int'");
+            count = 32; // int is 32 bits
+        }
+        System.out.println(String.format(string.toString(), number));
+
+        int printBitNo = count-1;
+        while (printBitNo >= 0) {
+            if (printBitNo < 10) {
+                System.out.print(printBitNo + "  ");
+            }
+            else {
+                System.out.print(printBitNo + " ");
+            }
+            printBitNo--;
+        }
+
+        long tmp = number;
+        StringBuilder bits = new StringBuilder();
+        while (count > 0) {
+            bits.append("  " + (tmp & 1));
+            tmp >>>= 1;
+            count--;
+        }
+        System.out.println("\n" + bits.reverse().toString());
+    }
+
+    /**
+     * Erases the rightmost set bit of the 64-bit integer.
+     *
+     * A bitwise operation between the number & another number, 1 less than the given number
+     * erases the rightmost bit.
+     *
+     * @param number
+     */
+    public static long eraseRightMostSetBit(long number) {
+        if (number == 0) {
+            System.out.println("Number is " + number + ". No set bit to erase");
+            return number;
+        }
+        return number & (number-1);
     }
 }
