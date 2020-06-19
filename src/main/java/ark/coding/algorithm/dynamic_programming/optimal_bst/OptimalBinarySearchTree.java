@@ -22,7 +22,7 @@ public class OptimalBinarySearchTree {
 
     /**
      * Find the Optimal Binary Search Tree from a given set of keys and probabilities.
-     * 
+     *
      * @param n number of keys to consider for constructing an optimal BST
      * @param keys list of keys. Index of keys ranges from -
      *             1 ~> n; Value at index 0 is not used.
