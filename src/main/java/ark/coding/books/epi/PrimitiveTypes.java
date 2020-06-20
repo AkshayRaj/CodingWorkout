@@ -7,8 +7,6 @@ import com.google.common.collect.ImmutableMap;
 
 import java.util.Map;
 
-import static ark.coding.tools.Utils.printBits;
-
 /**
  * Chapter 4. Primitive Types
  */
@@ -31,17 +29,24 @@ public class PrimitiveTypes {
             .put(14L, 7L)
             .put(15L, 15L)
             .build();
-    private static final long BIT_MASK = 15L;
-    private static int WORD_SIZE = 4;
+    private static final long MASK_4_BIT = 15L;
+    private static final int WORD_SIZE = 4;
+    private static final long MASK_64_BIT = allOnes();
+
 
     public static void main(String[] args) {
-        long number = 47;
+        long number = Integer.MAX_VALUE;
         long equalWeightedClosestNumber = getEqualWeightClosestNumber(number);
 
-        printBits(number);
-        printBits(equalWeightedClosestNumber);
-        System.out.println("Distance: " + Math.abs(number - equalWeightedClosestNumber));
-        System.out.println("Distance left shift: " + Math.abs(number - (number << 1)));
+        System.out.println(add(3,7));
+        //printAllBits(allOnes());
+        System.out.println(increment(number));
+        System.out.println(number);
+        System.out.println(decrement(number));
+        //printBits(number);
+        //printBits(equalWeightedClosestNumber);
+        //System.out.println("Distance: " + Math.abs(number - equalWeightedClosestNumber));
+        //System.out.println("Distance left shift: " + Math.abs(number - (number << 1)));
     }
 
     public static short countBits(int x) {
@@ -148,22 +153,22 @@ public class PrimitiveTypes {
     public static long reverseBits(long number) {
         // break into 16 4-bit words
         // we have a word map to get O(1) time reversals of 4-bit words
-        return    (REVERSE_BITS.get((number >>> (WORD_SIZE * 15)) & BIT_MASK) << WORD_SIZE * 0)
-                | (REVERSE_BITS.get((number >>> (WORD_SIZE * 14)) & BIT_MASK) << WORD_SIZE * 1)
-                | (REVERSE_BITS.get((number >>> (WORD_SIZE * 13)) & BIT_MASK) << WORD_SIZE * 2)
-                | (REVERSE_BITS.get((number >>> (WORD_SIZE * 12)) & BIT_MASK) << WORD_SIZE * 3)
-                | (REVERSE_BITS.get((number >>> (WORD_SIZE * 11)) & BIT_MASK) << WORD_SIZE * 4)
-                | (REVERSE_BITS.get((number >>> (WORD_SIZE * 10)) & BIT_MASK) << WORD_SIZE * 5)
-                | (REVERSE_BITS.get((number >>> (WORD_SIZE * 9)) & BIT_MASK) << WORD_SIZE * 6)
-                | (REVERSE_BITS.get((number >>> (WORD_SIZE * 8)) & BIT_MASK) << WORD_SIZE * 7)
-                | (REVERSE_BITS.get((number >>> (WORD_SIZE * 7)) & BIT_MASK) << WORD_SIZE * 8)
-                | (REVERSE_BITS.get((number >>> (WORD_SIZE * 6)) & BIT_MASK) << WORD_SIZE * 9)
-                | (REVERSE_BITS.get((number >>> (WORD_SIZE * 5)) & BIT_MASK) << WORD_SIZE * 10)
-                | (REVERSE_BITS.get((number >>> (WORD_SIZE * 4)) & BIT_MASK) << WORD_SIZE * 11)
-                | (REVERSE_BITS.get((number >>> (WORD_SIZE * 3)) & BIT_MASK) << WORD_SIZE * 12)
-                | (REVERSE_BITS.get((number >>> (WORD_SIZE * 2)) & BIT_MASK) << WORD_SIZE * 13)
-                | (REVERSE_BITS.get((number >>> (WORD_SIZE * 1)) & BIT_MASK) << WORD_SIZE * 14)
-                | (REVERSE_BITS.get((number >>> (WORD_SIZE * 0)) & BIT_MASK) << WORD_SIZE * 15);
+        return    (REVERSE_BITS.get((number >>> (WORD_SIZE * 15)) & MASK_4_BIT) << WORD_SIZE * 0)
+                | (REVERSE_BITS.get((number >>> (WORD_SIZE * 14)) & MASK_4_BIT) << WORD_SIZE * 1)
+                | (REVERSE_BITS.get((number >>> (WORD_SIZE * 13)) & MASK_4_BIT) << WORD_SIZE * 2)
+                | (REVERSE_BITS.get((number >>> (WORD_SIZE * 12)) & MASK_4_BIT) << WORD_SIZE * 3)
+                | (REVERSE_BITS.get((number >>> (WORD_SIZE * 11)) & MASK_4_BIT) << WORD_SIZE * 4)
+                | (REVERSE_BITS.get((number >>> (WORD_SIZE * 10)) & MASK_4_BIT) << WORD_SIZE * 5)
+                | (REVERSE_BITS.get((number >>> (WORD_SIZE * 9)) & MASK_4_BIT) << WORD_SIZE * 6)
+                | (REVERSE_BITS.get((number >>> (WORD_SIZE * 8)) & MASK_4_BIT) << WORD_SIZE * 7)
+                | (REVERSE_BITS.get((number >>> (WORD_SIZE * 7)) & MASK_4_BIT) << WORD_SIZE * 8)
+                | (REVERSE_BITS.get((number >>> (WORD_SIZE * 6)) & MASK_4_BIT) << WORD_SIZE * 9)
+                | (REVERSE_BITS.get((number >>> (WORD_SIZE * 5)) & MASK_4_BIT) << WORD_SIZE * 10)
+                | (REVERSE_BITS.get((number >>> (WORD_SIZE * 4)) & MASK_4_BIT) << WORD_SIZE * 11)
+                | (REVERSE_BITS.get((number >>> (WORD_SIZE * 3)) & MASK_4_BIT) << WORD_SIZE * 12)
+                | (REVERSE_BITS.get((number >>> (WORD_SIZE * 2)) & MASK_4_BIT) << WORD_SIZE * 13)
+                | (REVERSE_BITS.get((number >>> (WORD_SIZE * 1)) & MASK_4_BIT) << WORD_SIZE * 14)
+                | (REVERSE_BITS.get((number >>> (WORD_SIZE * 0)) & MASK_4_BIT) << WORD_SIZE * 15);
     }
 
     /**
@@ -203,4 +208,66 @@ public class PrimitiveTypes {
         return swapBits(number, count, (byte) (count-1));
     }
 
+    public static long multiply(long x, long y) {
+        long mul = 0;
+
+        return mul;
+    }
+
+    /**
+     * Binary addition using sum & carry method
+     * We do not use arithmetic operators like +,-,*,%,/
+     * We use AND, XOR SHIFT operations
+     *
+     * https://www.electronics-tutorials.ws/combination/comb_7.html
+     *
+     * @param a
+     * @param b
+     * @return
+     */
+    public static long add(long a, long b) {
+        long carry = (a & b) << 1;
+        long sum = (a ^ b);
+
+        while (carry != 0) {
+            long newCarry = (sum & carry) << 1;
+            sum = sum ^ carry;
+            carry = newCarry;
+        }
+
+        return sum;
+    }
+
+    public static long increment(long number) {
+        //return add(number, 1);
+        int noOfShits = 0;
+
+        while (((number >>> noOfShits) & 1L) != 0
+                && noOfShits <= 63) {
+            noOfShits++;
+        }
+
+        return ((number ^ (MASK_64_BIT >>> (63 - noOfShits))));
+    }
+
+    public static long decrement(long number) {
+        int noOfShits = 0;
+
+        while (((number >>> noOfShits) & 1L) != 1
+                && noOfShits <= 63) {
+            noOfShits++;
+        }
+
+        return (number ^ (MASK_64_BIT >>> (63 - noOfShits)));
+    }
+
+    private static long allOnes() {
+        int count = 0;
+        long allOnes = 1L;
+        while (count <= 63) {
+            allOnes |= 1L << count;
+            count++;
+        }
+        return allOnes;
+    }
 }

@@ -103,6 +103,30 @@ public class Utils {
         System.out.println("\n" + bits.reverse().toString());
     }
 
+    public static void printAllBits(long number) {
+        byte count = 64; // long is 64 bits
+        int printBitNo = count-1;
+        while (printBitNo >= 0) {
+            if (printBitNo < 10) {
+                System.out.print(printBitNo + "  ");
+            }
+            else {
+                System.out.print(printBitNo + " ");
+            }
+            printBitNo--;
+        }
+
+        long tmp = number;
+        StringBuilder bits = new StringBuilder();
+        while (count > 0) {
+            bits.append("  " + (tmp & 1));
+            tmp >>>= 1;
+            count--;
+        }
+        System.out.println("\n" + bits.reverse().toString());
+
+    }
+
     /**
      * Erases the rightmost set bit of the 64-bit integer.
      *
