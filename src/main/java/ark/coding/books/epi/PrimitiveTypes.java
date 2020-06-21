@@ -38,6 +38,7 @@ public class PrimitiveTypes {
         long number = Integer.MAX_VALUE;
         long equalWeightedClosestNumber = getEqualWeightClosestNumber(number);
 
+        System.out.println(multiply(10, 27));
         System.out.println(add(3,7));
         //printAllBits(allOnes());
         System.out.println(increment(number));
@@ -208,10 +209,24 @@ public class PrimitiveTypes {
         return swapBits(number, count, (byte) (count-1));
     }
 
-    public static long multiply(long x, long y) {
-        long mul = 0;
+    public static long multiply(final long x, final long y) {
+        long product = 0;
+        long productOfMultiplicandAndNextSetBitOfMultiplier = x;
+        long multiplier = y;
 
-        return mul;
+        while (multiplier != 0) {
+            if ((multiplier & 1L) == 1) {
+                product = add(product, productOfMultiplicandAndNextSetBitOfMultiplier);
+            }
+            productOfMultiplicandAndNextSetBitOfMultiplier <<= 1;
+
+            // keep right shifting multiplier until all bits of multiplier are multiplied with multiplicand.
+            // when multiplier becomes zero, we have multiplied all bits of multiplier with multiplicand.
+            // In this algo, multiplier is used to terminate the while loop.
+            multiplier >>>= 1;
+        }
+
+        return product;
     }
 
     /**
