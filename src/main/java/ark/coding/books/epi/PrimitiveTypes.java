@@ -7,6 +7,8 @@ import com.google.common.collect.ImmutableMap;
 
 import java.util.Map;
 
+import static ark.coding.tools.Utils.printAllBits;
+
 /**
  * Chapter 4. Primitive Types
  */
@@ -33,13 +35,16 @@ public class PrimitiveTypes {
     private static final int WORD_SIZE = 4;
     private static final long MASK_64_BIT = allOnes();
 
-
     public static void main(String[] args) {
         long number = Integer.MAX_VALUE;
         long equalWeightedClosestNumber = getEqualWeightClosestNumber(number);
 
-        System.out.println(multiply(10, 27));
+        printAllBits(allOnesOnRightMask(63));
+        printAllBits(0);
+        System.out.println(subtract(3,8));
         System.out.println(add(3,7));
+        testMultiplication();
+        testDivision();
         //printAllBits(allOnes());
         System.out.println(increment(number));
         System.out.println(number);
@@ -48,6 +53,27 @@ public class PrimitiveTypes {
         //printBits(equalWeightedClosestNumber);
         //System.out.println("Distance: " + Math.abs(number - equalWeightedClosestNumber));
         //System.out.println("Distance left shift: " + Math.abs(number - (number << 1)));
+    }
+
+    public static void testMultiplication() {
+        System.out.println("====== TESTING MULTIPLICATION ==========");
+        System.out.println(multiply(10, 27));
+        System.out.println(multiply(-10,27));
+        System.out.println(multiply(10, -27));
+        System.out.println(multiply(-10, -27));
+        System.out.println("====== END TEST MULT ==========");
+    }
+
+    public static void testDivision() {
+        System.out.println("====== TESTING DIVISION ==========");
+        System.out.println("7/3: " + divisionQuotient(7,3));
+        System.out.println("144/12: " + divisionQuotient(144,12));
+        System.out.println("1/1: " + divisionQuotient(1,1));
+        System.out.println("1/2: " + divisionQuotient(1,2));
+        System.out.println("100/9: " + divisionQuotient(100,9));
+        System.out.println("Long.MAX/Long.MAX: " + divisionQuotient(Long.MAX_VALUE,Long.MAX_VALUE));
+        System.out.println("-12/4: " + divisionQuotient(-12, 4));
+        System.out.println("====== END TEST DIV ==========");
     }
 
     public static short countBits(int x) {
@@ -253,10 +279,63 @@ public class PrimitiveTypes {
         return sum;
     }
 
+    /**
+     *    8     -      3       =      5
+     * Minuend     Subtrahend     Difference
+     * https://www.mathsisfun.com/numbers/subtraction.html
+     *
+     * @param minuend the number to subtract FROM.
+     * @param subtrahend the number to subtract.
+     * @return the difference
+     */
+    public static long subtract(long minuend, long subtrahend) {
+        return add(minuend, -subtrahend);
+    }
+
+    /**
+     * Uses the LEFT ~> RIGHT shift & subtract method.
+     * 1. We start with the leftmost bits, & subtract,
+     *    whenever we see that k leftmost bits are greater than the divisor.
+     * 2. The remainder of this subtraction is then appended with the unconsidered bits.
+     * 3. Go back to step 1, until we reach (cross) the LSB
+     *
+     * https://courses.cs.vt.edu/~cs1104/BuildingBlocks/divide.030.html
+     *
+     * @param dividend
+     * @param divisor
+     * @return
+     */
+    public static long divisionQuotient(long dividend, long divisor) {
+        if (divisor == 0) {
+            throw new IllegalArgumentException("Division by zero is indeterminate");
+        }
+        long quotient = 0;
+
+        int noOfDividendShifts = 64;
+        long bitsUnderConsideration = dividend >> noOfDividendShifts;
+        while (bitsUnderConsideration != 0 || noOfDividendShifts >= 0) {
+            quotient <<= 1;
+
+            if (bitsUnderConsideration >= divisor) {
+                long remainder = subtract(bitsUnderConsideration, divisor);
+
+                // get new dividend by appending the rest of the bits to the `remainder`.
+                // Left SHIFT + XOR appends the rest of the bits that were not considered.
+                dividend = (remainder << (noOfDividendShifts))
+                        ^ (dividend & allOnesOnRightMask(noOfDividendShifts));
+                quotient ^= 1; // append 1 (after the left shift).
+            }
+
+            noOfDividendShifts--;
+            bitsUnderConsideration = dividend >> noOfDividendShifts;
+        }
+
+        return quotient;
+    }
+
     public static long increment(long number) {
         //return add(number, 1);
         int noOfShits = 0;
-
         while (((number >>> noOfShits) & 1L) != 0
                 && noOfShits <= 63) {
             noOfShits++;
@@ -266,6 +345,7 @@ public class PrimitiveTypes {
     }
 
     public static long decrement(long number) {
+        //return subtract(number, 1);
         int noOfShits = 0;
 
         while (((number >>> noOfShits) & 1L) != 1
@@ -276,13 +356,25 @@ public class PrimitiveTypes {
         return (number ^ (MASK_64_BIT >>> (63 - noOfShits)));
     }
 
-    private static long allOnes() {
+    private static long concatenateSetBitOnRightEnd(long number) {
+        return (number << 1) & MASK_64_BIT;
+    }
+
+    private static long allOnesOnRightMask(int noOfBits) {
         int count = 0;
         long allOnes = 1L;
-        while (count <= 63) {
+        while (count < noOfBits) {
             allOnes |= 1L << count;
             count++;
         }
         return allOnes;
+    }
+
+    private static long allOnesLeft(int noOfBits) {
+        return allOnes() << (64 - noOfBits);
+    }
+
+    private static long allOnes() {
+        return allOnesOnRightMask(63);
     }
 }
