@@ -46,12 +46,18 @@ public class Utils {
      * @param element2Index index of the other element; order of the element arguments does not matter.
      */
     public static void swapElements(int[] array, int element1Index, int element2Index) {
+        if (element1Index == element2Index) {
+            return;
+        }
         int tmp = array[element1Index];
         array[element1Index] = array[element2Index];
         array[element2Index] = tmp;
     }
 
     public static void swapElements(List<Integer> list, int element1Index, int element2Index) {
+        if (element1Index == element2Index) {
+            return;
+        }
         int element1 = list.get(element1Index);
         int element2 = list.get(element2Index);
         list.set(element1Index, element2);

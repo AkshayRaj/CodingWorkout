@@ -43,9 +43,11 @@ public class PrimitiveTypes {
         printAllBits(0);
         System.out.println(subtract(3,8));
         System.out.println(add(3,7));
-        testMultiplication();
-        testDivision();
+        //testMultiplication();
+        //testDivision();
+        testQuotientUsingPowerOfTwo();
         //printAllBits(allOnes());
+        //testLeftShift();
         System.out.println(increment(number));
         System.out.println(number);
         System.out.println(decrement(number));
@@ -66,13 +68,33 @@ public class PrimitiveTypes {
 
     public static void testDivision() {
         System.out.println("====== TESTING DIVISION ==========");
-        System.out.println("7/3: " + divisionQuotient(7,3));
-        System.out.println("144/12: " + divisionQuotient(144,12));
-        System.out.println("1/1: " + divisionQuotient(1,1));
-        System.out.println("1/2: " + divisionQuotient(1,2));
-        System.out.println("100/9: " + divisionQuotient(100,9));
-        System.out.println("Long.MAX/Long.MAX: " + divisionQuotient(Long.MAX_VALUE,Long.MAX_VALUE));
-        System.out.println("-12/4: " + divisionQuotient(-12, 4));
+        System.out.println("7/3: " + quotientUsingShiftAndSubtract(7,3));
+        System.out.println("144/12: " + quotientUsingShiftAndSubtract(144,12));
+        System.out.println("1/1: " + quotientUsingShiftAndSubtract(1,1));
+        System.out.println("1/2: " + quotientUsingShiftAndSubtract(1,2));
+        System.out.println("100/9: " + quotientUsingShiftAndSubtract(100,9));
+        System.out.println("Long.MAX/Long.MAX: " + quotientUsingShiftAndSubtract(Long.MAX_VALUE,Long.MAX_VALUE));
+        //System.out.println("-12/4: " + quotientUsingShiftAndSubtract(-12, 4));
+        System.out.println("====== END TEST DIV ==========");
+    }
+
+    public static void testLeftShift() {
+        System.out.println("====== SIGNED LEFT SHIFT ==========");
+        System.out.println(signedLeftShift(144, (byte) 62));
+        printAllBits(signedLeftShift(144, (byte) 62));
+        System.out.println("====== SIGNED LEFT SHIFT ==========");
+    }
+
+    public static void testQuotientUsingPowerOfTwo() {
+        System.out.println("====== TESTING DIVISION POWER OF TWO ==========");
+        System.out.println("7/3: " + quotientUsingPowerOfTwo(7,3));
+        System.out.println("144/12: " + quotientUsingPowerOfTwo(144,12));
+        System.out.println("1/1: " + quotientUsingPowerOfTwo(1,1));
+        System.out.println("1/2: " + quotientUsingPowerOfTwo(1,2));
+        System.out.println("100/9: " + quotientUsingPowerOfTwo(100,9));
+        System.out.println("Integer.MAX/Integer.MAX: " + quotientUsingPowerOfTwo(Integer.MAX_VALUE,Integer.MAX_VALUE));
+        System.out.println("-12/4: " + quotientUsingPowerOfTwo(-12, 4));
+        System.out.println("-12/-4: " + quotientUsingPowerOfTwo(-12, -4));
         System.out.println("====== END TEST DIV ==========");
     }
 
@@ -301,36 +323,82 @@ public class PrimitiveTypes {
      *
      * https://courses.cs.vt.edu/~cs1104/BuildingBlocks/divide.030.html
      *
-     * @param dividend
-     * @param divisor
-     * @return
+     * @param dividend the number to divide
+     * @param divisor the number of divisions to make out of the dividend.
+     * @return the proportion of each division, or the quotient.
      */
-    public static long divisionQuotient(long dividend, long divisor) {
-        if (divisor == 0) {
-            throw new IllegalArgumentException("Division by zero is indeterminate");
-        }
+    public static long quotientUsingShiftAndSubtract(long dividend, long divisor) {
+        checkDivisionByZero(divisor);
+
+        long unSignedDividend = Math.abs(dividend);
+        long unSignedDivisor = Math.abs(divisor);
         long quotient = 0;
 
         int noOfDividendShifts = 64;
-        long bitsUnderConsideration = dividend >> noOfDividendShifts;
+        long bitsUnderConsideration = unSignedDividend >> noOfDividendShifts;
         while (bitsUnderConsideration != 0 || noOfDividendShifts >= 0) {
             quotient <<= 1;
 
-            if (bitsUnderConsideration >= divisor) {
-                long remainder = subtract(bitsUnderConsideration, divisor);
+            if (bitsUnderConsideration >= unSignedDivisor) {
+                long remainder = subtract(bitsUnderConsideration, unSignedDivisor);
 
                 // get new dividend by appending the rest of the bits to the `remainder`.
                 // Left SHIFT + XOR appends the rest of the bits that were not considered.
-                dividend = (remainder << (noOfDividendShifts))
-                        ^ (dividend & allOnesOnRightMask(noOfDividendShifts));
+                unSignedDividend = (remainder << (noOfDividendShifts))
+                        ^ (unSignedDividend & allOnesOnRightMask(noOfDividendShifts));
                 quotient ^= 1; // append 1 (after the left shift).
             }
 
             noOfDividendShifts--;
-            bitsUnderConsideration = dividend >> noOfDividendShifts;
+            bitsUnderConsideration = unSignedDividend >> noOfDividendShifts;
         }
 
-        return quotient;
+        return multiply(quotient, getSignOfQuotient(dividend, divisor));
+    }
+
+    /**
+     * Divides the {@code divident} by the {@code divisor}, and returns the quotient.
+     * This method uses the power of two method to find the quotient.
+     *
+     * @param dividend the number to divide
+     * @param divisor the number of divisions to make out of the dividend.
+     * @return the proportion of each division, or the quotient.
+     */
+    public static long quotientUsingPowerOfTwo(int dividend, int divisor) {
+        checkDivisionByZero(divisor);
+
+        long unSignedDividend = Math.abs(dividend);
+        long unSignedDivisor = Math.abs(divisor);
+        // 1. Start with largest possible ((2^k)*divisor); For 64-bit integer, start with k=63 ~> k=0
+        // 2. (a) when ((2^k)*divisor) is less than dividend, add (2^k) to quotient
+        //    (b) subtract ((2^k)*divisor) from dividend; the remainder is the new dividend
+        // 3. subtract k & GOTO step-2
+        // 4. stop when k < 0.
+
+        long quotient = 0;
+        byte powerOfTwo = 32; // or number of left shifts of the binary equivalent.
+        while (powerOfTwo >= 0) {
+            long divisorProductWithPowerOfTwo = unSignedDivisor << powerOfTwo;
+            if (unSignedDividend >= divisorProductWithPowerOfTwo) {
+                quotient = add(quotient, (1L << powerOfTwo));
+                unSignedDividend = subtract(unSignedDividend, divisorProductWithPowerOfTwo);
+            }
+            powerOfTwo--;
+        }
+
+        return multiply(quotient, getSignOfQuotient(dividend, divisor));
+    }
+
+    public static long signedLeftShift(long number, byte shifts) {
+        //printAllBits(number);
+
+        boolean setBit = (number >>> 63) > 0;
+        if (setBit) {
+            return (number << shifts) | allOnesLeft(1);
+        }
+        else {
+            return (number << shifts) & allOnesOnRightMask(63);
+        }
     }
 
     public static long increment(long number) {
@@ -376,5 +444,27 @@ public class PrimitiveTypes {
 
     private static long allOnes() {
         return allOnesOnRightMask(63);
+    }
+
+    /**
+     * If the operands of the division operation have the same sign,
+     * then the quotient will be a positive integer; otherwise it will be a negative.
+     *
+     * By XOR-ing the operands, we get the difference in the sign bits of the operands.
+     *
+     * @param x one of the operands of the division operation
+     * @param y the other operand of the division operation
+     * @return
+     */
+    private static int getSignOfQuotient(long x, long y) {
+        return ((((x ^ y) >>> 31) & 1) == 1)
+                ? -1
+                : 1;
+    }
+
+    private static void checkDivisionByZero(long divisor) {
+        if (divisor == 0) {
+            throw new IllegalArgumentException("Division by zero is indeterminate");
+        }
     }
 }
