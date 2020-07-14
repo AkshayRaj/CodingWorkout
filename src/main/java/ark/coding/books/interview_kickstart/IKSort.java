@@ -12,8 +12,7 @@ public class IKSort {
         int[] array = new int[]{111,12,39,14,157,16,217,183,19,2};
 
         //System.out.println(getKthSmallestElement(array, 5));
-        //printArray(array);
-
+        printArray(array); System.out.println();
         quickSort(array);
         printArray(array);
     }
@@ -55,14 +54,14 @@ public class IKSort {
     }
 
     private static void quickSort(int[] array) {
-        partitionSort(array, 0, array.length-1);
+        hoaresPartition(array, 0, array.length-1);
     }
 
-    private static void partitionSort(int[] array, int low, int high) {
+    private static void lomutosPartition(int[] array, int low, int high) {
         if (low >= high) {
             return;
         }
-        int pivot = ((int)Math.random()/(high-low+1)) + low;
+        int pivot = ((int)Math.random()%(high-low+1)) + low;
         swapElements(array, pivot, low); // store pivot at lowIndex
 
         int index = low+1; // iterates from low+1 to end of array
@@ -77,8 +76,46 @@ public class IKSort {
         swapElements(array, low, partitionIndex);
 
         // sort left & right sub-arrays
-        partitionSort(array, low, partitionIndex-1);
-        partitionSort(array, partitionIndex+1, high);
+        lomutosPartition(array, low, partitionIndex-1);
+        lomutosPartition(array, partitionIndex+1, high);
+    }
+
+    private static void hoaresPartition(int[] array, int low, int high) {
+        if (low >= high) {
+            return;
+        }
+
+        // Place the pivot to the start of the sub-array.
+        int pivotIdx = ((int)(Math.random()*Integer.MAX_VALUE)%(high-low+1)) + low;
+        swapElements(array, low, pivotIdx);
+        int pivot = array[low];
+
+        // Hoare's Partition :
+        // Two pointers go in opposite direction.
+        // Pointers stop after they "cross" each other (not when they meet, they have to cross)
+        int leftIndex = low+1; // ~>> left to right
+        int rightIndex = high; // <<~ right to left
+        partitionLoop: while (leftIndex <= rightIndex) {
+            checkForBiggerNumber:  while (leftIndex <= high && array[leftIndex] < pivot)
+                                            leftIndex++;
+            checkForSmallerNumber: while (rightIndex > low && array[rightIndex] >= pivot)
+                                            rightIndex--;
+
+            // swap elements in wrong positions.
+            // At this point leftIdx & rightIdx _could_ have crossed each other. So check for that.
+            if (leftIndex < rightIndex) {
+                swapElements(array, leftIndex, rightIndex);
+            }
+        }
+
+        // at the end of `partitionLoop`, rightIdx will be pointing to the partitionIdx.
+        // Partition Index is the index that partitions the array into two parts.
+        int partitionIndex = rightIndex;
+        swapElements(array, low, partitionIndex);
+
+        // sort left & right sub-arrays
+        hoaresPartition(array, low, partitionIndex-1);
+        hoaresPartition(array, partitionIndex+1, high);
     }
 
 }
