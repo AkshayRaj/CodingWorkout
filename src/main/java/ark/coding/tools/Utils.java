@@ -64,9 +64,21 @@ public class Utils {
         list.set(element2Index, element1);
     }
 
-    public static void printList(List sol) {
-        for (Object obj : sol) {
-            System.out.println(obj);
+    public static void printList(List list) {
+        for (int obj = 0; obj < list.size(); obj++) {
+            System.out.print(list.get(obj));
+            if (obj < list.size()-1) {
+                System.out.print("-");
+            }
+        }
+    }
+
+    public static void printListInReverse(List list) {
+        for (int obj = list.size()-1; obj >= 0; obj--) {
+            System.out.print(list.get(obj));
+            if (obj > 0) {
+                System.out.print("-");
+            }
         }
     }
 
@@ -147,5 +159,31 @@ public class Utils {
             return number;
         }
         return number & (number-1);
+    }
+
+    public static void swapElements(char[] array, int idx1, int idx2) {
+        if (idx1 == idx2) {
+            return;
+        }
+        char tmp = array[idx1];
+        array[idx1] = array[idx2];
+        array[idx2] = tmp;
+    }
+
+    public static boolean isPalindrome(String string) {
+        if (string.isEmpty()) {
+            return false;
+        }
+
+        int fIdx = 0; // forward index
+        int rIdx = string.length()-1; // reverse index
+        while (fIdx < rIdx) {
+            if (string.charAt(fIdx) != string.charAt(rIdx)) {
+                return false;
+            }
+            fIdx++;
+            rIdx--;
+        }
+        return true;
     }
 }

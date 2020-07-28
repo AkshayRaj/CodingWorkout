@@ -54,10 +54,21 @@ public class IKSort {
     }
 
     private static void quickSort(int[] array) {
-        //lomutosPartition(array, 0, array.length-1);
+        lomutosPartition(array, 0, array.length-1);
         //hoaresPartition(array, 0, array.length-1);
     }
 
+    /**
+     * Lomuto's partition maintains the order of lower numbers than pivot, if index goes from 0 ~> n
+     * It will maintain the order of bigger elements, if index goes from n ~> 0
+     *
+     * In other words, it will maintain order of the partition whose index it tracks.
+     * For a left ~> right traversal, we maintain the {@code smallerIdx}, so this will maintain order of smaller elements.
+     *
+     * @param subArray The subarray bounded by the low & high
+     * @param low start of the sub-array; inclusive.
+     * @param high end of the sub-array; inclusive.
+     */
     private static void lomutosPartition(int[] subArray, int low, int high) {
         if (low >= high) {
             return;
