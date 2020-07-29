@@ -1,7 +1,9 @@
 /**
  * Created by Akshayraj
  */
-package ark.coding.books.interview_kickstart.trees;
+package ark.coding.books.interview_kickstart.trees.bfs;
+
+import ark.coding.books.interview_kickstart.trees.TreeNode;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

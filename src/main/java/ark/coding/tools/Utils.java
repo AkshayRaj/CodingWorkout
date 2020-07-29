@@ -54,14 +54,14 @@ public class Utils {
         array[element2Index] = tmp;
     }
 
-    public static void swapElements(List<Integer> list, int element1Index, int element2Index) {
-        if (element1Index == element2Index) {
+    public static <T> void swapElements(List<T> list, int idx1, int idx2) {
+        if (idx1 == idx2) {
             return;
         }
-        int element1 = list.get(element1Index);
-        int element2 = list.get(element2Index);
-        list.set(element1Index, element2);
-        list.set(element2Index, element1);
+        T element1 = list.get(idx1);
+        T element2 = list.get(idx2);
+        list.set(idx1, element2);
+        list.set(idx2, element1);
     }
 
     public static void printList(List list) {
