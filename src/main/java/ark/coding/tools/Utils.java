@@ -186,4 +186,14 @@ public class Utils {
         }
         return true;
     }
+
+    public static void reverseList(List<Integer> list) {
+        int low = 0;
+        int high = list.size()-1;
+        while (low < high) {
+            swapElements(list, low, high);
+            low++;
+            high--;
+        }
+    }
 }
