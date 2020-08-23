@@ -4,8 +4,7 @@
 package ark.coding.interviews.lyft;
 
 
-import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
 
 public class Solution {
 

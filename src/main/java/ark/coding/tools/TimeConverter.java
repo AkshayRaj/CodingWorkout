@@ -1,11 +1,7 @@
 package ark.coding.tools;
 
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.Locale;
-import java.util.TimeZone;
 
 /**
  * Created by Akshayraj on 3/9/16.

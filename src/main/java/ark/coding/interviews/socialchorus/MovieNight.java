@@ -1,7 +1,7 @@
 package ark.coding.interviews.socialchorus;
 
-import java.util.*;
 import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class MovieNight {
     public static Boolean canViewAll(Collection<Movie> movies) {

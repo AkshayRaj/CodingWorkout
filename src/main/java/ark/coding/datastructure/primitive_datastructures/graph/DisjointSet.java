@@ -8,11 +8,7 @@ package ark.coding.datastructure.primitive_datastructures.graph;
  * In a data structure of disjoint sets every set contains a representative, which is one member of the set.
  */
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * What is Disjoint-set data structure?

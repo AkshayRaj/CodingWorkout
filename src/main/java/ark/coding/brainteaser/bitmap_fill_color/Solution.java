@@ -1,5 +1,6 @@
 package ark.coding.brainteaser.bitmap_fill_color;
-import java.util.*;
+
+import java.util.Scanner;
 
 public class Solution {
     public static class Bitmap {

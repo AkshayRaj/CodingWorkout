@@ -1,7 +1,6 @@
 package ark.coding.exercise.print_matrix_in_spiral_form;
 /* This code is adopted from the solution given
    @ http://effprog.blogspot.com/2011/01/spiral-printing-of-two-dimensional.html */
-import java.lang.String;
 
 public class SpiralMatrix {
     private static final int ROW = 4;

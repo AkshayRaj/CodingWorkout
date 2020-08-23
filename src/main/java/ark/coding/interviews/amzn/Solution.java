@@ -4,11 +4,7 @@
 package ark.coding.interviews.amzn;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Solution {
     public static void main(String[] args) throws IOException {

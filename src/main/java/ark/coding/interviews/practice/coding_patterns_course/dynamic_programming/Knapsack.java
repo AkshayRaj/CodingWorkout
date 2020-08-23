@@ -3,10 +3,6 @@
  */
 package ark.coding.interviews.practice.coding_patterns_course.dynamic_programming;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Stream;
-
 public class Knapsack {
 
     public int solveKnapsack(int[] profits, int[] weights, int maxCapacity) {

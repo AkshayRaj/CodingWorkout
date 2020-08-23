@@ -3,9 +3,6 @@
  */
 package ark.coding.exercise.datascience;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 public class CoPrime {
 
     static int[] coprimeCount(int[] A) {

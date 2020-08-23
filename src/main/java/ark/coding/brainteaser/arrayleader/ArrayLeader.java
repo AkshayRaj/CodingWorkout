@@ -1,6 +1,7 @@
 package ark.coding.brainteaser.arrayleader;
 
 import ark.coding.Solution;
+
 import java.util.Arrays;
 
 public class ArrayLeader implements Solution<Integer> {

@@ -3,7 +3,8 @@
  */
 package ark.coding.interviews.practice.algoexpert.medium;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * https://www.algoexpert.io/questions/River%20Sizes

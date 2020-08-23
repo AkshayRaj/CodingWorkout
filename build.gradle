@@ -3,9 +3,9 @@ apply plugin: 'java'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.14.1' //we want gradle 2.10 to run this project
-}
+//task wrapper(type: Wrapper) {
+//    gradleVersion = '2.14.1' //we want gradle 2.10 to run this project
+//}
 
 repositories {
     flatDir {
