@@ -5,6 +5,14 @@ import ark.coding.tools.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Cyclic Sort uses the technique of finding cycles in an array.
+ * One of the characteristics of using this pattern is that it works very well on consecutive numbers.
+ *
+ * By extension, this also works great work on Arithmetic & Geometric Progressions.
+ * In AP & GP, the key (or in case of array, the index) can be found in O(1) time,
+ * if you know the Value in the <K,V> pair
+ */
 public class CyclicSort {
 
     public static void cyclicSort(int[] nums) {
@@ -246,5 +254,88 @@ public class CyclicSort {
             }
         }
         return singleNumber;
+    }
+
+    /**
+     * https://leetcode.com/problems/find-the-duplicate-number/
+     *
+     * Given an array nums containing n + 1 integers where each integer is between 1 and n (inclusive),
+     * prove that at least one duplicate number must exist.
+     * Assume that there is only one duplicate number, find the duplicate one.
+     *
+     * @param nums
+     * @return
+     */
+    public int findDuplicate(int[] nums) {
+        int duplicate = 0;
+
+        int idx = 0;
+        cyclicSort: while (idx < nums.length) {
+            int expectedIdx = nums[idx];
+            if (nums[idx] == nums[expectedIdx]) {
+                duplicate = nums[idx];
+                break cyclicSort;
+            }
+
+            if (nums[idx] != nums[expectedIdx]) {
+                Utils.swapElements(nums, expectedIdx, idx);
+            }
+            else {
+                idx++;
+            }
+        }
+
+        return duplicate;
+    }
+
+    /**
+     * https://leetcode.com/problems/set-mismatch/
+     *
+     * The set S originally contains numbers from 1 to n.
+     * But unfortunately, due to the data error, one of the numbers in the set got duplicated to another number in the set,
+     * which results in repetition of one number and loss of another number.
+     *
+     * Given an array nums representing the data status of this set after the error.
+     * Your task is to firstly find the number occurs twice and then find the number that is missing.
+     * Return them in the form of an array.
+     *
+     * Approach:
+     *  The input is an arithmetic progression. So we use cyclic sort swaps.
+     *
+     * @param nums
+     * @return
+     */
+    public int[] findErrorNums(int[] nums) {
+        int[] errorNums = new int[2];
+
+        int idx = 0;
+        cyclicSort: while (idx < nums.length) {
+            int expectedIdx = nums[idx] - 1;
+            if (expectedIdx != idx && nums[expectedIdx] == nums[idx]) {
+                // there is a duplicate, as this number already exists at the expectedIdx
+                // and the current idx != expectedIdx
+                errorNums[0] = nums[expectedIdx];
+                idx++;
+                continue cyclicSort;
+            }
+
+            if (nums[expectedIdx] != nums[idx]) {
+                Utils.swapElements(nums, idx, expectedIdx);
+            }
+            else {
+                idx++;
+            }
+        }
+        // at the end of this while loop, all numbers are located at the right position
+        // except the duplicated number, or rather the index that contains the duplicated number
+
+        findMissingNumber: for (idx = 0; idx < nums.length; idx++) {
+            if (nums[idx]-1 != idx) {
+                errorNums[1] = idx+1;
+                break findMissingNumber;
+            }
+        }
+
+        return errorNums;
     }
 }

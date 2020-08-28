@@ -1,7 +1,7 @@
 /**
  * Created by Akshayraj
  */
-package ark.coding.books.interview_kickstart;
+package ark.coding.books.interview_kickstart.sort;
 
 import static ark.coding.tools.Utils.printArray;
 import static ark.coding.tools.Utils.swapElements;
