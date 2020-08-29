@@ -12,6 +12,14 @@ import java.util.List;
  * By extension, this also works great work on Arithmetic & Geometric Progressions.
  * In AP & GP, the key (or in case of array, the index) can be found in O(1) time,
  * if you know the Value in the <K,V> pair
+ *
+ ** NOTE:
+ * Cyclic sort, along with {@link SelectionSort} does the least number of swaps to get a sorted array.
+ * While {@link SelectionSort} is "index oriented" algorithm, {@link CyclicSort} is "value oriented" one.
+ * - {@link SelectionSort} picks an index, and then tries to find the value in the rest of the array that should go
+ *   into that index.
+ * - On the contrary, {@link CyclicSort} picks an index, and then tries to find the correct index in the rest of the array
+ *   for the value in the current index.
  */
 public class CyclicSort {
 
