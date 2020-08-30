@@ -1,5 +1,8 @@
 package ark.coding.books.interview_kickstart.counting;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class CountWithArrayOrMap {
 
     /**
@@ -37,5 +40,44 @@ public class CountWithArrayOrMap {
             alphabetCount[alphabetKey] = alphabetCount[alphabetKey] - 1;
         }
         return extraChar;
+    }
+
+    /**
+     * https://leetcode.com/problems/single-number-ii/
+     *
+     * Given a non-empty array of integers, every element appears three times except for one, which appears exactly once.
+     * Find that single one.
+     *
+     * Note:
+     * Your algorithm should have a linear runtime complexity. Could you implement it without using extra memory?
+     * Example 1:
+     * Input: [2,2,3,2]
+     * Output: 3
+     *
+     * Example 2:
+     * Input: [0,1,0,1,0,1,99]
+     * Output: 99
+     *
+     * APPROACH:
+     * 1. Use HashMap to store number & count. Time: O(n) Space: O(n)
+     * 2. Academic in nature - uses bit manipulation
+     *    {@link ark.coding.books.interview_kickstart.bit_manipulation.ANDXOR#singleNumber(int[])}
+     *
+     * @param nums
+     * @return
+     */
+    public int singleNumber(int[] nums) {
+        Map<Integer, Integer> numberCountMap = new HashMap<>();
+
+        for (int ptr = 0; ptr < nums.length; ptr++) {
+            int element = nums[ptr];
+            numberCountMap.put(element, numberCountMap.getOrDefault(element, 0) + 1);
+        }
+
+        int singleNumber = nums[0];
+        for (Map.Entry<Integer, Integer> entry : numberCountMap.entrySet()) {
+            if (entry.getValue() == 1) singleNumber = entry.getKey();
+        }
+        return singleNumber;
     }
 }

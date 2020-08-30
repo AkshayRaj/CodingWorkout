@@ -1,5 +1,7 @@
 package ark.coding.books.interview_kickstart.sort;
 
+import ark.coding.tools.Utils;
+
 /**
  * Selection sort, alongwith {@link CyclicSort} does the least number of swaps to get a sorted array
  * While {@link SelectionSort} is "index oriented" algorithm, {@link CyclicSort} is "value oriented" one.
@@ -12,6 +14,13 @@ public class SelectionSort {
 
     public static void selectionSort(int[] array) {
         // sort the array
+        for (int idxUnderFocus = 0; idxUnderFocus < array.length; idxUnderFocus++) {
+            int idxOfMin = idxUnderFocus;
+            for (int ptr = idxUnderFocus+1; ptr < array.length; ptr++) {
+                if (array[ptr] < array[idxOfMin]) idxOfMin = ptr;
+            }
+            Utils.swapElements(array, idxUnderFocus, idxOfMin);
+         }
     }
 
     /**
@@ -32,9 +41,50 @@ public class SelectionSort {
      * @param row
      * @return
      */
-    public int minSwapsCouples(int[] row) {
+    public int minSwapsCouples_LinearTimeLinearSpace(int[] row) {
+        // Use an auxiliary array, that is a reverse index map
+        // the elements go from 0 ~> row.length-1
+        int[] rowElementReverseMap = new int[row.length];
+        for (int idx = 0; idx < row.length; idx++) {
+            int element = row[idx];
+            rowElementReverseMap[element] = idx;
+        }
+
         int noOfSwaps = 0;
+        for (int idx = 0; idx < row.length-1; idx = idx+2) {
+            int currentElement = row[idx];
+            int actualPartner = row[idx+1];
+            int expectedPartner = currentElement^1;
+            if (actualPartner != expectedPartner) {
+                Utils.swapElements(row, idx+1, rowElementReverseMap[expectedPartner]);
+                Utils.swapElements(rowElementReverseMap, expectedPartner, actualPartner);
+                noOfSwaps++;
+            }
+        }
 
         return noOfSwaps;
     }
+
+    public int minSwapsCouples_QuadraticTimeLinearSpace(int[] row) {
+        int noOfSwaps = 0;
+        for (int idx = 0; idx < row.length-1; idx = idx+2) {
+            int currentElement = row[idx];
+            int expectedPartner = currentElement^1;
+            if (row[idx+1] != expectedPartner) {
+
+                // `findPartner` loop takes additional O(n) time for each unhappy couple,
+                // thus making Time: O(n^2), Space O(1)
+                findPartner: for (int ptr = idx + 2; ptr < row.length; ptr++) {
+                    if (row[ptr] == expectedPartner) {
+                        Utils.swapElements(row, ptr, idx+1);
+                        noOfSwaps++;
+                        break findPartner;
+                    }
+                }
+            }
+        }
+
+        return noOfSwaps;
+    }
+
 }

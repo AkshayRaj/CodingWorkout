@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * Cyclic Sort uses the technique of finding cycles in an array.
- * One of the characteristics of using this pattern is that it works very well on consecutive numbers.
+ * - One of the characteristics of using this pattern is that it works very well on consecutive numbers.
  *
  * By extension, this also works great work on Arithmetic & Geometric Progressions.
  * In AP & GP, the key (or in case of array, the index) can be found in O(1) time,
