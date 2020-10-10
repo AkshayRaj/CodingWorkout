@@ -3,7 +3,7 @@ package ark.coding.interviews.paypal;
 import java.util.*;
 
 public class QuestionAug2020 {
-    
+
     public static List<Integer> hackerCards(List<Integer> collection, int d) {
         // i: 0 ~> collection.size-1
         // collection[i] != i+1 && not in giftBag, d = d - (i+1), add (i+1) to giftBag
