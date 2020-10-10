@@ -2,8 +2,7 @@ package ark.coding.books.interview_kickstart.sort;
 
 import ark.coding.tools.Utils;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Cyclic Sort uses the technique of finding cycles in an array.
@@ -345,5 +344,44 @@ public class CyclicSort {
         }
 
         return errorNums;
+    }
+
+    /**
+     * https://leetcode.com/problems/k-similar-strings/solution/
+     *
+     * Cycle decomposition - https://youtu.be/6CwiYoEsEPI
+     * Cycle Notation - https://youtu.be/MpKG6FmcIHk
+     *
+     * @param A
+     * @param B
+     * @return
+     */
+    public int kSimilarity(String A, String B) {
+        int kSimilarity = 0;
+
+        // state A ~> state B
+        // identify shortest possible distance from A ~> B using BFS
+        Queue<String> frontier = new LinkedList<String>();
+        frontier.offer(A);
+
+        Map<String, Integer> kDistanceMap = new HashMap<>();
+        kDistanceMap.put(A, 0);
+
+        char[] aArray = A.toCharArray();
+        for (int idx = 0; idx < aArray.length; idx++) {
+            char aChar = aArray[idx];
+            char bChar = B.charAt(idx);
+            if (aChar == bChar) continue;
+
+            // where does the frontier go ??
+            for (int aCharIdx = idx; aCharIdx < aArray.length; aCharIdx++) {
+                if (aArray[aCharIdx] == bChar && bChar != B.charAt(aCharIdx)) {
+                    String nextState = new String(aArray);
+                    kDistanceMap.put(nextState, kDistanceMap.getOrDefault(nextState, 0) + 1);
+                }
+            }
+        }
+
+        return kSimilarity;
     }
 }
