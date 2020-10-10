@@ -18,6 +18,17 @@ public class Utils {
         }
     }
 
+    public static void printArray(Object[] array){
+        for (int index = 0; index  < array.length; index ++){
+            if (index == array.length-1) {
+                System.out.print("'" + array[index] + "'.");
+            }
+            else {
+                System.out.print("'" + array[index] + "', ");
+            }
+        }
+    }
+
     public static void printArray(int[] array){
         for (int index = 0; index  < array.length; index ++){
             System.out.print(array[index] + " ");
@@ -161,13 +172,23 @@ public class Utils {
         return number & (number-1);
     }
 
-    public static void swapElements(char[] array, int idx1, int idx2) {
+    /**
+     * Swap the elements are {@code idx1} and {@code idx2} of the {@code array}
+     *
+     * @param array
+     * @param idx1
+     * @param idx2
+     * @return true, if there was a swap
+     *         false, otherwise
+     */
+    public static boolean swapElements(char[] array, int idx1, int idx2) {
         if (idx1 == idx2) {
-            return;
+            return false;
         }
         char tmp = array[idx1];
         array[idx1] = array[idx2];
         array[idx2] = tmp;
+        return true;
     }
 
     public static boolean isPalindrome(String string) {
