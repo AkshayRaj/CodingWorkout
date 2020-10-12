@@ -8,6 +8,7 @@ import java.util.*;
 public class KeysAndDoorsShortestPath {
     static final Set<Character> DOOR_SET = getDoorSet();
     static final int[] KEY_SET = getKeySet();
+    static boolean[][][] visited;
 
     static int[][] find_shortest_path(String[] grid) {
         // 1. find start
@@ -25,10 +26,10 @@ public class KeysAndDoorsShortestPath {
         int[][] solution = new int[][]{}; // initialize to no solution exists state.
         // 2. bfs start ~> stop
         //    - keep finding neighbours
-        //    - track path from start ~> intermediary node
-        //    - track set of keys collected from start ~> intermediary node
+        //    - track parent of each neighbour; from start ~> intermediary node
+        //    - track set of keys collected from start ~> intermediary node (as bitmask)
         //    - track cells visited with same keyset
-        boolean[][][] visited = new boolean[grid.length][grid[0].length()][1024];
+        visited = new boolean[grid.length][grid[0].length()][1024];
         Queue<Node> frontier = new LinkedList<>();
         frontier.add(new Node(start[0],start[1], grid, null, 0));
         visited[start[0]][start[1]][0] = true;
@@ -47,42 +48,42 @@ public class KeysAndDoorsShortestPath {
                 return solution;
             }
 
-            frontier.addAll(getNeighboursOfNode(head, grid, visited));
+            frontier.addAll(getNeighboursOfNode(head, grid));
         }
 
         return solution;
     }
 
-    private static Collection<Node> getNeighboursOfNode(Node head, String[] grid, boolean[][][] visited) {
+    private static Collection<Node> getNeighboursOfNode(Node head, String[] grid) {
         ArrayList<Node> neighbours = new ArrayList<>();
 
         // up
         if (head.row-1 >= 0) {
             Node neighbour = new Node(head.row-1, head.col, grid, head, head.keyset);
-            addNeighbourIfNotVisitedWithKeySuperset(neighbour, neighbours, visited);
+            addNeighbourIfNotVisitedWithKeySuperset(neighbour, neighbours);
         }
         // down
         if (head.row+1 < grid.length) {
             Node neighbour = new Node(head.row+1, head.col, grid, head, head.keyset);
-            addNeighbourIfNotVisitedWithKeySuperset(neighbour, neighbours, visited);
+            addNeighbourIfNotVisitedWithKeySuperset(neighbour, neighbours);
         }
         // left
         if (head.col-1 >= 0) {
             Node neighbour = new Node(head.row, head.col-1, grid, head, head.keyset);
-            addNeighbourIfNotVisitedWithKeySuperset(neighbour, neighbours, visited);
+            addNeighbourIfNotVisitedWithKeySuperset(neighbour, neighbours);
         }
         // right
         if (head.col+1 < grid[head.row].length()) {
             Node neighbour = new Node(head.row, head.col+1, grid, head, head.keyset);
-            addNeighbourIfNotVisitedWithKeySuperset(neighbour, neighbours, visited);
+            addNeighbourIfNotVisitedWithKeySuperset(neighbour, neighbours);
         }
 
         return neighbours;
     }
 
-    private static void addNeighbourIfNotVisitedWithKeySuperset(Node neighbour, ArrayList<Node> neighbours, boolean[][][] visited) {
+    private static void addNeighbourIfNotVisitedWithKeySuperset(Node neighbour, ArrayList<Node> neighbours) {
         // if the node was already visited with current keyset, then no need to visit again
-        if (isNodeVisitedWithKeyset(neighbour, visited)) {
+        if (isNodeVisitedWithKeyset(neighbour)) {
             return;
         }
 
@@ -90,17 +91,27 @@ public class KeysAndDoorsShortestPath {
             // check if we have the corresponding key
             if (neighbour.contains(Character.toLowerCase(neighbour.datum))) {
                 neighbours.add(neighbour);
-                visited[neighbour.row][neighbour.col][neighbour.keyset] = true;
+                markVisited(neighbour);
             }
         } else {
             if (neighbour.datum != '#') {
                 neighbours.add(neighbour);
-                visited[neighbour.row][neighbour.col][neighbour.keyset] = true;
+                markVisited(neighbour);
             }
         }
     }
 
-    private static boolean isNodeVisitedWithKeyset(Node neighbour, boolean[][][] visited) {
+    private static void markVisited(Node node) {
+        visited[node.row][node.col][node.keyset] = true;
+
+        int bitmask = 512;
+        while (bitmask > 0) {
+            if ((node.keyset & bitmask) > 0) visited[node.row][node.col][bitmask] = true;
+            bitmask >>= 1;
+        }
+    }
+
+    private static boolean isNodeVisitedWithKeyset(Node neighbour) {
         int row = neighbour.row;
         int col = neighbour.col;
         return visited[row][col][neighbour.keyset];
@@ -108,36 +119,6 @@ public class KeysAndDoorsShortestPath {
 
     private static boolean isFinalNode(Node head) {
         return head.datum == '+';
-    }
-
-    private static int[] getKeySet() {
-        int[] keyset = new int[10];
-        keyset[0] = 1;// a
-        keyset[1] = 2;// b
-        keyset[2] = 4;// c
-        keyset[3] = 8;// d
-        keyset[4] = 16;// e
-        keyset[5] = 32;// f
-        keyset[6] = 64;// g
-        keyset[7] = 128;// h
-        keyset[8] = 256;// i
-        keyset[9] = 512;// j
-        return keyset;
-    }
-
-    private static Set<Character> getDoorSet() {
-        Set<Character> doors = new HashSet<>();
-        doors.add('A');
-        doors.add('B');
-        doors.add('C');
-        doors.add('D');
-        doors.add('E');
-        doors.add('F');
-        doors.add('G');
-        doors.add('H');
-        doors.add('I');
-        doors.add('J');
-        return doors;
     }
 
     static class Node {
@@ -170,5 +151,35 @@ public class KeysAndDoorsShortestPath {
             int bitmask = KEY_SET[key-'a'];
             return (keyset & bitmask) > 0;
         }
+    }
+
+    private static int[] getKeySet() {
+        int[] keyset = new int[10];
+        keyset[0] = 1;// a
+        keyset[1] = 2;// b
+        keyset[2] = 4;// c
+        keyset[3] = 8;// d
+        keyset[4] = 16;// e
+        keyset[5] = 32;// f
+        keyset[6] = 64;// g
+        keyset[7] = 128;// h
+        keyset[8] = 256;// i
+        keyset[9] = 512;// j
+        return keyset;
+    }
+
+    private static Set<Character> getDoorSet() {
+        Set<Character> doors = new HashSet<>();
+        doors.add('A');
+        doors.add('B');
+        doors.add('C');
+        doors.add('D');
+        doors.add('E');
+        doors.add('F');
+        doors.add('G');
+        doors.add('H');
+        doors.add('I');
+        doors.add('J');
+        return doors;
     }
 }
