@@ -7,28 +7,31 @@ import java.util.*;
  */
 public class KeysAndDoorsShortestPath {
     static final Set<Character> DOOR_SET = getDoorSet();
-
-    static final Set<Character> KEY_SET = getKeySet();
+    static final int[] KEY_SET = getKeySet();
 
     static int[][] find_shortest_path(String[] grid) {
-        // 1. find start and stop
+        // 1. find start
         int[] start = new int[2];
-        int[] stop = new int[2];
-        for (int row = 0; row < grid.length; row++) {
+        outer: for (int row = 0; row < grid.length; row++) {
             for (int col = 0; col < grid[row].length(); col++) {
-                if (grid[row].charAt(col) == '@') {start[0] = row; start[1] = col;}
-                if (grid[row].charAt(col) == '+') {stop[0] = row; stop[1] = col;}
+                if (grid[row].charAt(col) == '@') {
+                    start[0] = row;
+                    start[1] = col;
+                    break outer;
+                }
             }
         }
 
-        int[][] solution = new int[][]{start, stop};
+        int[][] solution = new int[][]{}; // initialize to no solution exists state.
         // 2. bfs start ~> stop
         //    - keep finding neighbours
         //    - track path from start ~> intermediary node
         //    - track set of keys collected from start ~> intermediary node
-        Node startingNode = new Node(start[0],start[1], grid, new ArrayList<int[]>(), new HashSet<>());
+        //    - track cells visited with same keyset
+        boolean[][][] visited = new boolean[grid.length][grid[0].length()][1024];
         Queue<Node> frontier = new LinkedList<>();
-        frontier.add(startingNode);
+        frontier.add(new Node(start[0],start[1], grid, new ArrayList<>(), 0));
+        visited[start[0]][start[1]][0] = true;
         while (!frontier.isEmpty()) {
             Node head = frontier.poll();
 
@@ -38,68 +41,82 @@ public class KeysAndDoorsShortestPath {
                 return solution;
             }
 
-            frontier.addAll(getNeighboursOfNode(head, grid));
+            frontier.addAll(getNeighboursOfNode(head, grid, visited));
         }
 
         return solution;
     }
 
-    private static Collection<Node> getNeighboursOfNode(Node head, String[] grid) {
+    private static Collection<Node> getNeighboursOfNode(Node head, String[] grid, boolean[][][] visited) {
         ArrayList<Node> neighbours = new ArrayList<>();
 
         // up
         if (head.row-1 >= 0) {
-            Node neighbour = new Node(head.row-1, head.col, grid, head.path, head.keys);
-            addToList(neighbour, neighbours);
+            Node neighbour = new Node(head.row-1, head.col, grid, head.path, head.keyset);
+            addNeighbourIfNotVisitedWithKeySuperset(neighbour, neighbours, visited);
         }
         // down
         if (head.row+1 < grid.length) {
-            Node neighbour = new Node(head.row+1, head.col, grid, head.path, head.keys);
-            addToList(neighbour, neighbours);
+            Node neighbour = new Node(head.row+1, head.col, grid, head.path, head.keyset);
+            addNeighbourIfNotVisitedWithKeySuperset(neighbour, neighbours, visited);
         }
         // left
         if (head.col-1 >= 0) {
-            Node neighbour = new Node(head.row, head.col-1, grid, head.path, head.keys);
-            addToList(neighbour, neighbours);
+            Node neighbour = new Node(head.row, head.col-1, grid, head.path, head.keyset);
+            addNeighbourIfNotVisitedWithKeySuperset(neighbour, neighbours, visited);
         }
         // right
         if (head.col+1 < grid[head.row].length()) {
-            Node neighbour = new Node(head.row, head.col+1, grid, head.path, head.keys);
-            addToList(neighbour, neighbours);
+            Node neighbour = new Node(head.row, head.col+1, grid, head.path, head.keyset);
+            addNeighbourIfNotVisitedWithKeySuperset(neighbour, neighbours, visited);
         }
 
         return neighbours;
     }
 
-    private static void addToList(Node neighbour, ArrayList<Node> neighbours) {
+    private static void addNeighbourIfNotVisitedWithKeySuperset(Node neighbour, ArrayList<Node> neighbours, boolean[][][] visited) {
+        // if the node was already visited with current keyset, then no need to visit again
+        if (isNodeVisitedWithKeyset(neighbour, visited)) {
+            return;
+        }
+
         if (DOOR_SET.contains(neighbour.datum)) {
             // check if we have the corresponding key
-            if (neighbour.keys.contains(Character.toLowerCase(neighbour.datum))) {
+            if (neighbour.contains(Character.toLowerCase(neighbour.datum))) {
                 neighbours.add(neighbour);
+                visited[neighbour.row][neighbour.col][neighbour.keyset] = true;
+            }
+        } else {
+            if (neighbour.datum != '#') {
+                neighbours.add(neighbour);
+                visited[neighbour.row][neighbour.col][neighbour.keyset] = true;
             }
         }
-        else {
-            if (neighbour.datum != '#') neighbours.add(neighbour);
-        }
+    }
+
+    private static boolean isNodeVisitedWithKeyset(Node neighbour, boolean[][][] visited) {
+        int row = neighbour.row;
+        int col = neighbour.col;
+        return visited[row][col][neighbour.keyset];
     }
 
     private static boolean isFinalNode(Node head) {
         return head.datum == '+';
     }
 
-    private static Set<Character> getKeySet() {
-        Set<Character> keys = new HashSet<>();
-        keys.add('a');
-        keys.add('b');
-        keys.add('c');
-        keys.add('d');
-        keys.add('e');
-        keys.add('f');
-        keys.add('g');
-        keys.add('h');
-        keys.add('i');
-        keys.add('j');
-        return keys;
+    private static int[] getKeySet() {
+        int[] keyset = new int[10];
+        keyset[0] = 1;// a
+        keyset[1] = 2;// b
+        keyset[2] = 4;// c
+        keyset[3] = 8;// d
+        keyset[4] = 16;// e
+        keyset[5] = 32;// f
+        keyset[6] = 64;// g
+        keyset[7] = 128;// h
+        keyset[8] = 256;// i
+        keyset[9] = 512;// j
+        return keyset;
     }
 
     private static Set<Character> getDoorSet() {
@@ -122,21 +139,31 @@ public class KeysAndDoorsShortestPath {
         final int col;
         final char datum;
         final List<int[]> path;
-        final Set<Character> keys;
+        final int keyset; //bitmask 0 ~> 1023 (2^10); there are 10 keys from 'a' ~> 'j'
 
-        Node(int row, int col, String[] grid, List<int[]> path, Set<Character> keys) {
+        Node(int row, int col, String[] grid, List<int[]> path, int keyset) {
             this.row = row;
             this.col = col;
             this.datum = grid[row].charAt(col);
             this.path = new ArrayList<>(path);
             this.path.add(new int[]{row, col});
-            if(KEY_SET.contains(this.datum)) {
-                this.keys = new HashSet<>(keys);
-                this.keys.add(this.datum);
+            if(isKey(datum)) {
+                // add key to keyset
+                this.keyset = keyset | KEY_SET[datum - 'a'];
             }
             else {
-                this.keys = keys;
+                this.keyset = keyset;
             }
+        }
+
+        private boolean isKey(char datum) {
+            int diff = datum - 'a';
+            return 0 <= diff && diff < 10;
+        }
+
+        public boolean contains(char key) {
+            int bitmask = KEY_SET[key-'a'];
+            return (keyset & bitmask) > 0;
         }
     }
 }
