@@ -68,8 +68,10 @@ public class CriticalConnections {
         parents = new Integer[noOfServers];
         visited = new boolean[noOfServers];
 
-        parents[0] = null;
-        dfs(0);
+        // the `for` loop is required in case the given graph is a disconnected one.
+        checkBridgesInDisconnectedGraph: for (int node = 0; node < serverGraph.length; node++) {
+            if (!visited[node]) { parents[node] = null; dfs(node); }
+        }
 
         if (solution.size() == 0) solution.add(Arrays.asList(-1, -1));
 
