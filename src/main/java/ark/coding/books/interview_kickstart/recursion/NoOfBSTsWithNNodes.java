@@ -31,7 +31,7 @@ public class NoOfBSTsWithNNodes {
 //        }
 //        return count;
 //    }
-
+    static int[] memo;
     /**
      *
      * @param n 1 ~>> 16
@@ -39,10 +39,13 @@ public class NoOfBSTsWithNNodes {
      */
     public static long how_many_BSTs(int n) {
         Set<NodeSetItem> nodes = getNodeSet(n);
-        return recursive(nodes);
+        memo = new int[n+1]; Arrays.fill(memo, -1);
+
+        return recursive(nodes, nodes.size());
     }
 
-    static long recursive(Set<NodeSetItem> nodes) {
+    static long recursive(Set<NodeSetItem> nodes, int n) {
+        if (memo[n] != -1) return memo[n];
         if (nodes.size() == 0) return 1;
 
         int count = 0;
@@ -53,10 +56,12 @@ public class NoOfBSTsWithNNodes {
                 if (node.value < root.value) possibleLeftNodes.add(node); // Assign left child (less than root)
                 if (node.value > root.value) possibleRightNodes.add(node);// Assign right child (greater than root)
             }
-            count += (recursive(possibleLeftNodes) * recursive(possibleRightNodes));
+            count += (recursive(possibleLeftNodes, possibleLeftNodes.size())
+                    * recursive(possibleRightNodes, possibleRightNodes.size()));
         }
 
-        return count;
+        memo[n] = count;
+        return memo[n];
     }
 
     static class NodeSetItem {
