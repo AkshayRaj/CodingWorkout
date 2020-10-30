@@ -38,30 +38,29 @@ public class NoOfBSTsWithNNodes {
      * @return
      */
     public static long how_many_BSTs(int n) {
-        Set<NodeSetItem> nodes = getNodeSet(n);
         memo = new int[n+1]; Arrays.fill(memo, -1);
 
-        return recursive(nodes, nodes.size());
+        return recursive(n);
     }
 
-    static long recursive(Set<NodeSetItem> nodes, int n) {
-        if (memo[n] != -1) return memo[n];
-        if (nodes.size() == 0) return 1;
+    /**
+     * No of BSTs possible for a given "root" = leftSubTreeSize * rightSubTreeSize
+     *
+     * @param treeSize treeSize including the root
+     * @return number of BSTs possible for a tree with given {@code treeSize}
+     */
+    static long recursive(int treeSize) {
+        if (memo[treeSize] != -1) return memo[treeSize];
+        if (treeSize == 0) return 1;
 
         int count = 0;
-        for (NodeSetItem root : nodes) { // Assign subtree root
-            Set<NodeSetItem> possibleLeftNodes = new HashSet<>();
-            Set<NodeSetItem> possibleRightNodes = new HashSet<>();
-            for (NodeSetItem node : nodes) {
-                if (node.value < root.value) possibleLeftNodes.add(node); // Assign left child (less than root)
-                if (node.value > root.value) possibleRightNodes.add(node);// Assign right child (greater than root)
-            }
-            count += (recursive(possibleLeftNodes, possibleLeftNodes.size())
-                    * recursive(possibleRightNodes, possibleRightNodes.size()));
+        for (int leftSubTreeSize = 0; leftSubTreeSize < treeSize; leftSubTreeSize++) {
+            int rightSubTreeSize = treeSize - leftSubTreeSize - 1;
+            count += (recursive(leftSubTreeSize) * recursive(rightSubTreeSize));
         }
 
-        memo[n] = count;
-        return memo[n];
+        memo[treeSize] = count;
+        return memo[treeSize];
     }
 
     static class NodeSetItem {
